@@ -1,0 +1,13 @@
+.group{
+    height: 200px;
+}
+
+.ratio {
+    height: 140px !important;
+}
+@media (max-width: 768px) {
+    .post .group .foto {
+        margin-bottom: 20px;
+        height: 110px;
+    }
+}

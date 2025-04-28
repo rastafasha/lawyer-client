@@ -1,0 +1,19 @@
+
+.div-scroll{
+    height: calc(90vh - 100px);
+    /* height: auto; */
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 20px;
+    display: flex;
+}
+
+@media (min-width: 768px) {
+    .div-scroll{
+        height: calc(80vh - 100px);
+        overflow: hidden;
+        overflow-y: scroll;
+        padding: 20px;
+        display: flex;
+    }
+}

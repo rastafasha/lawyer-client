@@ -1,0 +1,32 @@
+.task-management {
+  margin: 20px;
+}
+
+.task-management h2 {
+  font-size: 24px;
+}
+
+.task-management form {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-management input {
+  margin: 5px 0;
+  padding: 10px;
+}
+
+.task-management button {
+  margin-top: 10px;
+}
+
+.task-management ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.task-management li {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px 0;
+}

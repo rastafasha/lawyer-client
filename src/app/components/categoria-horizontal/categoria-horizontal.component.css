@@ -1,0 +1,10 @@
+.swiffy-slider {
+    height: auto 
+}
+
+@media (max-width: 768px) {
+    .swiffy-slider {
+        height: auto    
+    
+    }
+}

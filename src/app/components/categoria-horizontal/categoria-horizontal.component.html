@@ -1,0 +1,20 @@
+<app-loading *ngIf="isLoading"></app-loading>
+
+<div class="row">
+    <div  *ngIf="!isLoading"class="swiffy-slider slider-item-show6 slider-item-reveal slider-item-ratio slider-item-ratio-2x1" >
+        <div class="slider-container categorylist">
+            <div *ngFor="let item of specialities" class="slider-item">
+                <a [routerLink]="['/especialidad/', item.id]">
+    
+                    <h2>{{item.title| slice:7}} ({{item.count_profiles}})</h2>
+                </a>
+            </div>
+            
+    
+        </div>
+    
+        <!-- <button type="button" class="slider-nav"></button> -->
+        <!-- <button type="button" class="slider-nav slider-nav-next"></button> -->
+    
+    </div>
+</div>

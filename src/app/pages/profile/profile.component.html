@@ -1,0 +1,105 @@
+<app-header></app-header>
+<section class="user">
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-9 col-md-9">
+          <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+          <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+          <div class=" itemFav shadow" *ngIf="!isLoading">
+            <img [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+            <div class="div1">
+              <p>{{'Username'|translate}}: {{user.username}}</p>
+              <p *ngIf="profile">{{profile.nombre}} {{profile.surname}}</p>
+              <p>{{user.email}}</p>
+              <p *ngIf="profile.speciality_id">{{speciality.title}}</p>
+              <!-- <p>{{user.roles}}</p> -->
+              <!-- <p *ngIf="profile">{{profile.status}}</p> -->
+              <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}}</span>
+              <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}}</span>
+              <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}}</span>
+              <br>
+              <!-- *ngIf="user.roles[0] === 'GUEST'" -->
+              <div class="reds" >
+                <div class="cont" *ngFor="let red of redessociales" >
+                  <a *ngIf="red.icono === 'fa fa-whatsapp'" 
+                      href="https://wa.me/{{red.url}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
+                      target="_blank" rel="noopener noreferrer">
+                        <div class="option-admin">
+                          <i [class]="red.icono"></i>
+                          <!-- <p>{{ red.title }}</p> -->
+                        </div>
+                      </a>
+                      <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
+                        <div class="option-admin">
+                          <i [class]="red.icono"></i>
+                          <!-- <p>{{ red.title }}</p> -->
+                        </div>
+                      </a>
+                </div>
+  
+              </div>
+  
+            </div>
+            <div class="admin-services">
+              <a [routerLink]="['/profile/edit', user.id]">
+                <div class="option-admin">
+                  <i class="fa fa-user"></i>
+                  <p>{{'Edit Profile'|translate}}</p>
+                </div>
+              </a>
+              <!-- <a [routerLink]="['/profile/paymentmethods', user.id]" *ngIf="user.roles[0] !== 'SUPERADMIN'"> -->
+              <a [routerLink]="['/profile/paymentmethods']" *ngIf="user.roles[0] === 'MEMBER'">
+                <div class="option-admin">
+                  <i class="fa fa-money"></i>
+                  <p> {{'Payment Methods'|translate}}</p>
+                </div>
+              </a>
+              <!-- <a routerLink="/profile/documents/file" *ngIf="user.roles[0] !== 'SUPERADMIN'">
+                <div class="option-admin">
+                  <i class="fa fa-user"></i>
+                  <p>Settings</p>
+                </div>
+              </a> -->
+              <a routerLink="/profile/documents" *ngIf="user.roles[0] !== 'SUPERADMIN'">
+                <div class="option-admin">
+                  <i class="fa fa-briefcase"></i>
+                  <p>{{'Documents'|translate}}</p>
+                </div>
+              </a>
+              <!-- <div class="option-admin" *ngIf="user.roles[0] !== 'SUPERADMIN'">
+                <i class="fa fa-user"></i>
+                <p>Messages</p>
+              </div>
+              <div class="option-admin" *ngIf="user.roles[0] !== 'SUPERADMIN'">
+                <i class="fa fa-user"></i>
+                <p>Notifications</p>
+              </div> -->
+              <a (click)="logout()">
+                <div class="option-admin">
+                  <i class="fa fa-power-off"></i>
+                  <p>{{'Logout'|translate}}</p>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+  
+          <!--banner publicidad-->
+          <div class="banner-rectangular">
+            <img src="https://picsum.photos/seed/1920/120" alt="" />
+          </div>
+          <!--banner publicidad-->
+        </div>
+  
+        <!-- lateral -->
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <app-lateral></app-lateral>
+  
+      </div>
+        <!-- lateral -->
+      </div>
+    </div>
+   </div>
+</section>
+<app-menu-footer></app-menu-footer>

@@ -1,0 +1,88 @@
+.tarifas{
+    overflow: hidden;
+    overflow-y: scroll;
+    height: 100%;
+    &::-webkit-scrollbar {
+        width: 0px;
+        background: transparent; /* Optional: just make scrollbar invisible */
+    }
+}
+
+.tarifa {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+    padding: 5px;
+    border-bottom: 1px dotted #ccc;
+    border-width: 80%;
+    & h1 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+     & p {
+        font-size: 1rem;
+        margin: 0;
+    }
+}
+
+
+.stars {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 13px;
+    & .fa {
+        font-size: 2ch;
+    }
+    & ul {
+        display: inline-flex;
+        & li {
+            list-style: none;
+            color: var(--grisfondo)
+        }
+        & li .active {
+            color: gold;
+        }
+    
+    }
+
+}
+
+.reds{
+    display: flex;
+    gap:5px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    margin-bottom: 20px;
+    & .cont{
+        display: flex;
+        & .fa {
+            font-size: 1.3em;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin: 0;
+        }
+    }
+}
+
+// .div-scroll{
+//     height: calc(90vh - 100px);
+//     /* height: auto; */
+//     overflow: hidden;
+//     overflow-y: scroll;
+//     padding: 20px;
+//     display: flex;
+// }
+
+// @media (min-width: 768px) {
+//     .div-scroll{
+//         height: calc(100vh - 100px);
+//         overflow: hidden;
+//         overflow-y: scroll;
+//         padding: 20px;
+//         display: flex;
+//     }
+// }

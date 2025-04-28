@@ -1,0 +1,19 @@
+.post-inner {
+    overflow: hidden;
+    overflow: scroll;
+    position: fixed;
+}
+
+.carousel-inner-data {
+    margin: 0px auto;
+    height: 350px;
+    overflow: hidden;
+}
+.carousel-inner-data  ul {
+    list-style: none;
+    position: relative;
+
+}
+.carousel-inner-data  ul li {
+    height: auto;
+}

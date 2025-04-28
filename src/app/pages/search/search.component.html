@@ -1,0 +1,169 @@
+<app-header></app-header>
+<section class="favorites"
+infiniteScroll 
+[infiniteScrollDistance]="2"  [infiniteScrollUpDistance]="2" 
+[infiniteScrollThrottle]=" 50"
+(scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+
+[class.refreshing]="isRefreshing"
+>
+<div class="pull-down-indicator" *ngIf="isRefreshing">
+    <app-loading  ></app-loading>
+    <p class="text-center">
+      {{'Refreshing'|translate}} ...
+    </p>
+ </div>
+  
+ <app-loading *ngIf="isLoading" ></app-loading>
+
+ <div class="container-fluid">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-9 col-md-9">
+        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+        
+          <details class="shadowSearch cuadrosearch">
+            <summary class="">{{'Search'|translate}}</summary>
+            <!-- <summary><h4>{{'Search'|translate}}</h4></summary> -->
+            <form [formGroup]="searchForm" *ngIf="!isLoading" class="d-flex  col-xs-12 ">
+              
+              <div class="row search5">
+                <div class="col-12 col-md-3">
+                  <label class="labelgoogle">
+                    <input class="form-control input" formControlName="name_file" type="search" placeholder=" " aria-label="Search">
+                    <span class="label__name">
+                      {{'Search'|translate}}
+                      <i class="fa fa-search" style="margin-left: 10px;"></i>
+
+                    </span>
+                  </label>
+              
+                </div>
+                
+                <div class="col-12 col-md-3">
+                  <div class="input-group">
+                    <!-- <label>{{'formulario.Country'|translate}}  </label> -->
+                    <span class="input-group-text " id="basic-addon1">
+                      <i class="fa fa-globe" aria-hidden="true"></i>
+                    </span>
+                  <select class="form-control" formControlName="pais"  >
+                      <option *ngFor="let data of paises" [value]="data.code">
+                      {{data.title}}
+                      </option>
+                  </select>
+                  </div>
+                </div>
+                
+                <div class="col-12 col-sm-3">
+                  <div class="input-group">
+                    <!-- <label>{{'formulario.Speciality'|translate}}</label> -->
+                    <span class="input-group-text " id="basic-addon1">
+                      <i class="fa fa-anchor" aria-hidden="true"></i>
+                    </span>
+                    <select class="form-control" formControlName="speciality_id"  >
+                      <option *ngFor="let data of specialities" [value]="data.id">
+                      {{data.title}}
+                      </option>
+                  </select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-3">
+                  <div class="input-group">
+                    <!-- <label>{{'Rating'|translate}} </label> -->
+                    <span class="input-group-text " id="basic-addon1">
+                      <i class="fa fa-diamond" aria-hidden="true"></i>
+                    </span>
+                    <select
+                      class="form-control form-select-solid fw-bolder"
+                      formControlName="rating"
+                      placeholder="state"
+                    >
+                      <option>-- {{'Select'|translate}} --</option>
+                      <option value="1">
+                      1 Estrella
+                      </option>
+                      <option value="2">
+                        2 Estrella
+                      </option>
+                      <option value="3">
+                        3 Estrella
+                      </option>
+                      <option value="4">
+                        4 Estrella
+                      </option>
+                      <option value="5">
+                        5 Estrella
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-12 col-md-2 ">
+                  <div class="doctor-submit d-flex justify-content-center ">
+                    <button
+                      type="button"
+                      class="btn btn-primary submit-list-form "
+                      (click)="onSearch()"
+                    >
+                    <!-- {{'Search'|translate}} -->
+                    <i class="fa fa-search"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary submit-list-form "
+                      (click)="PageSize()"
+                    >
+                    <i class="fa fa-refresh"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </details>
+  
+  
+  
+        <div class="carousel-inner-data" *ngIf="!isLoading">
+            <div class="post navTabs" *ngIf="characters.length > 0 else message">
+                <div class=" itemFav scrollinganimate" *ngFor="let character of characters; trackby: trackByCharacterId">
+                    <div class="group  itemFav lastposthome">
+                        <a href="lawyer-profile.html">
+                            <img [src]="character.image" alt="">
+                        </a>
+                        <div class="div1">
+                            <p>{{character.name}}</p>
+                            <p>{{character.species}}</p>
+                            <p>{{character.gender}}</p>
+                            <!-- <p>Lorem ipsum dolor sit amet consectetur...</p> -->
+                            <div class="stars">
+                                <ul>
+                                    <li class="active"><i class="fa fa-star"></i></li>
+                                    <li class="active"><i class="fa fa-star"></i></li>
+                                    <li class="active"><i class="fa fa-star"></i></li>
+                                    <li class="active"><i class="fa fa-star"></i></li>
+                                    <li><i class="fa fa-star"></i></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <ng-template #message>
+                <p>lista vacia</p>
+            </ng-template>
+            <ng-template *ngIf="isEdnOfList">
+                <p>{{loadingTitle}}</p>
+            </ng-template>
+        </div>
+      
+      </div>
+      <!-- lateral -->
+      <div class="col-xs-12 col-sm-3 col-md-3">
+        <app-lateral></app-lateral>
+  
+    </div>
+    </div>
+  </div>
+</div>
+</section>
+<app-menu-footer></app-menu-footer>

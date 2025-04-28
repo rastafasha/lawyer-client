@@ -1,0 +1,11 @@
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+    <div class="alert alert-info shadow" *ngIf="!profile && !isLoading">
+        <button class="btn close" data-dismiss="alert" aria-hidden="true"><i class="fa fa-close"></i></button>
+        <strong>{{'aviso.verifica'|translate}}</strong>
+        <p>{{'aviso.porfavor'|translate}} <a [routerLink]="['/profile/edit', user.id]">aqui</a>.</p>
+    </div>
+    <div class="alert alert-success shadow" *ngIf="profile && !isLoading">
+        {{'aviso.Welcome'|translate}} <strong>{{profile.nombre}} {{profile.surname}}</strong>
+    </div>
+</div>

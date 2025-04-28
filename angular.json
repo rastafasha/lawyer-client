@@ -50,6 +50,34 @@
                   "maximumError": "8kB"
                 }
               ],
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
+            },
+            "laflecha": {
+              "outputPath": "dist/laflecha-client",
+              "index": {
+                "input": "src/app/env/laflecha/index.html",
+                "output": "index.html"
+              },
+              "fileReplacements": [
+                {
+                  "replace": "src/app/environments/environment.ts",
+                  "with": "src/app/environments/environment.laflecha.ts"
+                }
+              ],
+              
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "3mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "75kb",
+                  "maximumError": "90kb"
+                }
+              ],
               "outputHashing": "all"
             },
             "development": {

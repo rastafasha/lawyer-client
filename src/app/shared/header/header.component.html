@@ -1,0 +1,185 @@
+<header class="header">
+    <!--menu-->
+    <div class="wrap d-flex">
+
+        <nav class="menu">
+            <ul>
+                <li><a routerLink="/">{{'Home'|translate}}</a></li>
+                <li><a routerLink="/profile">{{'Profile'|translate}}</a></li>
+                <li><a href="firms.html">{{'menu.Firms'|translate}}</a></li>
+                <li><a href="slider.html">{{'menu.How to?'|translate}}</a></li>
+                <li><a href="settings.html">{{'menu.Settings'|translate}}</a></li>
+                <li><a href="about-us.html">{{'menu.About Us'|translate}}</a></li>
+                <li><a href="terms.html">{{'menu.Terms & Cond'|translate}}</a></li>
+                <li><a href="#" (click)="logout()">{{'auth.Logout'|translate}}</a></li>
+            </ul>
+        </nav>
+    </div>
+    <!--menu-->
+    <a href="javascript:void(0)" (click)="openMenu()" class="sidemenu-toggler isqmenu1">
+        <span></span>
+        <span></span>
+        <span></span>
+    </a>
+    <div class="sidemenu">
+        <a href="javascript:void(0)" (click)="closeMenu()" class="close"></a>
+        <div class="usermenu">
+            <div class="fichahome">
+                <p>{{'saludo'|translate}}! <strong>{{user.username |slice: 0:10 }}...</strong></p>
+
+                <div class="stars" *ngIf="profile.rating  ">
+                    <ul class="star-rating" *ngIf="profile.rating === 5">
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                </div>
+
+            </div>
+
+            <div class="user-header-top">
+                <!-- <div class="header-info">
+                    <ul class="rbt-dropdown-menu switcher-language">
+                        <li class="has-child-menu">
+                            <a style="cursor: pointer;">
+                                <a *ngIf="!flag" style="cursor: pointer;" [ngClass]="{'active': activeLang == 'es'}" (click)="cambiarLenguaje('en')"><span class="menu-item">Español</span></a>
+                            </a>
+                        </li>
+                        <li class="has-child-menu">
+                            <a style="cursor: pointer;">
+                                <a *ngIf="flag" style="cursor: pointer;" [ngClass]="{'active': activeLang == 'en'}" (click)="cambiarLenguaje('es')"><span class="menu-item">English</span></a>
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+                <a routerLink="/profile">
+                    
+                    <img [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+                   
+                </a>
+            </div>
+            <div class="logointerno ">
+                <svg id="logoNuevo" xmlns="http://www.w3.org/2000/svg" width="138" height="40" viewBox="0 0 138 40">
+                    <g id="app_logo" data-name="app logo">
+                      <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)" fill="#9f1a36"/>
+                      <path id="Subtraction_2" data-name="Subtraction 2" d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z" transform="translate(1807 -2736)" fill="#707070"/>
+                    </g>
+                    <text id="Justicia.net" transform="translate(21 35)" fill="#262626" font-size="22" font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500"><tspan x="0" y="0">La</tspan><tspan y="0" fill="#9f1a36">-></tspan><tspan y="0">flecha</tspan></text>
+                  </svg>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a routerLink="/">{{'Home'|translate}}</a></li>
+                <li><a routerLink="/profile">{{'Profile'|translate}}</a></li>
+                <li><a href="firms.html">{{'menu.Firms'|translate}}</a></li>
+                <li><a href="slider.html">{{'menu.How to?'|translate}}</a></li>
+                <li><a href="settings.html">{{'menu.Settings'|translate}}</a></li>
+                <li><a href="about-us.html">{{'menu.About Us'|translate}}</a></li>
+                <li><a href="terms.html">{{'menu.Terms & Cond'|translate}}</a></li>
+                <li><a href="#" (click)="logout()">{{'auth.Logout'|translate}}</a></li>
+            </ul>
+        </nav>
+        <div class="footer-menu">
+
+            <p>2022 - {{year}}</p>
+        </div>
+    </div>
+
+    <div class="menu-top">
+
+        <div class="logointerno isqmenu2" style="padding-top: 10px;">
+            <svg id="logoNuevo" xmlns="http://www.w3.org/2000/svg" width="138" height="40" viewBox="0 0 138 40">
+                <g id="app_logo" data-name="app logo">
+                  <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)" fill="#9f1a36"/>
+                  <path id="Subtraction_2" data-name="Subtraction 2" d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z" transform="translate(1807 -2736)" fill="#707070"/>
+                </g>
+                <text id="Justicia.net" transform="translate(21 35)" fill="#262626" font-size="22" font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500"><tspan x="0" y="0">La</tspan><tspan y="0" fill="#9f1a36">-></tspan><tspan y="0">flecha</tspan></text>
+              </svg>
+
+        </div>
+        <div class="isqmenu3 fotolang">
+            
+            <ul class="menuright">
+
+                <li>
+                    <img class="globowhite"  (click)="onDarkMode('dark')" src="./assets/svg/luna.svg" alt="">
+                    <img class="globoblack"  (click)="onDarkMode('dark')" src="./assets/svg/sol.svg" alt="">
+                </li>
+            </ul>
+            <!-- <div class="flags">
+                <img *ngIf="activeLang === 'es'" class="left-image" style="width: 20px;" [src]="'assets/images/venezuela.png'" >
+                <img *ngIf="activeLang == 'en'" class="left-image" style="width: 20px;" [src]="'assets/images/usa.png'" >
+            </div> -->
+            <div class="dropdown">
+                <div class="flags">
+                    <img *ngIf="activeLang === 'es'" class="left-image" style="width: 30px;" [src]="'assets/images/venezuela.png'" >
+                    <img *ngIf="activeLang == 'en'" class="left-image" style="width: 30px;" [src]="'assets/images/usa.png'" >
+                </div>
+                <!-- <span>{{'Language'|translate}}</span> -->
+                <div class="dropdown-content">
+                    <li class="has-child-menu">
+                        <a style="cursor: pointer;" >
+                            <!-- <img class="left-image" src="assets/images/icons/de.png" alt="Language Images"> -->
+                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/usa.png'" >
+                            <!-- <a  style="cursor: pointer;" [ngClass]="{'active': activeLang == 'es'}" (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a> -->
+                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a>
+                        </a>
+                    </li>
+                    <li class="has-child-menu">
+                        <!-- *ngIf="flag" -->
+                        <a style="cursor: pointer;"  >
+                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/venezuela.png'" >
+                            <!-- <a  style="cursor: pointer;" [ngClass]="{'active': activeLang == 'en'}" (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a> -->
+                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a>
+                        </a>
+                    </li>
+                </div>
+              </div>
+            <div class="user-header-top ">
+                <a routerLink="/profile">
+                    <img  [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+</header>

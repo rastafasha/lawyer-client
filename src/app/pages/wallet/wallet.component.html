@@ -1,0 +1,157 @@
+<app-header></app-header>
+<section class="wallet home"
+infiniteScroll 
+[infiniteScrollDistance]="2"  [infiniteScrollUpDistance]="2" 
+[infiniteScrollThrottle]=" 50"
+(scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+
+[class.refreshing]="isRefreshing"
+>
+<div class="pull-down-indicator" *ngIf="isRefreshing">
+    <app-loading  ></app-loading>
+    <p class="text-center">
+      {{'Refreshing'|translate}} ...
+    </p>
+ </div>
+  
+ <app-loading *ngIf="isLoading" ></app-loading>
+  <div class="container-fluid" *ngIf="!isLoading">
+   <div class="container">
+    <div class="row">
+      <div class="col-xs-12 " >
+        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+
+        <div class="tab-content-set">
+          <ul class="nav">
+              <li>
+                  <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)">Solicitudes</a>
+              </li>
+              <li>
+                  <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)">Contactos</a>
+              </li>
+          </ul>
+      </div>
+      <div class="card" *ngIf="option_selected == 1">
+        <!-- solicitudes -->
+        <div  *ngFor="let item of solicitudes"   >
+          <div class="group itemFav shadow" *ngIf="!solicitud_selected">
+            <div class="fa fa-paypal"></div>
+            <div class="div1pagocon" (click)="solicitudSelected(item)">
+              
+              <div class="d-flex justify-content-between align-items-center">
+                <h5 class="card-title" >{{item.created_at| date:'dd/MM/yyyy HH:mm:ss'}}</h5>
+                <div class="status_verified">
+                  <span class="badge  bg-primary" *ngIf="item.status === 1"> {{'Pending'|translate}}</span>
+                  <span class="badge bg-success" *ngIf="item.status === 2">{{'Verified'|translate}}</span>
+                  <span class="badge bg-danger" *ngIf="item.status === 3">{{'For Review'|translate}}</span>
+                </div>
+
+                <button class="btn btn-outline-primary">
+                  <i class="fa fa-eye"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ver solicitud -->
+        <div class="div1pagocon" *ngIf="solicitud_selected">
+          <div class="card-body">
+            
+            <h5 class="card-title">{{solicitud_selected.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</h5>
+            <span class="badge  bg-primary" *ngIf="solicitud_selected.status === 1"> {{'Pending'|translate}}</span>
+            <span class="badge bg-success" *ngIf="solicitud_selected.status === 2">{{'Verified'|translate}}</span>
+            <span class="badge bg-danger" *ngIf="solicitud_selected.status === 3">{{'For Review'|translate}}</span>
+            <!-- <p>Johndoe@gmail.com</p> -->
+            <!-- <p>{{solicitud_selected.created_at}}</p> -->
+            <p>Description:{{solicitud_selected.pedido.item_tarifa}}</p>
+            <p>{{solicitud_selected.pedido.precio|currency}}</p>
+           <p>Quantity:{{pedido.quantity}}</p>
+            <p>{{'Start'|translate}}: {{cliente?.username}}</p>
+            
+            <div class="d-flex justify-content-end align-items-center gap-5">
+              <a [routerLink]="['/especialista/', cliente?.id]">
+                <button class="btn btn-outline-primary">
+                  <i class="fa fa-eye"></i>
+                </button>
+  
+              </a>
+              <div class="checkbox-wrapper-6">
+                 <p>{{'Start'|translate}}</p>
+                <input class="tgl tgl-light" id="cb1-6" type="checkbox"
+                name="status" (change)="cambiarStatus(solicitud_selected, status)"
+                [(ngModel)]="status"
+                      [ngModelOptions]="{ standalone: true }" />
+                <label class="tgl-btn" for="cb1-6"  ></label>
+
+              </div>
+              <button
+            class="btn btn-primary btn-sm"
+            (click)="solicitud_selected = null"
+          >
+          {{'Back'|translate}}
+          </button>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <!-- contactos -->
+      <div class="card" *ngIf="option_selected == 2">
+        <div  *ngFor="let item of clientes"  >
+          <div class="group itemFav shadow">
+            <!-- <div class="fa fa-paypal"></div> -->
+            <img *ngIf="!item.avatar" [src]="item.avatar  | imagenPipe: 'users' " alt="">
+            <img *ngIf="item.avatar" [src]="item.avatar  " alt="">
+
+            <div class="div1pagocon ">
+                <div class="d-flex  justify-content-between">
+                  <div class="inf">
+                    <p>{{item.username}}</p>
+                  <small>{{item.email}}</small>
+                  </div>
+                  <a [routerLink]="['/especialista/', item.id]">
+                    <button class="btn btn-outline-primary">
+                      <i class="fa fa-eye"></i>
+                    </button>
+    
+                  </a>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+       
+
+        
+      </div>
+
+      <!-- lateral -->
+      <!-- <div class="col-xs-12 col-sm-3 col-md-3">
+        <h5>Order Recents</h5>
+
+        <div class="paggrop col-xs-12">
+          <div class="ordenes">
+            <a routerLink="/orders">
+              <img [src]="'users/3.jpg'" alt="" />
+            </a>
+            <div class="div1">
+              <div class="info">
+                <p>John Doe.</p>
+                <p>Lorem ipsum dsadas</p>
+                <div class="div1-order">
+                  <h3>$53.00</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <app-lateral></app-lateral>
+
+    </div> -->
+      <!-- lateral -->
+    </div>
+   </div>
+  </div>
+</section>
+<app-menu-footer></app-menu-footer>

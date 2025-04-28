@@ -1,0 +1,97 @@
+<app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+<div class="row">
+  <ul
+  class="post"
+  infiniteScroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollUpDistance]="2"
+  [infiniteScrollThrottle]="50"
+  (scrolled)="onScrollDown()"
+  (scrolledUp)="onScrollUp()"
+  [class.refreshing]="isRefreshing"
+>
+  <div class="pull-down-indicator" *ngIf="isRefreshing">
+    <app-loading></app-loading>
+    <p class="text-center">refrescando ...</p>
+  </div>
+  <li class="group" *ngIf="!isLoading">
+    <div class="div-group" *ngFor="let item of profiles">
+      <div class="foto">
+        <div class="post-date">
+          <a [routerLink]="['/especialista/', item.user_id]">
+            <img [src]="item.avatar | imagenPipe : 'users'" alt="" />
+            <!-- <img *ngIf="item.avatar" [src]="item.avatar  " alt=""> -->
+          </a>
+        </div>
+      </div>
+      <div class="info">
+        <h2>{{ item.surname }}</h2>
+        <h3>{{ item.speciality_title }}</h3>
+        <div class="div1-home">
+          <div class="stars">
+            <ul class="star-rating" *ngIf="item.rating === 5">
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+            </ul>
+            <ul
+              class="star-rating"
+              *ngIf="item.rating >= 4 && item.rating < 5"
+            >
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
+            <ul
+              class="star-rating"
+              *ngIf="item.rating >= 3 && item.rating < 4"
+            >
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
+            <ul
+              class="star-rating"
+              *ngIf="item.rating >= 2 && item.rating < 3"
+            >
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
+            <ul
+              class="star-rating"
+              *ngIf="item.rating >= 1 && item.rating < 2"
+            >
+              <li class="active"><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
+            <ul
+              class="star-rating"
+              *ngIf="item.rating >= 0 && item.rating < 1"
+            >
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+              <li><i class="fa fa-star"></i></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </li>
+  
+</ul>
+</div>
+

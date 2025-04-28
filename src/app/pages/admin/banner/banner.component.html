@@ -1,0 +1,218 @@
+<app-header></app-header>
+
+<section class="favorites " infiniteScroll 
+[infiniteScrollDistance]="2"  [infiniteScrollUpDistance]="2" 
+[infiniteScrollThrottle]=" 50"
+(scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+
+[class.refreshing]="isRefreshing">
+<div class="pull-down-indicator" *ngIf="isRefreshing">
+    <app-loading  ></app-loading>
+    <p class="text-center">
+        {{'Refreshing'|translate}} ...
+    </p>
+ </div>
+    <div class="container-fluid" >
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-md-9">
+                <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+                <div class="add-group">
+                  <a data-bs-toggle="modal" data-bs-target="#add_publicidad" class="btn btn-primary add-pluss ms-2"><i class="fa fa-plus"></i></a>
+      
+              </div>
+              <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+              <div class="table-responsive" *ngIf="!isLoading">
+                <table matSort  class="table border-0 custom-table comman-table datatable mb-0">
+                    <thead>
+                        <tr>
+                            
+                            <th mat-sort-header="imagen">{{'formulario.Photo'|translate}}</th>
+                            <th mat-sort-header="status">{{'Published'|translate}}</th>
+                            <th mat-sort-header="confirmar">{{'formulario.Confirm'|translate}}</th>
+                            <th mat-sort-header="created">{{'formulario.Created At'|translate}}</th>
+                             <th ></th> 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of publicidadLists">
+                            
+                            <td>
+                                <img [src]="data.avatar " style="height: auto; width:150px" >
+                            </td>
+                            <td>
+                                <span class="badge bg-success"
+                                    *ngIf="data.state === 2">{{'Published'|translate}}</span>
+                                <span class="badge bg-primary"
+                                    *ngIf="data.state === 1">{{'Pending'|translate}}</span>
+                            </td>
+                            <td>
+                                <!--begin::Input-->
+                                <select
+                                class="form-control form-select-solid fw-bolder"
+                                name="state" [(ngModel)]="data.state" (change)="cambiarStatus(data)"
+                                placeholder="state">
+                                <option value="">{{'Select'|translate}}</option>
+                                  <option value="1">{{'Pending'|translate}}</option>
+                                  <option value="2">{{'Published'|translate}}</option>
+                                  </select>
+                              </td>
+                            <!-- <td><button [ngClass]="{'status-green' : data.status === 'APPROVED', 'status-pink' : data.status === 2}" class="custom-badge">{{data.status == 'APPROVED' ? 'Aprobado' : 'Pendiente'}}</button></td> -->
+                            <td>{{data.created_at | date }}</td>
+                            
+                            <td >
+                              <div class="text-center d-flex">
+  
+                                  <a class="dropdown-item btn btn-success" (click)="selectPublicidad(data)" 
+                                  data-bs-toggle="modal" 
+                                  [attr.data-bs-target]="'#edit_publicidad-'+data.id"><i class="fa fa-edit m-r-5 text-success"></i></a>
+                                  
+                                    <a class="dropdown-item btn btn-danger" href="javascript:void(0);" (click)="selectPublicidad(data)" 
+                                    data-bs-toggle="modal" 
+                                    [attr.data-bs-target]="'#delete_publicidad-'+data.id"
+                                    >
+                                    <i class="fa fa-trash m-r-5 text-danger"></i> </a>
+                              </div>
+                            </td>
+  
+                            <!-- modal -->
+                            <div [attr.id]="'delete_publicidad-'+data.id" class="modal fade delete-modal" role="dialog">
+                              <div class="modal-dialog modal-dialog-centered">
+                                  <div class="modal-content">
+                                      <div class="modal-body text-center">
+                                          <i class="fa fa-warning text-warning" style="font-size: 36px;"></i>
+                                          <h3 *ngIf="publicidad_selected"> {{'formulario.Are you sure want to delete this'|translate}}{{publicidad_selected.id}}?</h3>
+                                          <!-- validacion si esta en uso -->
+                                          <div class="form-group row" *ngIf="text_validation">
+                                            <div class="col-md-12">
+                                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                    <strong>!</strong> {{text_validation}}.
+                                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                        <span aria-hidden="true"> </span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                          <!-- validacion si esta en uso -->
+                                          <div class="m-t-20"> <a href="javascript:void(0);" class="btn btn-white me-1" data-bs-dismiss="modal">{{'formulario.Delete'|translate}}</a>
+                                              <button type="submit" class="btn btn-danger" (click)="deletePublicidad()">{{'formulario.Delete'|translate}}</button>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                            </div>
+                            <!-- modal -->
+                            
+                            
+                            <!-- modal edit-->
+                            <div [attr.id]="'edit_publicidad-'+data.id" class="modal fade delete-modal" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body text-center">
+                                            <h3> {{'formulario.Edit Photo'|translate}}: {{data.id}}</h3>
+                                            <p>{{'formulario.Max Size'|translate}}:1920x1080 | {{'formulario.Max Weight'|translate}}: 500kb</p>
+                                            <br>
+                                            <div class="row">
+                                                <!-- <div class="form-group local-top-form">
+                                                    <label class="local-top">{{'formulario.Photo'|translate}} <span class="login-danger">*</span></label>
+                                                    <div class="settings-btn upload-files-avator">
+                                                        <input type="file" accept="image/*" name="image" id="file" (change)="loadFile($event)" class="hide-input">
+                                                        <label for="file" class="upload">{{'formulario.Select File'|translate}}</label>
+                                                    </div>
+                                                </div> -->
+                                                <div class="col-12 col-sm-6">
+                                                    <label for="file" class="labelgoogle">
+                                                        <input type="file" accept="image/*" class="input " id="file"
+                                                        multiple="true" (change)="loadFile($event)">
+                                                        <span class="label__name">
+                                                            {{'formulario.Select File'|translate}}(s)
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                                <div *ngIf="IMAGE_PREVISUALIZA">
+                                                    <img [src]="IMAGE_PREVISUALIZA" style="width: 250px;" alt="">
+                                                </div>
+                                            </div>
+                                            <!-- validacion si esta en uso -->
+                                            <div class="form-group row" *ngIf="text_success">
+                                                <div class="col-12">
+                                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                        <strong>{{'formulario.Success'|translate}}!</strong>{{text_success}}.
+                                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true"> </span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- validacion si esta en uso -->
+                                            <div class="m-t-20"> <a href="javascript:void(0);" (click)="closeReload()" class="btn btn-outline-danger" data-bs-dismiss="modal">{{'formulario.Close'|translate}}</a>
+                                                <button type="submit" class="btn btn-success" (click)="editPublicidad(data)">{{'formulario.Udate'|translate}}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                              </div>
+                        </tr>
+                         <!-- modal add-->
+                        <div id="add_publicidad" class="modal fade add-modal" role="dialog">
+                          <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                  <div class="modal-body text-center">
+                                      <!-- <img src="assets/img/sent.png" alt="" width="50" height="46"> -->
+                                      <h3> {{'formulario.Add File'|translate}}</h3>
+                                      <p>{{'formulario.Size'|translate}}:700x350px | {{'formulario.Max Weight'|translate}}: 500kb</p>
+                                      <br>
+                                      <div class="col-12 col-md-6 col-xl-6">
+                                          <div class="form-group local-top-form">
+                                              <label class="local-top">{{'formulario.Photo'|translate}} <span class="login-danger">*</span></label>
+                                              <div class="settings-btn upload-files-avator">
+                                                  <input type="file" accept="image/*" name="image" id="file" (change)="loadFile($event)" class="hide-input">
+                                                  <label for="file" class="upload">{{'formulario.Select File'|translate}}</label>
+                                              </div>
+                                          </div>
+                                          <div *ngIf="FILE_AVATAR">
+                                              <img [src]="IMAGE_PREVISUALIZA" style="width: 250px;" alt="">
+                                          </div>
+                                      </div>
+                                      
+                                      <div class="form-group row" *ngIf="text_success">
+                                          <div class="col-12">
+                                              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                  <strong>{{'formulario.Success'|translate}}!</strong>{{text_success}}.
+                                                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                                                      <span aria-hidden="true"> </span>
+                                                  </button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                      <div class="m-t-20"> <a href="javascript:void(0);" (click)="closeReload()" class="btn btn-white me-1" data-bs-dismiss="modal">{{'formulario.Close'|translate}}</a>
+                                          <button type="submit" class="btn btn-success" (click)="addPublicidad()">{{'formulario.Add'|translate}}</button>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                        </div>
+                        <!-- modal -->
+                    </tbody>
+                </table>
+                <div class="table_footer">
+                    <div class="col-sm-12 col-md-5">
+                      <div class="dataTables_info">
+                      </div>
+                    </div>
+    
+                    
+                  </div>
+  
+                 
+            </div>
+              </div>
+              <!-- lateral -->
+              <div class="col-xs-12 col-sm-3 col-md-3">
+                  <app-lateral></app-lateral>
+      
+              </div>
+              <!-- lateral -->
+        </div>
+    </div>
+</section>
+<app-menu-footer></app-menu-footer>

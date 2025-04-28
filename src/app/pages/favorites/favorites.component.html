@@ -1,0 +1,209 @@
+<app-header></app-header>
+<section class="favorites " infiniteScroll 
+[infiniteScrollDistance]="2"  [infiniteScrollUpDistance]="2" 
+[infiniteScrollThrottle]=" 50"
+(scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+
+[class.refreshing]="isRefreshing"
+>
+<div class="pull-down-indicator" *ngIf="isRefreshing">
+    <app-loading  ></app-loading>
+    <p class="text-center">
+        {{'Refreshing'|translate}} ...
+    </p>
+    
+
+ </div>
+  <div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-9 col-md-9">
+              <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+              
+              
+              <app-loading *ngIf="isLoading" ></app-loading>
+
+              <details class="shadowSearch cuadrosearch">
+                <summary class="">{{'Search'|translate}}</summary>
+                <!-- <summary><h4>{{'Search'|translate}}</h4></summary> -->
+                <form [formGroup]="searchForm" *ngIf="!isLoading" class="d-flex  col-xs-12 ">
+                  
+                  <div class="row search5">
+                    <div class="col-12 col-md-3">
+                      <label class="labelgoogle">
+                        <input class="form-control input" formControlName="name_file" type="search" placeholder=" " aria-label="Search">
+                        <span class="label__name">
+                          {{'Search'|translate}}
+                          <i class="fa fa-search" style="margin-left: 10px;"></i>
+    
+                        </span>
+                      </label>
+                  
+                    </div>
+                    
+                    <div class="col-12 col-md-3">
+                      <div class="input-group">
+                        <!-- <label>{{'formulario.Country'|translate}}  </label> -->
+                        <span class="input-group-text " id="basic-addon1">
+                          <i class="fa fa-globe" aria-hidden="true"></i>
+                        </span>
+                      <!-- <select class="form-control" formControlName="pais"  >
+                          <option *ngFor="let data of paises" [value]="data.code">
+                          {{data.title}}
+                          </option>
+                      </select> -->
+                      </div>
+                    </div>
+                    
+                    <div class="col-12 col-sm-3">
+                      <div class="input-group">
+                        <!-- <label>{{'formulario.Speciality'|translate}}</label> -->
+                        <span class="input-group-text " id="basic-addon1">
+                          <i class="fa fa-anchor" aria-hidden="true"></i>
+                        </span>
+                        <!-- <select class="form-control" formControlName="speciality_id"  >
+                          <option *ngFor="let data of specialities" [value]="data.id">
+                          {{data.title}}
+                          </option>
+                      </select> -->
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-3">
+                      <div class="input-group">
+                        <!-- <label>{{'Rating'|translate}} </label> -->
+                        <span class="input-group-text " id="basic-addon1">
+                          <i class="fa fa-diamond" aria-hidden="true"></i>
+                        </span>
+                        <select
+                          class="form-control form-select-solid fw-bolder"
+                          formControlName="rating"
+                          placeholder="state"
+                        >
+                          <option>-- {{'Select'|translate}} --</option>
+                          <option value="1">
+                          1 Estrella
+                          </option>
+                          <option value="2">
+                            2 Estrella
+                          </option>
+                          <option value="3">
+                            3 Estrella
+                          </option>
+                          <option value="4">
+                            4 Estrella
+                          </option>
+                          <option value="5">
+                            5 Estrella
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-12 col-md-2 ">
+                      <div class="doctor-submit d-flex justify-content-center ">
+                        <!-- (click)="onSearch()" -->
+                        <button
+                          type="button"
+                          class="btn btn-primary submit-list-form "
+                          
+                        >
+                        <!-- {{'Search'|translate}} -->
+                        <i class="fa fa-search"></i>
+                        </button>
+                        <!-- (click)="PageSize()" -->
+                        <button
+                          type="button"
+                          class="btn btn-outline-primary submit-list-form "
+                          
+                        >
+                        <i class="fa fa-refresh"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </details>
+      
+      
+      
+              <div class="carousel-inner-data" *ngIf="!isLoading">
+                  <div class="post navTabs" *ngIf="favorites.length > 0 else message">
+                      <div class=" itemFav scrollinganimate" *ngFor="let character of favorites; trackby: trackByCharacterId">
+                          <div class="group  itemFav lastposthome">
+                              <a href="lawyer-profile.html">
+                                  <!-- <img [src]="character.profile.avatar" alt=""> -->
+                                  <img *ngIf="!character.profile.avatar" [src]="character.profile.avatar  | imagenPipe: 'profiles' " alt="">
+                              </a>
+                              <div class="div1">
+                                  <p>{{character.profile.nombre}} {{character.profile.surname}}</p>
+                                  <p>{{character.profile.email}}</p>
+                                  <!-- <p>{{character.profile.gender}}</p> -->
+                                  <!-- <p>Lorem ipsum dolor sit amet consectetur...</p> -->
+                                  <div class="stars">
+
+                                    <ul class="star-rating" *ngIf="character.profile.rating === 5">
+                                      <li class="active"><i class="fa fa-star "></i></li>
+                                      <li class="active"><i class="fa fa-star "></i></li>
+                                      <li class="active"><i class="fa fa-star "></i></li>
+                                      <li class="active"><i class="fa fa-star "></i></li>
+                                      <li class="active"><i class="fa fa-star "></i></li>
+                                  </ul>
+                                  <ul class="star-rating" *ngIf="character.profile.rating >= 4 && character.profile.rating < 5">
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                  </ul>
+                                  <ul class="star-rating" *ngIf="character.profile.rating >= 3 && character.profile.rating < 4">
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                  </ul>
+                                  <ul class="star-rating" *ngIf="character.profile.rating >= 2 && character.profile.rating < 3">
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                  </ul>
+                                  <ul class="star-rating" *ngIf="character.profile.rating >= 1 && character.profile.rating < 2">
+                                    <li class="active"><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                  </ul>
+                                  <ul class="star-rating" *ngIf="character.profile.rating >= 0 && character.profile.rating < 1">
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                    <li ><i class="fa fa-star "></i></li>
+                                  </ul>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                      
+                  </div>
+                  <ng-template #message>
+                      <p>lista vacia</p>
+                  </ng-template>
+                  <ng-template *ngIf="isEdnOfList">
+                      <p>{{loadingTitle}}</p>
+                  </ng-template>
+              </div>
+            
+            </div>
+            <!-- lateral -->
+            <div class="col-xs-12 col-sm-3 col-md-3">
+              <app-lateral></app-lateral>
+      
+          </div>
+          </div>
+    </div>
+  </div>
+</section>
+<app-menu-footer></app-menu-footer>

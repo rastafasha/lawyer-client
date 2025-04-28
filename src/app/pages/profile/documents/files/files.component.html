@@ -1,0 +1,44 @@
+<app-header></app-header>
+<section class="user-document">
+  <div class="container-fluid">
+    <div class="container">
+      <div class="row">
+        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+          <app-loading *ngIf="isLoading" ></app-loading>
+          <div   *ngIf="!isLoading">
+              <div class="row">
+                <div class="col-xs-12 col-md-2">
+                  <div class="card shadow p-2">
+                    <p>{{'formulario.Name'|translate}}: {{FILE.name_file }}</p>
+                    <p>{{'Category'|translate}}: {{FILE.name_category }}</p>
+                  </div>
+                </div>
+                <div class="col-xs-12 col-md-10" *ngIf="FILE.type !== 'pdf'">
+                  <div style="height: 100vh; overflow: hidden; overflow-y: scroll;">
+                    <img
+                    class="embed-responsive-item "
+                    *ngIf="FILE.type !== 'pdf'"
+                    [src]="FILE.file "
+                    style="width: 100%; height: auto;" />
+                  </div>
+                </div>
+                <div class="col-xs-12 col-md-10" *ngIf="FILE.type === 'pdf'">
+                 
+                  <div  *ngIf="FILE.type === 'pdf'">
+                    <iframe
+                      class="embed-responsive-item pdf-viewer"
+                      [src]="getPDFIframe(FILE.file) "
+                      frameborder="0"
+                      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                      allowfullscreen
+                    ></iframe>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</section>
+<app-menu-footer></app-menu-footer>

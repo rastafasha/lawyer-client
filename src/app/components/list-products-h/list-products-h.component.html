@@ -1,0 +1,76 @@
+<!-- <app-skeleton-loader *ngIf="isLoading" [rows]="1" [columns]="4"></app-skeleton-loader> -->
+<app-loading *ngIf="isLoading"></app-loading>
+<div class="row">
+  <div *ngIf="!isLoading" class="swiffy-slider slider-item-show3 slider-item-reveal slider-nav-dark slider-nav-outside-expand">
+    
+    <ul class="slider-container slideh-list" id="slider2" >
+        <li *ngFor="let item of profiles">
+            <div class="card shadow h-100">
+                <div class="ratio ratio-1x1">
+                    <a [routerLink]="['/especialista/', item.user_id]">
+                        <img  [src]="item.avatar  | imagenPipe: 'users' " class="card-img-top" loading="lazy">
+                    </a>
+                </div>
+                <div class="card-body d-flex flex-column ">
+                    <div class="flex-grow-1">
+                        <strong>{{item.surname}}</strong>
+                        <p class="card-text">{{item.speciality_title }}</p>
+                    </div>
+                    <div class="div1-home">
+
+                        <div class="stars">
+      
+                            <ul class="star-rating" *ngIf="item.rating === 5">
+                              <li class="active"><i class="fa fa-star "></i></li>
+                              <li class="active"><i class="fa fa-star "></i></li>
+                              <li class="active"><i class="fa fa-star "></i></li>
+                              <li class="active"><i class="fa fa-star "></i></li>
+                              <li class="active"><i class="fa fa-star "></i></li>
+                          </ul>
+                          <ul class="star-rating" *ngIf="item.rating >= 4 && item.rating < 5">
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                          </ul>
+                          <ul class="star-rating" *ngIf="item.rating >= 3 && item.rating < 4">
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                          </ul>
+                          <ul class="star-rating" *ngIf="item.rating >= 2 && item.rating < 3">
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                          </ul>
+                          <ul class="star-rating" *ngIf="item.rating >= 1 && item.rating < 2">
+                            <li class="active"><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                          </ul>
+                          <ul class="star-rating" *ngIf="item.rating >= 0 && item.rating < 1">
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                            <li ><i class="fa fa-star "></i></li>
+                          </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </li>
+    </ul>
+
+    <!-- <button type="button" class="slider-nav" aria-label="Go to previous"></button> -->
+    <!-- <button type="button" class="slider-nav slider-nav-next" aria-label="Go to next"></button> -->
+</div>
+</div>

@@ -1,0 +1,21 @@
+.refresh-container { 
+    position: relative; 
+    overflow: hidden; 
+  } 
+   
+  .pull-down-indicator { 
+    position: absolute; 
+    top: -40px; /* Adjust based on your needs */ 
+    left: 0; 
+    right: 0; 
+    text-align: center; 
+    transition: top 0.3s; 
+  } 
+   
+  .refreshing .pull-down-indicator { 
+    top: 0; 
+  } 
+   
+  .content { 
+    padding: 20px; 
+  } 

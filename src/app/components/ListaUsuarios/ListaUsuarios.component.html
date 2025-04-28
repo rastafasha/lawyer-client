@@ -1,0 +1,36 @@
+<app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+<section class="user " infiniteScroll 
+[infiniteScrollDistance]="2"  [infiniteScrollUpDistance]="2" 
+[infiniteScrollThrottle]=" 50"
+(scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+
+[class.refreshing]="isRefreshing"
+>
+<div class="pull-down-indicator" *ngIf="isRefreshing">
+  <app-loading  ></app-loading>
+  <p class="text-center">
+      refrescando ...
+  </p>
+</div>
+<div class="carousel-inner-data lista" *ngIf="!isLoading">
+  <!--  -->
+  <div class="post navTabs">
+    <div class="itemFav shadow" *ngFor="let item of users">
+      <div class="group itemFav lastposthome">
+        <a [routerLink]="['/especialista/', item.id]">
+          <img [src]="item.profile?.avatar | imagenPipe : 'users'" alt="" />
+        </a>
+        <div class="div1">
+          <h5 style="margin: 0; padding: 0">{{ item.username | lowercase }}</h5>
+          <p style="margin: 0; padding: 0">{{ item.roles[0].name |translate | lowercase }}</p>
+          <p style="margin: 0; padding: 0">{{ item.profile?.ciudad }}</p>
+          <!-- <h5 style="margin: 0; padding: 0;">{{item.profiles.status}}</h5> -->
+          <span class="badge  bg-primary" *ngIf="item.status === 1"> {{'Pending'|translate}}</span>
+            <span class="badge bg-success" *ngIf="item.status === 2">{{'Verified'|translate}}</span>
+            <span class="badge bg-danger" *ngIf="item.status === 3">{{'For Review'|translate}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>

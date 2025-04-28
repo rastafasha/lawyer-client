@@ -1,0 +1,184 @@
+<app-header></app-header>
+<section class="user">
+  <div class="container-fluid">
+   <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-9">
+        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+        <div class="row">
+          <!-- <app-skeleton-loader *ngIf="isLoading" [rows]="3" [columns]="2"></app-skeleton-loader> -->
+
+          <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+
+          <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
+            <div class=" itemFav shadow">
+              <img *ngIf="!profile.avatar" [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+              <img *ngIf="profile.avatar" [src]="profile.avatar  " alt="">
+              <div *ngIf="!profile">
+                <h2>No hay datos</h2>
+              </div>
+              <div class="div1" *ngIf="profile">
+                <h3>{{ profile.nombre }} {{ profile.surname }}</h3>
+                <!-- <h4>{{ user.email }}</h4> -->
+                <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}}</span>
+          <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}}</span>
+          <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}}</span>
+                <h5 *ngIf="speciality">{{ speciality.title }}</h5>
+                <div class="stars">
+
+                  <ul class="star-rating" *ngIf="profile.rating === 5">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+                  <li class="active"><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                  <li ><i class="fa fa-star "></i></li>
+                </ul>
+              </div>
+                
+                <p>{{ profile.description }}</p>
+                <div class="reds">
+                  <div class="cont" *ngFor="let red of redessociales" >
+                    <a *ngIf="red.icono === 'fa fa-whatsapp'" 
+                    href="`https://wa.me/`{{red.url}}`?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion`"
+                    target="_blank" rel="noopener noreferrer">
+                      <div class="option-admin">
+                        <i [class]="red.icono"></i>
+                        <!-- <p>{{ red.title }}</p> -->
+                      </div>
+                    </a>
+                    <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
+                      <div class="option-admin">
+                        <i [class]="red.icono"></i>
+                        <!-- <p>{{ red.title }}</p> -->
+                      </div>
+                    </a>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
+            <div *ngIf="user.roles[0] === 'SUPERADMIN' || user.roles[0] === 'ADMIN'">
+              <div class="row">
+                <div class="col-xs-12 col-sm-6">
+                  <div class="input-group">
+                    <!-- <h5>{{'Status'|translate}}</h5> -->
+                    <span class="input-group-text " id="basic-addon1">
+                      <i class="fa fa-check" aria-hidden="true"></i><span class="login-danger">*</span>
+                  </span>
+                    <select
+                      class="form-control form-select-solid fw-bolder"
+                      name="status"
+                      [(ngModel)]="status"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="cambiarStatus(status)"
+                      placeholder="state"
+                    >
+                      <option>-- {{'Select'|translate}} --</option>
+                      <option value="1">{{'Pending'|translate}}</option>
+                      <option value="2">{{'Verified'|translate}}</option>
+                      <option value="3">{{'For Review'|translate}}</option>
+                    </select>
+    
+                  </div>
+                  
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                  <div class="input-group">
+                    <!-- <h5>{{'Role'|translate}}</h5> -->
+                    <span class="input-group-text " id="basic-addon1">
+                      <i class="fa fa-user" aria-hidden="true"></i><span class="login-danger">*</span>
+                  </span>
+                    <select
+                      class="form-control form-select-solid fw-bolder"
+                      name="role"
+                      [(ngModel)]="role"
+                      [ngModelOptions]="{ standalone: true }"
+                      (change)="cambiarRole(role)"
+                      placeholder="state"
+                    >
+                      <option>-- {{'Select'|translate}} --</option>
+                      <option value="1">{{'Lawyer'|translate}}</option>
+                      <option value="2">{{'GUEST'|translate | lowercase}}</option>
+                      <option value="3">{{'ADMIN'|translate | lowercase}}</option>
+                    </select>
+    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tarifas shadow" *ngIf="precios && user.roles[0] === 'MEMBER' || user.roles[0] === 'GUEST'">
+              <ng-container *ngFor="let precio of precios" >
+                
+                <div class="tarifa">
+  
+                  <p>{{ precio.item_tarifa }}</p>
+                  <h5>{{ precio.precio | currency }}</h5>
+                  <button class="btn btn-outline-success" 
+                    (click)="solicitarItem(precio)">
+                  Solicitar
+                  </button>
+                </div>
+              </ng-container>
+
+            </div>
+            <div class="clear"></div>
+            
+          </div>
+        </div>
+
+        <!--banner publicidad-->
+        <div class="banner-rectangular">
+          <img src="https://picsum.photos/seed/1920/120" alt="" />
+        </div>
+        <!--banner publicidad-->
+      </div>
+
+      <!-- lateral -->
+      <div class="col-xs-12 col-sm-3 col-md-3">
+        <app-lateral></app-lateral>
+
+    </div>
+    </div>
+   </div>
+
+  </div>
+</section>
+<app-menu-footer></app-menu-footer>
