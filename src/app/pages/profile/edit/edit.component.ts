@@ -39,6 +39,7 @@ export class EditComponent {
   Title!:string;
   public iswhatsapp : boolean = false;
   selectedValueCode = '';
+  
 
   public isLoading:boolean = false;
     loadingTitle!:string;
@@ -130,11 +131,29 @@ export class EditComponent {
       // this.closeMenu();
       this.user_id = this.user.id;
       this.validarFormularioPerfil();
-      this.getProfile();
-      this.getSpecialitys();
+      
+      // this.getSpecialitys();
       this.getPaisesList();
       this.activatedRoute.params.subscribe( ({id}) => this.iniciarFormularioPerfil(id));
       this.Title = this.user.username;
+
+
+
+      this.activatedRoute.params.subscribe((resp:any)=>{
+        this.profile_id = resp.id;
+        // this.cargarPresupuesto();
+        if(this.profile_id ){
+          // this.getProfile();
+          // this.titlePage = 'Editando Presupuesto';
+          // this.isediting = true;
+          // if(this.isediting === true){
+          //     this.isdisabled = true;
+          // }
+        }else{
+          // this.isediting = false;
+          // this.titlePage = 'Crear Presupuesto';
+        }
+      })
       
     }
 
@@ -150,7 +169,7 @@ export class EditComponent {
     getProfile(){
       this.isLoading = true;
       this.loadingTitle = 'Cargando perfil';
-      this.profileService.getByUser(this.user.id).subscribe(
+      this.profileService.getByClient(this.user.id).subscribe(
         (resp:any) => {
           // console.log('Profile response:', resp); // Log the response
           this.profile = resp.profile;
@@ -172,34 +191,27 @@ export class EditComponent {
       );
     }
 
-    getSpecialitys(){
-      this.specialityService.getSpecialitys().subscribe((resp:Speciality[]) => {
-        this.specialities = resp;
-      });
-    }
-
-
 
 
   iniciarFormularioPerfil(id:string){
     if (!id == null || !id == undefined || id) {
-      this.profileService.getByUser(id).subscribe(
+      this.profileService.getByClient(id).subscribe(
         (res:any) => {
           this.userForm.patchValue({
             id: res.id,
-            nombre: this.profile.nombre,
-            surname: this.profile.surname,
+            nombre: res.profile.nombre,
+            surname: res.profile.surname,
             
-            direccion: this.profile.direccion,
-            description: this.profile.description,
-            pais: this.profile.pais,
-            estado: this.profile.estado,
-            ciudad: this.profile.ciudad,
-            gender: this.profile.gender,
-            n_doc: this.profile.n_doc,
-            telhome: this.profile.telhome,
-            telmovil: this.profile.telmovil,
-            speciality_id: this.profile.speciality_id,
+            direccion: res.profile.direccion,
+            description: res.profile.description,
+            pais: res.profile.pais,
+            estado: res.profile.estado,
+            ciudad: res.profile.ciudad,
+            gender: res.profile.gender,
+            n_doc: res.profile.n_doc,
+            telhome: res.profile.telhome,
+            telmovil: res.profile.telmovil,
+            speciality_id: res.profile.speciality_id,
             usuario: this.user.id,
           });
           this.profileSeleccionado = res.profile;
@@ -321,7 +333,7 @@ export class EditComponent {
     formData.append("nombre", this.userForm.value.nombre);
     formData.append("surname", this.userForm.value.surname);
     formData.append("usuario", this.user.id+'');
-    formData.append("user_id", this.user.id+'');
+    formData.append("client_id", this.user.id+'');
     formData.append("profile_id", this.profile_id+'');
     if (this.userForm.value.direccion) {
       formData.append("direccion", this.userForm.value.direccion);

@@ -55,13 +55,16 @@ export class ProfileComponent {
   ngOnInit(): void {
     window.scrollTo(0, 0);
     this.user = this.authService.getUser();
-    this.getProfile();
+    if(this.profile){
+      // this.getProfile();
+
+    }
   }
 
   getProfile(){
     this.isLoading = true;
     this.loadingTitle = 'Loading Profile...';
-    this.profileService.getByUser(this.user.id).subscribe((resp:any) => {
+    this.profileService.getByClient(this.user.id).subscribe((resp:any) => {
       // console.log(resp);
       this.profile = resp.profile || null;
       this.redessociales = typeof resp.profile.redessociales === 'string' 
@@ -69,7 +72,7 @@ export class ProfileComponent {
             : resp.profile.redessociales || [];
       this.speciality_profile = resp.profile.speciality_id;
       this.isLoading = false;
-      this.getSpeciality();
+      // this.getSpeciality();
       // setTimeout(() => {
       // }
       // , 5000);

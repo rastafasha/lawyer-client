@@ -61,7 +61,7 @@ export class AuthService {
 
     // return this.http.post<any>(`${this.serverUrl}/login`, {email: email, password: password}, { withCredentials: false })
 
-    let URL = url_servicios+"/login";
+    let URL = url_servicios+"/loginguest";
     return this.http.post(URL, {email: email,password: password})
     .pipe(
       map((auth:any) => {
@@ -78,7 +78,7 @@ export class AuthService {
   }
 
   crearUsuario(formData: RegisterForm){
-    let URL = url_servicios+"/register";
+    let URL = url_servicios+"/registerguest";
     return this.http.post(URL, formData)
     .pipe(map(user => {
       localStorage.setItem('auth_token', JSON.stringify(user));

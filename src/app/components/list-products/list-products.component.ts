@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
+import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-list-products',
   imports: [CommonModule, NgFor, RouterModule, 
     ImagenPipe, LoadingComponent,
-    InfiniteScrollDirective
+    InfiniteScrollDirective, TranslateModule
   ],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.scss'

@@ -9,9 +9,9 @@
         <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
         
         <div *ngIf="user.roles[0] === 'MEMBER' || user.roles[0] === 'GUEST'">
-          <!-- aviso falta info -->
+          <!-- aviso  -->
           <app-aviso></app-aviso>
-          <!-- aviso falta info -->
+          <!-- aviso  -->
           <!--category name-->
           <app-categoria-horizontal></app-categoria-horizontal>
           <!--category name-->
@@ -21,13 +21,13 @@
           <app-slider-horizontal></app-slider-horizontal>
           <!---Slider-->
 
-          <!--list horizontal-->
-          <h3>{{'featured'|translate}}</h3>
+          <!--Destacados-->
+          
           <app-list-products-h></app-list-products-h>
           <br>
-          <!---list vertical-->
-          <!--list products-->
-          <h3>{{'recent'|translate}}</h3>
+          <!---Destacados-->
+          <!--Recientes-->
+          
           <app-list-products></app-list-products>
 
         </div>

@@ -70,6 +70,13 @@ export class ProfileService {
         map((resp:{ok: boolean, profile: any}) => resp)
       )
   }
+  getByClient(usuario:any) {
+    const url = `${baseUrl}/profile/showbyClient/${usuario}`;
+    return this.http.get<any>(url,this.headers)
+      .pipe(
+        map((resp:{ok: boolean, profile: any}) => resp)
+      )
+  }
 
   listarUsuario(id:string):Observable<any>{
     const url = `${baseUrl}/profile/user_profile/${id}`;

@@ -7,12 +7,13 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-list-products-h',
   imports: [CommonModule, NgFor, RouterModule, ImagenPipe,
     NgIf,
-    LoadingComponent
+    LoadingComponent, TranslateModule
   ],
   templateUrl: './list-products-h.component.html',
   styleUrl: './list-products-h.component.css'

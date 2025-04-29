@@ -46,7 +46,7 @@ export class HeaderComponent {
   ngOnInit(): void {
     this.authService.getLocalDarkMode();
     this.user = this.authService.getUser();
-    this.getProfile();
+    // this.getProfile();
     const lang = localStorage.getItem('lang');
     if (lang) {
       this.activeLang = lang;
@@ -62,8 +62,8 @@ export class HeaderComponent {
   }
 
   getProfile() {
-    this.profileService.getByUser(this.user.id).subscribe((resp:any) => {
-      this.profile = resp.profile;
+    this.profileService.getByClient(this.user.id).subscribe((resp:any) => {
+      this.profile = resp.profile ? resp.profile : null;
     });
   }
 

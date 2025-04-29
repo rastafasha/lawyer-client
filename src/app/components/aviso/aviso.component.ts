@@ -31,7 +31,7 @@ export class AvisoComponent {
   }
   getProfile() {
     this.isLoading = true;
-    this.profileService.getByUser(this.user_id).subscribe({
+    this.profileService.getByClient(this.user_id).subscribe({
       next: (res) => {
         this.profile = res.profile;
         // console.log(this.profile);

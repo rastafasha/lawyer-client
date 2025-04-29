@@ -5,7 +5,7 @@ declare var $:any;
   selector: 'app-modal-condiciones',
   imports: [TranslateModule],
   templateUrl: './modal-condiciones.component.html',
-  styleUrls: ['./modal-condiciones.component.css']
+  styleUrls: ['./modal-condiciones.component.scss']
 })
 export class ModalCondicionesComponent implements OnInit {
 

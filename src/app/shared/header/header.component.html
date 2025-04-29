@@ -26,51 +26,53 @@
         <div class="usermenu">
             <div class="fichahome">
                 <p>{{'saludo'|translate}}! <strong>{{user.username |slice: 0:10 }}...</strong></p>
-
-                <div class="stars" *ngIf="profile.rating  ">
-                    <ul class="star-rating" *ngIf="profile.rating === 5">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                  </ul>
-                  <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                  </ul>
-                  <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                  </ul>
-                  <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                  </ul>
-                  <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
-                    <li class="active"><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                  </ul>
-                  <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                    <li ><i class="fa fa-star "></i></li>
-                  </ul>
-                </div>
+                <!-- <div *ngIf="profile">
+                    <div class="stars" *ngIf="profile.rating  ">
+                        <ul class="star-rating" *ngIf="profile.rating === 5">
+                          <li class="active"><i class="fa fa-star "></i></li>
+                          <li class="active"><i class="fa fa-star "></i></li>
+                          <li class="active"><i class="fa fa-star "></i></li>
+                          <li class="active"><i class="fa fa-star "></i></li>
+                          <li class="active"><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                        <li ><i class="fa fa-star "></i></li>
+                      </ul>
+                    </div>
+                </div> -->
+                
 
             </div>
 

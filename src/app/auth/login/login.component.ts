@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
       password2: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      role: ['', Validators.required],
+      role: ['GEST', Validators.required],
       terminos: [false, Validators.required],
   
     }, {
@@ -179,7 +179,7 @@ aceptaTerminos(){
 
 passwordNoValido(){
   const pass1 = this.registerForm.get('password')?.value;
-  const pass2 = this.registerForm.get('password2')?.value;
+  const pass2 = this.registerForm.get('confirmPassword')?.value;
 
   if((pass1 !== pass2) && this.formSumitted){
     return true;

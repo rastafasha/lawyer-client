@@ -7,40 +7,43 @@
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
           <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
           <div class=" itemFav shadow" *ngIf="!isLoading">
-            <img [src]="profile.avatar  | imagenPipe: 'users' " alt="">
-            <div class="div1">
-              <p>{{'Username'|translate}}: {{user.username}}</p>
-              <p *ngIf="profile">{{profile.nombre}} {{profile.surname}}</p>
-              <p>{{user.email}}</p>
-              <p *ngIf="profile.speciality_id">{{speciality.title}}</p>
-              <!-- <p>{{user.roles}}</p> -->
-              <!-- <p *ngIf="profile">{{profile.status}}</p> -->
-              <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}}</span>
-              <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}}</span>
-              <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}}</span>
-              <br>
-              <!-- *ngIf="user.roles[0] === 'GUEST'" -->
-              <div class="reds" >
-                <div class="cont" *ngFor="let red of redessociales" >
-                  <a *ngIf="red.icono === 'fa fa-whatsapp'" 
-                      href="https://wa.me/{{red.url}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
-                      target="_blank" rel="noopener noreferrer">
-                        <div class="option-admin">
-                          <i [class]="red.icono"></i>
-                          <!-- <p>{{ red.title }}</p> -->
-                        </div>
-                      </a>
-                      <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
-                        <div class="option-admin">
-                          <i [class]="red.icono"></i>
-                          <!-- <p>{{ red.title }}</p> -->
-                        </div>
-                      </a>
+            <div class="fototext">
+              <img [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+              <div class="div1">
+                <p>{{'Username'|translate}}: {{user.username}}</p>
+                <p *ngIf="profile">{{profile.nombre}} {{profile.surname}}</p>
+                <p>{{user.email}}</p>
+                <p *ngIf="profile.speciality_id">{{speciality.title}}</p>
+                <!-- <p>{{user.roles}}</p> -->
+                <!-- <p *ngIf="profile">{{profile.status}}</p> -->
+                <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}}</span>
+                <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}}</span>
+                <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}}</span>
+                <br>
+                <!-- *ngIf="user.roles[0] === 'GUEST'" -->
+                <div class="reds" >
+                  <div class="cont" *ngFor="let red of redessociales" >
+                    <a *ngIf="red.icono === 'fa fa-whatsapp'" 
+                        href="https://wa.me/{{red.url}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
+                        target="_blank" rel="noopener noreferrer">
+                          <div class="option-admin">
+                            <i [class]="red.icono"></i>
+                            <!-- <p>{{ red.title }}</p> -->
+                          </div>
+                        </a>
+                        <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
+                          <div class="option-admin">
+                            <i [class]="red.icono"></i>
+                            <!-- <p>{{ red.title }}</p> -->
+                          </div>
+                        </a>
+                  </div>
+    
                 </div>
-  
+    
               </div>
-  
             </div>
+           
             <div class="admin-services">
               <a [routerLink]="['/profile/edit', user.id]">
                 <div class="option-admin">
