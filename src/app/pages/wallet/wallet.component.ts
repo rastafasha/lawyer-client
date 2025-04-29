@@ -71,27 +71,13 @@ export class WalletComponent {
     this.user = this.authService.getUser();
     this.rol = this.user.roles[0];
     console.log(this.rol);
-    if(this.rol === 'MEMBER'){
-      this.getSolicitudesbyMember();
-    }
-    if(this.rol === 'GUEST'){
-      this.getSolicitudesbyGuest();
-    }
+    
+    this.getSolicitudesbyGuest();
+    
     
   }
 
-  getSolicitudesbyMember(){
-    this.isLoading = true;
-    this.solicitudService.getByMember(this.user.id).subscribe((resp:any)=>{
-      this.solicitudes = resp.data;
-      this.pedido = typeof resp.pedido === 'string' 
-            ? JSON.parse(resp.pedido) || []
-            : resp.pedido || [];
-      // console.log(this.pedido);
-      this.isLoading = false;
-      
-    })
-  }
+  
 
   getSolicitudesbyGuest(){
     this.solicitudService.getByGuest(this.user.id).subscribe((resp:any)=>{
@@ -130,26 +116,14 @@ export class WalletComponent {
       //   }
       // }
       
-      if(this.rol === 'MEMBER'){
-        this.getClienteSolicitud() 
-      }
-      if(this.rol === 'GUEST'){
-        this.getClienteSolicitud() 
-        console.log('soy guest');
-      }
+      this.getClienteSolicitud() 
+     
       
     })
   }
 
   getClienteSolicitud(){
-    if(this.cliente_id){
-      this.userService.showUser(this.cliente_id).subscribe((resp:any)=>{
-        // console.log('respuesta para miembro',resp);
-        this.cliente = resp.user[0];
-        // this.status = resp.status;
-        // console.log(this.cliente);
-      })
-    }
+    
     if(this.user_cliente_id){
       this.userService.showUser(this.user_cliente_id).subscribe((resp:any)=>{
         // console.log('respuesta para guest',resp);
@@ -193,7 +167,7 @@ export class WalletComponent {
       setTimeout(() => { 
         this.isRefreshing = false; 
         // Update your data here 
-        this.getSolicitudesbyMember();
+        this.getSolicitudesbyGuest();
       }, 2000); 
     }
 
@@ -210,26 +184,13 @@ export class WalletComponent {
         this.user_cliente_id = this.user.id;
         // this.getClientesbyuser();
         
-        if(this.rol === 'MEMBER'){
-          this.getClientesbyuser();
-        }
         if(this.rol === 'GUEST'){
           this.getContactosbyCliente();
         }
       }
     }
 
-    getClientesbyuser(){
-      this.isLoading = true;
-      this.solicitudService.getByClientesUser(this.user_member_id).subscribe((resp:any)=>{
-        // console.log('clientes',resp);
-        this.clientes = resp;
-        this.isLoading = false;
-        
-        // console.log(this.pedido);
-      })
-      
-    }
+    
     getContactosbyCliente(){
       this.isLoading = true;
       this.solicitudService.getByContactosCliente(this.user_cliente_id).subscribe((resp:any)=>{

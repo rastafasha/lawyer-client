@@ -176,6 +176,7 @@ export class DocumentsComponent {
     this.documentService.deleteDocument(FILE).subscribe((resp:any)=>{
       // this.getAppointment();
       this.getdocumentsbyUser();
+     
     })
     this.FilesAdded.splice(FILE,1);
   }
@@ -197,6 +198,7 @@ closeModalDoc(){
       $("body").removeClass();
       $("body").removeAttr("style");
       this.file_selected = null;
+      this.ngOnInit();
 }
   
 
