@@ -136,24 +136,6 @@ export class EditComponent {
       this.getPaisesList();
       this.activatedRoute.params.subscribe( ({id}) => this.iniciarFormularioPerfil(id));
       this.Title = this.user.username;
-
-
-
-      this.activatedRoute.params.subscribe((resp:any)=>{
-        this.profile_id = resp.id;
-        // this.cargarPresupuesto();
-        if(this.profile_id ){
-          // this.getProfile();
-          // this.titlePage = 'Editando Presupuesto';
-          // this.isediting = true;
-          // if(this.isediting === true){
-          //     this.isdisabled = true;
-          // }
-        }else{
-          // this.isediting = false;
-          // this.titlePage = 'Crear Presupuesto';
-        }
-      })
       
     }
 
@@ -216,7 +198,7 @@ export class EditComponent {
           });
           this.profileSeleccionado = res.profile;
           // console.log('profileSeleccionado',this.profileSeleccionado);
-
+          this.getProfile();
         }
 
       );
