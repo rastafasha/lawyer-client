@@ -90,60 +90,20 @@
                   </div>
 
                 </div>
+                <div class="options">
+                  <!-- <button type="button" (click)="addClient()" class="btn btn-primary">
+                    Add to Contacts
+                  </button> -->
+                  <button type="button" [routerLink]="['/chat/']" class="btn btn-primary">
+                    Chat
+                  </button>
+                </div>
               </div>
             </div>
 
           </div>
           <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
-            <div *ngIf="user.roles[0] === 'SUPERADMIN' || user.roles[0] === 'ADMIN'">
-              <div class="row">
-                <div class="col-xs-12 col-sm-6">
-                  <div class="input-group">
-                    <!-- <h5>{{'Status'|translate}}</h5> -->
-                    <span class="input-group-text " id="basic-addon1">
-                      <i class="fa fa-check" aria-hidden="true"></i><span class="login-danger">*</span>
-                  </span>
-                    <select
-                      class="form-control form-select-solid fw-bolder"
-                      name="status"
-                      [(ngModel)]="status"
-                      [ngModelOptions]="{ standalone: true }"
-                      (change)="cambiarStatus(status)"
-                      placeholder="state"
-                    >
-                      <option>-- {{'Select'|translate}} --</option>
-                      <option value="1">{{'Pending'|translate}}</option>
-                      <option value="2">{{'Verified'|translate}}</option>
-                      <option value="3">{{'For Review'|translate}}</option>
-                    </select>
-    
-                  </div>
-                  
-                </div>
-                <div class="col-xs-12 col-sm-6">
-                  <div class="input-group">
-                    <!-- <h5>{{'Role'|translate}}</h5> -->
-                    <span class="input-group-text " id="basic-addon1">
-                      <i class="fa fa-user" aria-hidden="true"></i><span class="login-danger">*</span>
-                  </span>
-                    <select
-                      class="form-control form-select-solid fw-bolder"
-                      name="role"
-                      [(ngModel)]="role"
-                      [ngModelOptions]="{ standalone: true }"
-                      (change)="cambiarRole(role)"
-                      placeholder="state"
-                    >
-                      <option>-- {{'Select'|translate}} --</option>
-                      <option value="1">{{'Lawyer'|translate}}</option>
-                      <option value="2">{{'GUEST'|translate | lowercase}}</option>
-                      <option value="3">{{'ADMIN'|translate | lowercase}}</option>
-                    </select>
-    
-                  </div>
-                </div>
-              </div>
-            </div>
+            
             <div class="tarifas shadow" >
               <ng-container *ngFor="let precio of precios" >
                 

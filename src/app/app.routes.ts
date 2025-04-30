@@ -16,6 +16,7 @@ import { EspecialistaComponent } from './pages/especialista/especialista.compone
 import { AuthGuard } from './guards/auth.guard';
 import { PaymentmethodComponent } from './pages/profile/paymentmethod/paymentmethod.component';
 import { BannerComponent } from './pages/admin/banner/banner.component';
+import { ChatComponent } from './pages/chat/chat.component';
 
 export const routes: Routes = [
     {path: '', component: HomeComponent},
@@ -27,7 +28,8 @@ export const routes: Routes = [
     {path: 'especialidades', component: CategoriaComponent},
     {path: 'especialidad/:id', component: CategoriaComponent},
     {path: 'especialista/:id', component: EspecialistaComponent},
-
+    
+    {path: 'chat', component: ChatComponent},
     
     //user
     {path: 'profile', component: ProfileComponent},

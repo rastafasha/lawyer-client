@@ -15,6 +15,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
+import { ClientService } from '../../services/client.service';
 
 @Component({
   selector: 'app-wallet',
@@ -63,6 +64,7 @@ export class WalletComponent {
   private solicitudService = inject(SolicitudesService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  private clientService = inject(ClientService);
 
   
 
@@ -193,7 +195,7 @@ export class WalletComponent {
     
     getContactosbyCliente(){
       this.isLoading = true;
-      this.solicitudService.getByContactosCliente(this.user_cliente_id).subscribe((resp:any)=>{
+      this.clientService.getByContactosCliente(this.user.id).subscribe((resp:any)=>{
         // console.log('contactos',resp);
         this.clientes = resp.users;
         this.isLoading = false;

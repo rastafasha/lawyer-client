@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { SpecialitiesService } from '../../services/specialities.service';
 import { CommonModule, NgFor } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { LateralComponent } from '../../components/lateral/lateral.component';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -32,7 +32,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     ImagenPipe,
     LoadingComponent,
-    TranslateModule
+    TranslateModule,
+    RouterModule
   ],
   templateUrl: './especialista.component.html',
   styleUrl: './especialista.component.scss'
