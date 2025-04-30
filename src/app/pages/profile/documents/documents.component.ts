@@ -39,7 +39,8 @@ export class DocumentsComponent {
   isRefreshing = false;
   isSearching = false;
 
-
+  option_selected:number = 1;
+  solicitud_selected:any = null;
 
   valid_form_success = false;
     public text_validation = '';
@@ -60,6 +61,7 @@ export class DocumentsComponent {
 
   currentPage = 1;
   share:any;
+  documents:any[]=[];
 
   searchForm!:FormGroup;
   document_selected:any = null;
@@ -332,6 +334,29 @@ closeModalDoc(){
     // console.log(data);
     this.documentService.shareDocument(data).subscribe((resp:any)=>{
 
+    })
+  }
+
+  optionSelected(value:number){
+    this.option_selected = value;
+    // if(this.option_selected === 1){
+
+    //   this.ngOnInit();
+    // }
+    if(this.option_selected === 2){
+      this.solicitud_selected = null;
+      // console.log('pidiendo clientes')
+      this.user_cliente_id = this.user.id;
+      this.getDocumentByClient(this.user_cliente_id);
+      
+      
+    }
+  }
+
+  getDocumentByClient(id:number){
+    this.documentService.getDocumentsByUser(id).subscribe((resp:any)=>{
+      // console.log(resp);
+      this.documents = resp.data;
     })
   }
 

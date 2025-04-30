@@ -29,7 +29,7 @@ export const routes: Routes = [
     {path: 'especialidad/:id', component: CategoriaComponent},
     {path: 'especialista/:id', component: EspecialistaComponent},
     
-    {path: 'chat', component: ChatComponent},
+    {path: 'chat/:id', component: ChatComponent},
     
     //user
     {path: 'profile', component: ProfileComponent},

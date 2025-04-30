@@ -146,35 +146,7 @@
                     <img class="globoblack"  (click)="onDarkMode('dark')" src="./assets/svg/sol.svg" alt="">
                 </li>
             </ul>
-            <!-- <div class="flags">
-                <img *ngIf="activeLang === 'es'" class="left-image" style="width: 20px;" [src]="'assets/images/venezuela.png'" >
-                <img *ngIf="activeLang == 'en'" class="left-image" style="width: 20px;" [src]="'assets/images/usa.png'" >
-            </div> -->
-            <div class="dropdown">
-                <div class="flags">
-                    <img *ngIf="activeLang === 'es'" class="left-image" style="width: 30px;" [src]="'assets/images/venezuela.png'" >
-                    <img *ngIf="activeLang == 'en'" class="left-image" style="width: 30px;" [src]="'assets/images/usa.png'" >
-                </div>
-                <!-- <span>{{'Language'|translate}}</span> -->
-                <div class="dropdown-content">
-                    <li class="has-child-menu">
-                        <a style="cursor: pointer;" >
-                            <!-- <img class="left-image" src="assets/images/icons/de.png" alt="Language Images"> -->
-                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/usa.png'" >
-                            <!-- <a  style="cursor: pointer;" [ngClass]="{'active': activeLang == 'es'}" (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a> -->
-                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a>
-                        </a>
-                    </li>
-                    <li class="has-child-menu">
-                        <!-- *ngIf="flag" -->
-                        <a style="cursor: pointer;"  >
-                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/venezuela.png'" >
-                            <!-- <a  style="cursor: pointer;" [ngClass]="{'active': activeLang == 'en'}" (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a> -->
-                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a>
-                        </a>
-                    </li>
-                </div>
-              </div>
+            
             <div class="user-header-top ">
                 <a routerLink="/profile">
                     <img  [src]="profile.avatar  | imagenPipe: 'users' " alt="">

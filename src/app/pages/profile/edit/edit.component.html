@@ -197,6 +197,24 @@
                                             </div>
                                         </div>
                                       </div>
+                                      <!-- Lang -->
+                                      <div class="col-12 col-md-4  col-xl-4">
+                                        <div class="form-group select-gender input-group gap-3">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="form-check-inline ">
+                                                <label class="form-check-label ">
+                                                    <input type="radio"  [value]="'es'" (change)="cambiarLenguaje('es')" formControlName="lang" class="form-check-input ">{{'Spanish'|translate}}
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline ">
+                                                <label class="form-check-label ">
+                                                    <input type="radio"  [value]="'en'" (change)="cambiarLenguaje('en')" formControlName="lang" class="form-check-input ">{{'English'|translate}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                      </div>
                                     <!-- Especialidad -->
                                       <div class="col-12 col-md-4 col-xl-4" *ngIf="user.roles[0] ==='MEMBER' && profile.status === 2">
                                           <div class="input-group">

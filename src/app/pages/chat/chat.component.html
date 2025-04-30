@@ -8,11 +8,12 @@
               </div>
                <h2 class="name"><b>{{user_selected?.first_name}},</b> {{user_selected?.edad}}</h2>
              <h4 class="job-title">Caracas, Venezuela</h4>
+             <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
             </div>
          </div>
          
          <div class="clear"></div>
-         <div  style="margin-top: 50px;"  *ngIf="messages">
+         <div  style="margin-top: 200px;"  *ngIf="messages">
           <ul  *ngFor="let message of messages" >
             <!-- <li class="other">
               <div class="avatar"><img [src]="'./assets/images/foto-perfil.jpg'" draggable="false"/></div>
