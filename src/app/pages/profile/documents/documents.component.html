@@ -283,9 +283,40 @@
 
                                     </div>
 
-                                    <div *ngIf="option_selected === 2">
-                                        <ng-container
-                                                                *ngFor="let FILE of documents;let i = index">
+                                    <div class=" carpetas "  *ngIf="option_selected === 2">
+                                        <div class="div-group " *ngFor="let cat of document_shared">
+                                            <a data-bs-toggle="modal"
+                                                [attr.data-bs-target]="'#view-doc-'+cat.name_category"
+                                                (click)="getDocumentsbyCategory(cat.name_category)"
+                                                style="cursor: pointer;">
+
+                                                <div class="folder-info">
+                                                    <div class="menu-opt">
+                                                        <i class="fa fa-list"></i>
+                                                    </div>
+                                                    <i class="fa fa-folder"></i>
+                                                    <h2>{{'Category'|translate}}: {{cat.name_category}}</h2>
+                                                    <p> {{cat.created_at}}</p>
+                                                </div>
+                                            </a>
+
+
+                                            <div [attr.id]="'view-doc-'+cat.name_category" class="modal fade add-modal"
+                                                role="dialog">
+                                                <div class="modal-dialog modal-dialog-centered modal-lg">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLabel"><i
+                                                                    class="fa fa-folder-open"></i>
+                                                                {{'Category'|translate}}: {{cat.name_category}}</h5>
+                                                            <a href="javascript:void(0);"
+                                                                class="btn btn-outline-danger me-1"
+                                                                data-bs-dismiss="modal">{{'formulario.Close'|translate}}</a>
+                                                        </div>
+
+                                                        <div class="modal-body text-center columnadoble">
+                                                            <ng-container
+                                                                *ngFor="let FILE of user_filesfiltered;let i = index">
 
                                                                 <div class="itemlist">
                                                                     <div class="d-flex flex-stack mb-3">
@@ -316,18 +347,61 @@
 
                                                                         <span
                                                                             class="text-gray-400 fw-bolder">{{'Category'|translate}}:
-                                                                            <p>{{FILE.name_category}}</p></span>
+                                                                            <a href="javascript:void(0);"
+                                                                                onclick="return false;"
+                                                                                class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_category}}</a></span>
                                                                         <span
                                                                             class="text-gray-400 fw-bolder">{{'formulario.Size'|translate}}:
-                                                                            <p>{{FILE.size}}</p></span>
-                                                                        <span
-                                                                            class="text-gray-400 fw-bolder">{{'Owner'|translate}}:
-                                                                            <p>{{FILE.user_id}}</p></span>
+                                                                            <a href="javascript:void(0);"
+                                                                                onclick="return false;"
+                                                                                class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}}
+                                                                            </a></span>
 
                                                                     </div>
+                                                                    <div class="buttons" *ngIf="!document_selected">
+                                                                        <button class="btn btn-danger btn-sm"
+                                                                            (click)="deleteFile(FILE.id)">x</button>
+                                                                        <button class="btn btn-success btn-sm"
+                                                                            (click)="solicitudSelected(FILE.id)">Share</button>
+
+                                                                    </div>
+                                                                    <div class="share__options"
+                                                                        *ngIf="document_selected">
+                                                                        <select class="form-control"
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [(ngModel)]="share">
+                                                                            <option *ngFor="let data of clientes"
+                                                                                [value]="data.id">
+                                                                                {{data.username}}
+                                                                            </option>
+                                                                        </select>
+                                                                        <button class="btn btn-primary btn-sm"
+                                                                            (click)="onShareIt()">
+                                                                            >
+                                                                            Share
+                                                                        </button>
+                                                                        <button class="btn btn-primary btn-sm"
+                                                                            (click)="document_selected = null">
+                                                                            {{'Back'|translate}}
+                                                                        </button>
+                                                                    </div>
+                                                                    <!-- <div *ngIf="document_selected">
+                                                                        <button
+                                                                          class="btn btn-primary btn-sm"
+                                                                          (click)="document_selected = null"
+                                                                        >
+                                                                        {{'Back'|translate}}
+                                                                        </button>
+                                                                      </div> -->
                                                                 </div>
-                                                                
                                                             </ng-container>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
                                     </div>
                                 </div>
                             </div>

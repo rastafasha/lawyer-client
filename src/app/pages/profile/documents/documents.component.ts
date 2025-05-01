@@ -62,6 +62,7 @@ export class DocumentsComponent {
   currentPage = 1;
   share:any;
   documents:any[]=[];
+  document_shared:any[]=[];
 
   searchForm!:FormGroup;
   document_selected:any = null;
@@ -136,7 +137,7 @@ export class DocumentsComponent {
     this.currentPage;
     this.documentService.getDocumentsByUser(
       this.user_id ).subscribe((resp:any)=>{
-      // console.log(resp);
+      console.log(resp);
       this.FILES =resp.data
       this.isLoading = false;
       //agrupamos por name_category
@@ -149,7 +150,7 @@ export class DocumentsComponent {
   }
 
   getDocumentsbyCategory(name_category:string){
-    this.documentService.getDocumentsByUserCategory(this.user_id, name_category).subscribe((resp:any)=>{
+    this.documentService.getDocumentsByClientCategory(this.user_id, name_category).subscribe((resp:any)=>{
       this.user_filesfiltered = resp.data;
     })
   }
@@ -354,9 +355,9 @@ closeModalDoc(){
   }
 
   getDocumentByClient(id:number){
-    this.documentService.getDocumentsByUser(id).subscribe((resp:any)=>{
+    this.documentService.getDocumentsByClient(id).subscribe((resp:any)=>{
       // console.log(resp);
-      this.documents = resp.data;
+      this.document_shared = resp.data;
     })
   }
 

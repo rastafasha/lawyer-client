@@ -47,6 +47,13 @@ export class DocumentService {
           );
     }
     getDocumentsByUser(_id: number) {
+      const url = `${baseUrl}/document/showbyuser/${_id}`;
+      return this.http.get<any>(url, this.headers)
+        .pipe(
+          map((resp:{ok: boolean, documents: Document}) => resp.documents)
+          );
+    }
+    getDocumentsByClient(_id: number) {
       const url = `${baseUrl}/document/showbyclient/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
@@ -88,6 +95,13 @@ export class DocumentService {
 
     getDocumentsByUserCategory(user_id: number, name_category:string) {
       const url = `${baseUrl}/document/showByCategory/${user_id}/${name_category}`;
+      return this.http.get<any>(url, this.headers)
+        .pipe(
+          map((resp:{ok: boolean, documents: Document}) => resp.documents)
+          );
+    }
+    getDocumentsByClientCategory(client_id: number, name_category:string) {
+      const url = `${baseUrl}/document/showByClientCategory/${client_id}/${name_category}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
