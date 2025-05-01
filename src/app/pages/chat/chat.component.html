@@ -1,36 +1,42 @@
 <app-header></app-header>
 <div class="playground">
     <div class="card ">
-        <div class="card-body-top" >
-            <div class="fotoperfil">
-              <div class="perfilf">
-                  <a href="perfil-galeria.html"><img [src]="'./assets/images/foto-perfil2.jpg'" alt=""></a>
-              </div>
-               <h2 class="name"><b>{{user_selected?.first_name}},</b> {{user_selected?.edad}}</h2>
-             <h4 class="job-title">Caracas, Venezuela</h4>
-             <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-            </div>
-         </div>
+        
+
+         <div class="card-body-top">
+          <div class=" fotoperfil">
+            <img *ngIf="!profile.avatar" [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+          </div>
+          <div class="perfil">
+            <h2 class="name">{{user.username}} </h2>
+            <h4 class="job-title">{{profile.ciudad}}, {{profile.pais}}</h4>
+          </div>
+          <div class="actions">
+            <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+          </div>
+        </div>
          
          <div class="clear"></div>
-         <div  style="margin-top: 200px;"  *ngIf="messages">
-          <ul  *ngFor="let message of messages" >
-            <!-- <li class="other">
-              <div class="avatar"><img [src]="'./assets/images/foto-perfil.jpg'" draggable="false"/></div>
-            <div class="msg">
-              <p>{{message}}</p>
-              <time>20:17</time>
-            </div>
-          </li> -->
-          <li class="self">
+         <div style="margin-top: 120px;" *ngIf="messages">
+          <ul *ngFor="let message of messages">
+            <li class="other" >
+                  <!-- <div class="avatar"><img [src]="'./assets/images/foto-perfil.jpg'" draggable="false"/></div> -->
+                <div class="msg">
+                  <p>{{message}}</p>
+                  <p>{{message.message_users.client_id}}</p>
+                  <time>{{message.created_at}}</time>
+                </div>
+              </li>
+            <li class="self" >
               <!-- <div class="avatar"><img [src]="'./assets/images/foto-perfil2.jpg'" draggable="false"/></div> -->
-            <div class="msg">
-              <p>{{message}}</p>
-              <!-- <time>20:18</time> -->
-            </div>
-          </li>
+              <div class="msg">
+                <p>{{message}}</p>
+                <p>{{message.message_users.user_id}}</p>
+                <time>{{message.created_at}}</time>
+              </div>
+            </li>
           </ul>
-         </div>
+        </div>
          <form action="" class="escribir_data">
             <input type="text" name="message" class="textinput" [(ngModel)]="message" placeholder="Escribe un mensaje...">
             <button type="submit" class="btn btn-outline-success butonhome" (click)="sendMessage()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>

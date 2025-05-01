@@ -17,19 +17,44 @@
 .card-body-top {
     position: fixed;
     z-index: 9;
-    top: 50px;
+    top: 55px;
     width: 100%;
     height: 55px;
-    -moz-box-shadow: 0px 0px 10px #000000;
-    -webkit-box-shadow: 0px 0px 10px #000000;
-    box-shadow: 0px 0px 10px #000000;
-    padding-top: 5px;
+    display: flex;
+    flex-direction: row-reverse;
+    padding: 15px;
+    justify-content: space-between;
+    align-items: center;
+    justify-items: center;
+    border-bottom: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     & .fotoperfil{
         margin-top: 0;
-        & .perfilf{
-            width: 10%;
-            margin-left: 15px;
+        display: flex;
+        border-radius: 100px;
+        width: 40px;
+        height: 40px;
+        overflow: hidden;
+    }
+    & .perfil{
+        width:70%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        
+        & h2{
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
         }
+        & h4{
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+        }
+    }
+    & .actions{
+        display: flex;
     }
 }
 
@@ -92,5 +117,34 @@ input.textarea {
 
 .chat-input {
     margin-top: 10px;
+}
+
+.self{
+    background-color: #0cbe7a;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    max-width: 80%;
+    width: max-content;
+    align-self: flex-start;
+    display: flex;
+    justify-content: flex-start;
+    float: right;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.other{
+    background-color: #154fa1;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    max-width: 80%;
+    width: max-content;
+    align-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 

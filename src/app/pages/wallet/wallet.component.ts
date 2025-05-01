@@ -16,6 +16,7 @@ import { LoadingComponent } from '../../shared/loading/loading.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { ClientService } from '../../services/client.service';
+import { Profile } from '../../models/profile.model';
 
 @Component({
   selector: 'app-wallet',
@@ -52,7 +53,7 @@ export class WalletComponent {
   public cliente_id!: any;
   public pedido: any = [];
   public clientes: any = [];
-
+  profile!:Profile;
   option_selected:number = 1;
   solicitud_selected:any = null;
   status!:number ;
@@ -101,22 +102,10 @@ export class WalletComponent {
   getSolicitudDetail(item:any){
     this.pedido_selected = item.id;
     this.solicitudService.getSolicitud(this.pedido_selected).subscribe((resp:any)=>{
-      // console.log(resp);
-      // this.publicidadd = resp.publicidad;
+      
       this.solicitud_users = resp.solicitud_users || [];
       this.cliente_id = resp.solicitud_users[0].cliente_id;
       this.user_cliente_id = resp.solicitud_users[0].user_id;
-      // console.log(this.solicitud_users);
-      // console.log(this.cliente_id);
-      // Buscamos el cliente_id dentro del array solicitud_users
-      // if (Array.isArray(this.solicitud_users)) {
-      //   const foundUser = this.solicitud_users.find((element:any) => 
-      //     element.cliente_id === this.cliente_id
-      //   );
-      //   if (foundUser) {
-      //     this.cliente_id = foundUser.cliente_id;
-      //   }
-      // }
       
       this.getClienteSolicitud() 
      
@@ -128,8 +117,10 @@ export class WalletComponent {
     
     if(this.user_cliente_id){
       this.userService.showUser(this.user_cliente_id).subscribe((resp:any)=>{
-        // console.log('respuesta para guest',resp);
+        console.log('respuesta para guest',resp);
         this.cliente = resp.user[0];
+        this.profile = resp.user[0].profile;
+
         // this.status = resp.status;
         // console.log(this.cliente);
       })
