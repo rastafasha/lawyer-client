@@ -75,15 +75,6 @@ infiniteScroll
                 </button>
   
               </a>
-              <div class="checkbox-wrapper-6">
-                 <p>{{'Start'|translate}}</p>
-                <input class="tgl tgl-light" id="cb1-6" type="checkbox"
-                name="status" (change)="cambiarStatus(solicitud_selected, status)"
-                [(ngModel)]="status"
-                      [ngModelOptions]="{ standalone: true }" />
-                <label class="tgl-btn" for="cb1-6"  ></label>
-
-              </div>
               <button
             class="btn btn-primary btn-sm"
             (click)="solicitud_selected = null"
