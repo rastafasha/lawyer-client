@@ -2,46 +2,62 @@
 
 <section class="home">
   <div class="container-fluid">
-   <div class="container">
-    <div class="row">
-      <div class="col-xs-12 col-sm-9 col-md-9">
-    
-        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-        
-        <div >
-          <!-- aviso  -->
-          <app-aviso></app-aviso>
-          <!-- aviso  -->
-          <!--category name-->
-          <app-categoria-horizontal></app-categoria-horizontal>
-          <!--category name-->
-          <br />
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-9 col-md-9">
 
-          <!---Slider-->
-          <app-slider-horizontal></app-slider-horizontal>
-          <!---Slider-->
+          <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
 
-          <!--Destacados-->
-          
-          <app-list-products-h></app-list-products-h>
-          <br>
-          <!---Destacados-->
-          <!--Recientes-->
-          
-          <app-list-products></app-list-products>
+          <div>
+            <!-- aviso  -->
+            <app-aviso></app-aviso>
+            <!-- aviso  -->
+            <!--category name-->
+            <app-categoria-horizontal></app-categoria-horizontal>
+            <!--category name-->
+            <br />
 
+            <div class="row w-75">
+              <div class="d-flex  justify-content-center">
+                <label class="labelgoogle">
+                  <input class="form-control input" formControlName="name_file" type="search" placeholder=" "
+                    aria-label="Search">
+                  <span class="label__name">
+                    {{'Search'|translate}}
+                    <i class="fa fa-search" style="margin-left: 10px;"></i>
+                  </span>
+                  <!-- <button type="button" class="btn btn-primary submit-list-form ">
+                    <i class="fa fa-search"></i>
+                  </button> -->
+                </label>
+
+              </div>
+            </div>
+            <!---Slider-->
+            <app-slider-horizontal></app-slider-horizontal>
+            <!---Slider-->
+
+            <!--Destacados-->
+
+            <app-list-products-h></app-list-products-h>
+            <br>
+            <!---Destacados-->
+            <!--Recientes-->
+
+            <app-list-products></app-list-products>
+
+          </div>
+
+          <div *ngIf="user.roles[0] === 'SUPERADMIN' || user.roles[0] === 'ADMIN'">
+            <app-ListaUsuarios [users]="users"></app-ListaUsuarios>
+          </div>
         </div>
-        
-        <div *ngIf="user.roles[0] === 'SUPERADMIN' || user.roles[0] === 'ADMIN'">
-         <app-ListaUsuarios [users]="users"></app-ListaUsuarios>
+        <!-- lateral -->
+        <div class="col-xs-12 col-sm-3 col-md-3">
+          <app-lateral></app-lateral>
         </div>
       </div>
-      <!-- lateral -->
-      <div class="col-xs-12 col-sm-3 col-md-3">
-        <app-lateral></app-lateral>
     </div>
-    </div>
-   </div>
   </div>
 </section>
 

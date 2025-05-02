@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { PaymentmethodService } from '../../services/paymentmethod.service';
 
 @Component({
   selector: 'app-especialista',
@@ -55,6 +56,8 @@ export class EspecialistaComponent {
     role!:Profile ;
     solicitudes_selected: any[] = [];
     toastr: any;
+    user_id!: number;
+    tiposdePagoUser: any[] = [];
 
     userForm: FormGroup = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -75,6 +78,7 @@ export class EspecialistaComponent {
       private solicitudService: SolicitudesService,
       private activatedRoute: ActivatedRoute,
       private fb: FormBuilder,
+      private paymentService: PaymentmethodService,
     ) {
       this.user = this.authService.getUser();
     }
@@ -92,7 +96,7 @@ export class EspecialistaComponent {
       this.isLoading = true;
       this.loadingTitle = 'Cargando perfil';
       this.profileService.getByUser(id).subscribe((resp:any) => {
-        // console.log(resp);
+        console.log(resp);
         if(resp.status === '404' || resp.ok === false){
           alert('no hay perfil')
           this.isLoading = false;
@@ -108,8 +112,10 @@ export class EspecialistaComponent {
               ? JSON.parse(resp.profile.precios) || []
               : resp.profile.precios || [];
           this.speciality_profile = resp.profile.speciality_id;
-          this.getSpeciality();
+          this.user_id = resp.profile.user_id;
           this.isLoading = false;
+          this.getSpeciality();
+          this.getPaymentMethods();
         }
       })
     }
@@ -118,6 +124,13 @@ export class EspecialistaComponent {
       this.specialityService.getSpeciality(this.speciality_profile).subscribe((resp:any) => {
         // console.log(resp);
         this.speciality = resp;
+      })
+    }
+
+    getPaymentMethods(){
+      this.paymentService.getPaymentMethodByUserId(this.user_id).subscribe((resp:any) => {
+        console.log(resp);
+        this.tiposdePagoUser = resp;
       })
     }
 
@@ -152,39 +165,8 @@ export class EspecialistaComponent {
       )
     }
 
-    // validarFormularioPerfil(){
-    //   this.userForm = this.fb.group({
-    //     nombre: ['', Validators.required],
-    //     surname: ['', Validators.required],
-    //     pais: [''],
-    //     estado: [''],
-    //     ciudad: [''],
-    //     telhome: ['', Validators.required],
-    //     telmovil: ['', Validators.required],
-    //     speciality_id: ['', Validators.required],
-    //     direccion: [''],
-    //     n_doc: [''],
-    //     gender: [''],
-    //     description: ['', Validators.required],
-    //     usuario: [this.user.id],
-    //     id: [''],
-    //   });
-    // }
 
     solicitarItem(data:any){
-      // if (!data || (Array.isArray(this.solicitudes_selected) && this.solicitudes_selected.length === 0)) {
-      //   Swal.fire('Error', 'No valid solicitudes selected', 'error');
-      //   return;
-      // }
-      
-      // const datos = {
-      //   id: 0,
-      //   "user_id": this.profile.id,
-      //   "cliente_id": this.user.id,
-      //   pedido: data,
-      //   status: 1,
-      // }
-      // console.log(datos);
 
       const formData = new FormData();
       formData.append("user_id", this.profile.user_id+'');
@@ -203,5 +185,9 @@ export class EspecialistaComponent {
           console.error(err);
         }
       });
+    }
+
+    addFavorite(){
+      
     }
 }
