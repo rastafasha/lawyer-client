@@ -135,7 +135,7 @@ export class DocumentsComponent {
   getdocumentsbyUser(){
     this.isLoading = true;
     this.currentPage;
-    this.documentService.getDocumentsByUser(
+    this.documentService.getDocumentsByClient(
       this.user_id ).subscribe((resp:any)=>{
       console.log(resp);
       this.FILES =resp.data
@@ -220,7 +220,8 @@ closeModalDoc(){
 
     }
     const formData = new FormData();
-    formData.append('user_id', this.user_id+'');
+    // formData.append('user_id', this.user_id+'');
+    formData.append('client_id', this.user_id+'');
     formData.append('name_category', this.name_category);
 
     this.FILES.forEach((file:any, index:number)=>{
@@ -293,12 +294,8 @@ closeModalDoc(){
     this.document_selected = document;
     this.user_member_id = this.user.id;
     this.user_cliente_id = this.user.id;
-    if(this.rol === 'MEMBER'){
-      this.getClientesbyuser();
-    }
-    if(this.rol === 'GUEST'){
-      this.getContactosbyCliente();
-    }
+    
+    this.getContactosbyCliente();
   }
 
   getClientesbyuser(){
@@ -324,7 +321,7 @@ closeModalDoc(){
     })
   }
 
-  onShareIt(){debugger
+  onShareIt(){
     const data ={
       document_id : this.document_selected,
       user_id : this.user.id,

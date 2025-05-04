@@ -40,21 +40,21 @@ export class DocumentService {
     
   
     getDocument(_id: number) {
-      const url = `${baseUrl}/document/show/${_id}`;
+      const url = `${baseUrl}/documents/show/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, document: Document}) => resp.document)
           );
     }
     getDocumentsByUser(_id: number) {
-      const url = `${baseUrl}/document/showbyuser/${_id}`;
+      const url = `${baseUrl}/documents/showbyuser/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
           );
     }
     getDocumentsByClient(_id: number) {
-      const url = `${baseUrl}/document/showbyclient/${_id}`;
+      const url = `${baseUrl}/documents/showbyclient/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
@@ -94,14 +94,14 @@ export class DocumentService {
 
 
     getDocumentsByUserCategory(user_id: number, name_category:string) {
-      const url = `${baseUrl}/document/showByCategory/${user_id}/${name_category}`;
+      const url = `${baseUrl}/documents/showByCategory/${user_id}/${name_category}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
           );
     }
     getDocumentsByClientCategory(client_id: number, name_category:string) {
-      const url = `${baseUrl}/document/showByClientCategory/${client_id}/${name_category}`;
+      const url = `${baseUrl}/documents/showByClientCategory/${client_id}/${name_category}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
@@ -109,7 +109,7 @@ export class DocumentService {
     }
   
     getDocumentActivos() {
-      const url = `${baseUrl}/document/activos`;
+      const url = `${baseUrl}/documents/activos`;
       return this.http.get<any>(url,this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document[]}) => resp.documents)
@@ -119,26 +119,26 @@ export class DocumentService {
   
     createDocument(data:any){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-      const URL = baseUrl+'/document/store';
+      const URL = baseUrl+'/documents/store';
       return this.http.post(URL,data, {headers:headers});
     }
     updateDocument( data:any, document_id:any,){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
-      const URL = baseUrl+'/document/update/'+document_id;
+      const URL = baseUrl+'/documents/update/'+document_id;
       return this.http.post(URL,data,{headers:headers});
     }
     updateStatus( data:any, document_id:number){
   
-      const url = `${baseUrl}/document/update/status/${document_id}`;
+      const url = `${baseUrl}/documents/update/status/${document_id}`;
       return this.http.put(url,  data, this.headers);
     }
   
     deleteDocument(_id: string) {
-      const url = `${baseUrl}/document/destroy/${_id}`;
+      const url = `${baseUrl}/documents/destroy/${_id}`;
       return this.http.delete(url, this.headers);
     }
     shareDocument(data:any) {
-      const url = `${baseUrl}/document/share/`;
+      const url = `${baseUrl}/documents/share/`;
       return this.http.post(url, data, this.headers);
     }
 }

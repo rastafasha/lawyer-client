@@ -20,59 +20,58 @@
                   </div>
                   <div class="info_info">
                     <h3>{{ profile.nombre }} {{ profile.surname }}</h3>
-                  <!-- <h4>{{ user.email }}</h4> -->
-                  <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}}</span>
-                  <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}}</span>
-                  <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}}</span>
-                  <h5 *ngIf="speciality">{{ speciality.title }}</h5>
-                  <div class="stars">
+                    <h5 *ngIf="speciality">{{ speciality.title }}</h5>
+                    <!-- <h4>{{ user.email }}</h4> -->
+                    <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}} </span>
+                    <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}} </span> 
+                    <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}} </span>
+                    <div class="stars">
 
-                    <ul class="star-rating" *ngIf="profile.rating === 5">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                    </ul>
-                    <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
-                    <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
-                    <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
-                    <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
-                    <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
+                      <ul class="star-rating" *ngIf="rating === 5">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="rating >= 4 && rating < 5">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="rating >= 3 && rating < 4">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="rating >= 2 && rating < 3">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="rating >= 1 && rating < 2">
+                        <li class="active"><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                      </ul>
+                      <ul class="star-rating" *ngIf="rating >= 0 && rating < 1">
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                        <li><i class="fa fa-star "></i></li>
+                      </ul>
+                    </div>
                   </div>
-
-                  <p>{{ profile.description }}</p>
-                  </div>
+                 
                   <div class="options">
                     <div *ngIf=""></div>
                     <button type="button" (click)="addFavorite()" class="btn btn-outline-danger">
@@ -83,8 +82,10 @@
                     </button> -->
                   </div>
                 </div>
-                
-                <div class="div1" >
+                <div class="descp">
+                  <p>{{ profile.description }}</p>
+                </div>
+                <!-- <div class="div1" >
                   
                   <div class="reds">
                     <div class="cont" *ngFor="let red of redessociales">
@@ -104,13 +105,13 @@
                     </div>
 
                   </div>
-                </div>
+                </div> -->
               </div>
 
             </div>
             <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
 
-              <div class="card mb-3">
+              <div class="card mb-3 shadow p-2">
                 <h5 class="text-center">Metodos de Pago</h5>
                 <ng-container *ngFor="let tipop of tiposdePagoUser">
 
@@ -121,14 +122,16 @@
                 </ng-container>
 
               </div>
-              <div class="tarifas">
+              <div class="card mb-3 shadow p-2">
                 <h5 class="text-center">Productos y/o Servicios</h5>
                 <ng-container *ngFor="let precio of precios">
 
                   <div class="tarifa">
 
-                    <p>{{ precio.item_tarifa }}</p>
+                    <div class="info_tarifa">
+                      <p>{{ precio.item_tarifa }}</p>
                     <h5>{{ precio.precio | currency }}</h5>
+                    </div>
                     <button class="btn btn-outline-success" (click)="solicitarItem(precio)">
                       Solicitar
                     </button>
@@ -136,13 +139,8 @@
                 </ng-container>
 
               </div>
-
-            </div>
-
-            <div class="comentarios mt-3">
-              <h5 class="text-center">Comentarios</h5>
-              <div class="card">
-                
+              <div class="card  shadow p-2">
+                <h5 class="text-center">Comentarios</h5>
                 <div class="card-body">
                   <div class="coment_user">
                     <div class="cu_image">
@@ -164,10 +162,11 @@
                     </ul>
                 </div>
               </div>
+  
+              </div>
 
             </div>
 
-          </div>
 
              <!--banner publicidad-->
           <div class="banner-rectangular mt-3 col-xs-12 col-sm-6">

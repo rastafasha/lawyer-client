@@ -57,6 +57,7 @@ export class EspecialistaComponent {
     solicitudes_selected: any[] = [];
     toastr: any;
     user_id!: number;
+    rating!: number;
     tiposdePagoUser: any[] = [];
 
     userForm: FormGroup = new FormGroup({
@@ -102,6 +103,7 @@ export class EspecialistaComponent {
           this.isLoading = false;
         }
         this.profile = resp.profile  || [];
+        this.rating = resp.profile.rating || 0;
         if(this.profile){
 
           this.redessociales = typeof resp.profile.redessociales === 'string' 
@@ -111,6 +113,7 @@ export class EspecialistaComponent {
               this.precios = typeof resp.profile.precios === 'string' 
               ? JSON.parse(resp.profile.precios) || []
               : resp.profile.precios || [];
+              
           this.speciality_profile = resp.profile.speciality_id;
           this.user_id = resp.profile.user_id;
           this.isLoading = false;
@@ -129,14 +132,14 @@ export class EspecialistaComponent {
 
     getPaymentMethods(){
       this.paymentService.getPaymentMethodByUserId(this.user_id).subscribe((resp:any) => {
-        console.log(resp);
+        // console.log(resp);
         this.tiposdePagoUser = resp;
       })
     }
 
     cambiarStatus(data:any){
       const VALUE = data;
-      console.log(VALUE);
+      // console.log(VALUE);
 
       const datos = {
         "status": VALUE
@@ -145,21 +148,6 @@ export class EspecialistaComponent {
       this.profileService.updateProfileStatus(datos, this.profile.id).subscribe(
         resp =>{
           this.isLoading = false;
-          this.ngOnInit();
-        }
-      )
-    }
-    cambiarRole(data:any){
-      const VALUE = data;
-      console.log(VALUE);
-
-      const datos = {
-        "role": VALUE
-      }
-      
-      this.profileService.updateProfileStatus(datos, this.profile.id).subscribe(
-        resp =>{
-          console.log(resp);
           this.ngOnInit();
         }
       )

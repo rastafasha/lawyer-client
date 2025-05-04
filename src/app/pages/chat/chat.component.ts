@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/usuario.service';
 import { ProfileService } from '../../services/profile.service';
 import { FormsModule } from '@angular/forms';
 import { Usuario } from '../../models/usuario.model';
 import { Client } from '../../models/client.model';
-import { NgFor, NgIf } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
@@ -21,8 +21,12 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     HeaderComponent,
     FormsModule,
-    NgIf, NgFor, BackButtnComponent, 
-    ImagenPipe, TranslateModule
+    NgIf, NgFor, 
+    BackButtnComponent, 
+    ImagenPipe, 
+    TranslateModule,
+    CommonModule,
+    RouterModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -40,7 +44,7 @@ export class ChatComponent {
   public client!: Client;
   public client_id!: number; 
   public profile!: Profile;
-  public redessociales: RedesSociales [] = [];
+  public redessociales: RedesSociales[]= [];
 
   constructor( 
     private chatService: ChatService,
@@ -69,17 +73,16 @@ export class ChatComponent {
   }
 
   getUserProfile(id:string){
-    this.userService.showUser(id).subscribe((resp:any)=>{
-      this.user = resp.user[0];
-      this.profile = resp.user[0].profile;
-      this.user_id = resp.user[0].profile.user_id;
+    this.profileService.getByUser(id).subscribe((resp:any)=>{
+      this.profile = resp.profile;
+      this.user_id = resp.profile.user_id;
       try {
-        this.redessociales = typeof this.profile.redessociales === 'string' 
-          ? JSON.parse(this.profile.redessociales) || []
-          : this.profile.redessociales || [];
+        this.redessociales = typeof resp.profile.redessociales === 'string' 
+          ? JSON.parse(resp.profile.redessociales) || []
+          : resp.profile.redessociales || [];
       } catch (error) {
         console.error('Error parsing redessociales:', error);
-        this.redessociales = [];
+        // this.redessociales = [];
       }
       console.log(this.redessociales);
     });
