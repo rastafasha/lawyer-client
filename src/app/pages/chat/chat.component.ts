@@ -12,8 +12,9 @@ import { NgFor, NgIf } from '@angular/common';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
-import { Profile } from '../../models/profile.model';
+import { Profile, RedesSociales } from '../../models/profile.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chat',
@@ -21,7 +22,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
     HeaderComponent,
     FormsModule,
     NgIf, NgFor, BackButtnComponent, 
-    ImagenPipe
+    ImagenPipe, TranslateModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
@@ -39,6 +40,7 @@ export class ChatComponent {
   public client!: Client;
   public client_id!: number; 
   public profile!: Profile;
+  public redessociales: RedesSociales [] = [];
 
   constructor( 
     private chatService: ChatService,
@@ -52,7 +54,7 @@ export class ChatComponent {
   }
 
   ngOnInit(){
-    this.activatedRoute.params.subscribe( ({id}) => this.getUser(id));
+    this.activatedRoute.params.subscribe( ({id}) => this.getUserProfile(id));
     
   }
 
@@ -66,15 +68,23 @@ export class ChatComponent {
     this.message = '';
   }
 
-  getUser(id:string){
+  getUserProfile(id:string){
     this.userService.showUser(id).subscribe((resp:any)=>{
       this.user = resp.user[0];
       this.profile = resp.user[0].profile;
       this.user_id = resp.user[0].profile.user_id;
-      console.log(this.user);
+      try {
+        this.redessociales = typeof this.profile.redessociales === 'string' 
+          ? JSON.parse(this.profile.redessociales) || []
+          : this.profile.redessociales || [];
+      } catch (error) {
+        console.error('Error parsing redessociales:', error);
+        this.redessociales = [];
+      }
+      console.log(this.redessociales);
     });
     setTimeout(() => {
-      this.listMessage();
+      // this.listMessage();
     }, 1000);
     }
 

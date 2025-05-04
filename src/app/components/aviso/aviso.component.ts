@@ -18,6 +18,7 @@ export class AvisoComponent {
   user!: Usuario;
   user_id!: number;
   isLoading:boolean = false;
+  isProfile:boolean = false;
   public profile: Profile = new Profile();
   constructor(
     private authService: AuthService,
@@ -33,12 +34,15 @@ export class AvisoComponent {
     this.isLoading = true;
     this.profileService.getByClient(this.user_id).subscribe({
       next: (res) => {
-        this.profile = res.profile;
-        // console.log(this.profile);
+        this.profile = res.profile || null;
+        console.log(this.profile);
+        this.isProfile = true;
         this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
+        this.isProfile = false;
+        this.isLoading = false;
       }
     });
   }
