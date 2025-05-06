@@ -322,7 +322,7 @@ export class EditComponent {
     const formData = new FormData();
     formData.append("nombre", this.userForm.value.nombre);
     formData.append("surname", this.userForm.value.surname);
-    formData.append("usuario", this.user.id+'');
+    // formData.append("usuario", this.user.id+'');
     formData.append("client_id", this.user.id+'');
     formData.append("profile_id", this.profile_id+'');
     if (this.userForm.value.direccion) {
@@ -376,11 +376,11 @@ export class EditComponent {
       formData.append("redessociales", JSON.stringify(this.redessociales));
       
     }
-    if (this.tarifas) {
-      // formData.append("precios", this.tarifas);
-      formData.append("precios", JSON.stringify(this.tarifas));
+    // if (this.tarifas) {
+    //   // formData.append("precios", this.tarifas);
+    //   formData.append("precios", JSON.stringify(this.tarifas));
 
-    }
+    // }
     if (this.FILE_AVATAR) {
       formData.append("imagen", this.FILE_AVATAR);
     }
