@@ -1,0 +1,72 @@
+<app-header></app-header>
+<div class="playground">
+    <div class="card ">
+        
+
+         <div class="card-body-top">
+          <div class=" fotoperfil">
+            <img *ngIf="!profile.avatar" [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+          </div>
+          <div class="perfil">
+            <h2 class="name">{{profile.nombre}} {{profile.surname}} </h2>
+            <h4 class="job-title">{{profile.ciudad}}, {{profile.pais}}</h4>
+            
+          </div>
+
+          <div class="actions">
+            <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+          </div>
+          
+        </div>
+        
+         
+         <div class="clear"></div>
+         <!-- <details style="margin-top: 120px; padding: 15px;" >
+          <summary>{{'formulario.Social Networks'|translate}}</summary>
+        </details> -->
+        <div class="reds" style="margin-top: 120px; padding: 15px;" *ngIf="redessociales && redessociales.length > 0">
+          <div class="cont" *ngFor="let red of redessociales;let i = index;" >
+            
+            <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
+              <div class="option-admin">
+                <i [class]="red.icono"></i>
+                <!-- <p>{{ red.title }}</p> -->
+              </div>
+            </a>
+            <a *ngIf="red.icono === 'fa fa-whatsapp'" 
+                href="https://wa.me/{{red.url}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
+                target="_blank" rel="noopener noreferrer">
+                  <div class="option-admin">
+                    <i [class]="red.icono"></i>
+                    <!-- <p>{{ red.title }}</p> -->
+                  </div>
+                </a>
+          </div>
+        </div>
+         <!-- <div style="margin-top: 20px;" *ngIf="messages">
+          <ul *ngFor="let message of messages">
+            <li class="other" >
+                  <div class="avatar"><img [src]="'./assets/images/foto-perfil.jpg'" draggable="false"/></div>
+                <div class="msg">
+                  <p>{{message}}</p>
+                  <p>{{message.message_users.client_id}}</p>
+                  <time>{{message.created_at}}</time>
+                </div>
+              </li>
+            <li class="self" >
+              <div class="avatar"><img [src]="'./assets/images/foto-perfil2.jpg'" draggable="false"/></div>
+              <div class="msg">
+                <p>{{message}}</p>
+                <p>{{message.message_users.user_id}}</p>
+                <time>{{message.created_at}}</time>
+              </div>
+            </li>
+          </ul>
+        </div> -->
+         <!-- <form action="" class="escribir_data">
+            <input type="text" name="message" class="textinput" [(ngModel)]="message" placeholder="Escribe un mensaje...">
+            <button type="submit" class="btn btn-outline-success butonhome" (click)="sendMessage()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
+         </form> -->
+       </div>
+  
+  </div>

@@ -66,24 +66,15 @@ infiniteScroll
             <p>Description:{{solicitud_selected.pedido.item_tarifa}}</p>
             <p>{{solicitud_selected.pedido.precio|currency}}</p>
            <p>Quantity:{{pedido.quantity}}</p>
-            <p>{{'Start'|translate}}: {{cliente?.username}}</p>
+            <p>{{'Start'|translate}}: {{cliente.username}}</p>
             
             <div class="d-flex justify-content-end align-items-center gap-5">
-              <a [routerLink]="['/especialista/', cliente?.id]">
+              <a [routerLink]="['/especialista/', cliente.id]">
                 <button class="btn btn-outline-primary">
                   <i class="fa fa-eye"></i>
                 </button>
   
               </a>
-              <div class="checkbox-wrapper-6">
-                 <p>{{'Start'|translate}}</p>
-                <input class="tgl tgl-light" id="cb1-6" type="checkbox"
-                name="status" (change)="cambiarStatus(solicitud_selected, status)"
-                [(ngModel)]="status"
-                      [ngModelOptions]="{ standalone: true }" />
-                <label class="tgl-btn" for="cb1-6"  ></label>
-
-              </div>
               <button
             class="btn btn-primary btn-sm"
             (click)="solicitud_selected = null"
@@ -114,8 +105,13 @@ infiniteScroll
                     <button class="btn btn-outline-primary">
                       <i class="fa fa-eye"></i>
                     </button>
-    
                   </a>
+                  <a [routerLink]="['/chat/', item.id]">
+                    <button class="btn btn-outline-primary">
+                      <i class="fa fa-comment"></i>
+                    </button>
+                  </a>
+  
                 </div>
             </div>
           </div>

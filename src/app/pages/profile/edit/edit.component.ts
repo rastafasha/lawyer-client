@@ -13,7 +13,7 @@ import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, 
 import { SpecialitiesService } from '../../../services/specialities.service';
 import Swal from 'sweetalert2';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { PaisService } from '../../../services/pais.service';
 import { Pais } from '../../../models/pais';
 import { PlacesService } from '../../../services/places.service';
@@ -90,6 +90,11 @@ export class EditComponent {
     iconoSeleccionado:any;
 
     public paises :Pais[] = [];
+
+    langs: string[] = [];
+  public activeLang = 'es';
+  flag = false;
+  lang!:string;
     
 
     public listIcons = [
@@ -119,7 +124,8 @@ export class EditComponent {
       private fb: FormBuilder,
       private specialityService: SpecialitiesService,
       public paisService: PaisService,
-      private placesServices: PlacesService
+      private placesServices: PlacesService,
+      private translate: TranslateService,
     ) {
       this.user = this.authService.getUser();
     }
@@ -187,6 +193,7 @@ export class EditComponent {
             direccion: res.profile.direccion,
             description: res.profile.description,
             pais: res.profile.pais,
+            lang: res.profile.lang,
             estado: res.profile.estado,
             ciudad: res.profile.ciudad,
             gender: res.profile.gender,
@@ -222,6 +229,7 @@ export class EditComponent {
       speciality_id: ['', Validators.required],
       direccion: [''],
       n_doc: [''],
+      lang: [''],
       gender: [''],
       description: ['', Validators.required],
       usuario: [this.user.id],
@@ -314,7 +322,7 @@ export class EditComponent {
     const formData = new FormData();
     formData.append("nombre", this.userForm.value.nombre);
     formData.append("surname", this.userForm.value.surname);
-    formData.append("usuario", this.user.id+'');
+    // formData.append("usuario", this.user.id+'');
     formData.append("client_id", this.user.id+'');
     formData.append("profile_id", this.profile_id+'');
     if (this.userForm.value.direccion) {
@@ -368,44 +376,17 @@ export class EditComponent {
       formData.append("redessociales", JSON.stringify(this.redessociales));
       
     }
-    if (this.tarifas) {
-      // formData.append("precios", this.tarifas);
-      formData.append("precios", JSON.stringify(this.tarifas));
+    // if (this.tarifas) {
+    //   // formData.append("precios", this.tarifas);
+    //   formData.append("precios", JSON.stringify(this.tarifas));
 
-    }
+    // }
     if (this.FILE_AVATAR) {
       formData.append("imagen", this.FILE_AVATAR);
     }
-
-    // const formValue = this.userForm.value;
-
-    // const data ={
-    //   redessociales: this.redessociales,
-    //   precios: this.tarifas,
-
-    //   nombre: formValue.nombre,
-    //   apellidos: formValue.apellidos,
-    //   pais: formValue.pais,
-    //   estado: formValue.estado,
-
-    //   ciudad: formValue.ciudad,
-    //   telhome: formValue.telhome,
-    //   telmovil: formValue.telmovil,
-    //   shortdescription: formValue.shortdescription,
-    //   usuario: this.user.id,
-    //   id: formValue.id,
-    //   user_id :this.user_id,
-    //   profile_id :this.profile_id,
-    //   // img: this.profile.img,
-    //   // imagen: this.FILE_AVATAR.,
-    //   avatar: this.FILE_AVATAR.name,
-    //   ...this.userForm.value,
-
-      
-    // }
-
-    // console.log(formValue);
-    // console.log(data);
+    if (this.lang) {
+      formData.append("lang", this.FILE_AVATAR);
+    }
 
     if(this.profile_id){
       this.profileService.updateProfile( formData, this.profile_id).subscribe((resp:any) => {
@@ -425,6 +406,14 @@ export class EditComponent {
         });
     }
 
+  }
+
+  public cambiarLenguaje(lang:any) {
+    this.activeLang = lang;
+    this.translate.use(lang);
+    this.flag = !this.flag;
+    localStorage.setItem('lang', this.activeLang);
+    this.userForm.patchValue({ lang: lang });
   }
 
 }

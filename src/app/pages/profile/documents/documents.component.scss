@@ -63,6 +63,20 @@
         width: 100%;
 }
 
+
+.tab-content-set{
+    & .nav{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 20px;
+        
+    }
+    & li {
+
+    }
+}
+
 @media (max-width: 768px) {
     .columnadoble{
         column-count: 1;

@@ -6,7 +6,7 @@ import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { SpecialitiesService } from '../../services/specialities.service';
 import { CommonModule, NgFor } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
 import { LateralComponent } from '../../components/lateral/lateral.component';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../shared/header/header.component';
@@ -18,6 +18,7 @@ import Swal from 'sweetalert2';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { PaymentmethodService } from '../../services/paymentmethod.service';
 
 @Component({
   selector: 'app-especialista',
@@ -32,7 +33,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     ImagenPipe,
     LoadingComponent,
-    TranslateModule
+    TranslateModule,
+    RouterModule
   ],
   templateUrl: './especialista.component.html',
   styleUrl: './especialista.component.scss'
@@ -54,6 +56,9 @@ export class EspecialistaComponent {
     role!:Profile ;
     solicitudes_selected: any[] = [];
     toastr: any;
+    user_id!: number;
+    rating!: number;
+    tiposdePagoUser: any[] = [];
 
     userForm: FormGroup = new FormGroup({
       firstName: new FormControl('', [Validators.required]),
@@ -74,6 +79,7 @@ export class EspecialistaComponent {
       private solicitudService: SolicitudesService,
       private activatedRoute: ActivatedRoute,
       private fb: FormBuilder,
+      private paymentService: PaymentmethodService,
     ) {
       this.user = this.authService.getUser();
     }
@@ -91,12 +97,13 @@ export class EspecialistaComponent {
       this.isLoading = true;
       this.loadingTitle = 'Cargando perfil';
       this.profileService.getByUser(id).subscribe((resp:any) => {
-        // console.log(resp);
+        console.log(resp);
         if(resp.status === '404' || resp.ok === false){
           alert('no hay perfil')
           this.isLoading = false;
         }
         this.profile = resp.profile  || [];
+        this.rating = resp.profile.rating || 0;
         if(this.profile){
 
           this.redessociales = typeof resp.profile.redessociales === 'string' 
@@ -106,9 +113,12 @@ export class EspecialistaComponent {
               this.precios = typeof resp.profile.precios === 'string' 
               ? JSON.parse(resp.profile.precios) || []
               : resp.profile.precios || [];
+              
           this.speciality_profile = resp.profile.speciality_id;
-          this.getSpeciality();
+          this.user_id = resp.profile.user_id;
           this.isLoading = false;
+          this.getSpeciality();
+          this.getPaymentMethods();
         }
       })
     }
@@ -120,9 +130,16 @@ export class EspecialistaComponent {
       })
     }
 
+    getPaymentMethods(){
+      this.paymentService.getPaymentMethodByUserId(this.user_id).subscribe((resp:any) => {
+        // console.log(resp);
+        this.tiposdePagoUser = resp;
+      })
+    }
+
     cambiarStatus(data:any){
       const VALUE = data;
-      console.log(VALUE);
+      // console.log(VALUE);
 
       const datos = {
         "status": VALUE
@@ -135,55 +152,9 @@ export class EspecialistaComponent {
         }
       )
     }
-    cambiarRole(data:any){
-      const VALUE = data;
-      console.log(VALUE);
 
-      const datos = {
-        "role": VALUE
-      }
-      
-      this.profileService.updateProfileStatus(datos, this.profile.id).subscribe(
-        resp =>{
-          console.log(resp);
-          this.ngOnInit();
-        }
-      )
-    }
-
-    // validarFormularioPerfil(){
-    //   this.userForm = this.fb.group({
-    //     nombre: ['', Validators.required],
-    //     surname: ['', Validators.required],
-    //     pais: [''],
-    //     estado: [''],
-    //     ciudad: [''],
-    //     telhome: ['', Validators.required],
-    //     telmovil: ['', Validators.required],
-    //     speciality_id: ['', Validators.required],
-    //     direccion: [''],
-    //     n_doc: [''],
-    //     gender: [''],
-    //     description: ['', Validators.required],
-    //     usuario: [this.user.id],
-    //     id: [''],
-    //   });
-    // }
 
     solicitarItem(data:any){
-      // if (!data || (Array.isArray(this.solicitudes_selected) && this.solicitudes_selected.length === 0)) {
-      //   Swal.fire('Error', 'No valid solicitudes selected', 'error');
-      //   return;
-      // }
-      
-      // const datos = {
-      //   id: 0,
-      //   "user_id": this.profile.id,
-      //   "cliente_id": this.user.id,
-      //   pedido: data,
-      //   status: 1,
-      // }
-      // console.log(datos);
 
       const formData = new FormData();
       formData.append("user_id", this.profile.user_id+'');
@@ -202,5 +173,9 @@ export class EspecialistaComponent {
           console.error(err);
         }
       });
+    }
+
+    addFavorite(){
+      
     }
 }

@@ -8,6 +8,13 @@
                     <app-backButtn [pageTitle]="pageTitle" [Title]="Title"></app-backButtn>
                     <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
                     <form   [formGroup]="userForm" *ngIf="!isLoading"  >
+                        <div class="card text-left mb-4 ">
+                          <img class="card-img-top" [src]="IMAGE_PREVISUALIZA" style="width: 45px; height: 45px; border-radius: 100px;" alt="">
+                          <div class="card-body">
+                            <h4 class="card-title">{{user.username}}</h4>
+                            <p class="card-text">{{user.email}}</p>
+                          </div>
+                        </div>
                         <!-- datos -->
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-3">
@@ -193,6 +200,24 @@
                                             <div class="form-check-inline ">
                                                 <label class="form-check-label ">
                                                     <input type="radio"  value="2" formControlName="gender" class="form-check-input ">{{'formulario.Female'|translate}}
+                                                </label>
+                                            </div>
+                                        </div>
+                                      </div>
+                                      <!-- Lang -->
+                                      <div class="col-12 col-md-4  col-xl-4">
+                                        <div class="form-group select-gender input-group gap-3">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </span>
+                                            <div class="form-check-inline ">
+                                                <label class="form-check-label ">
+                                                    <input type="radio"  [value]="'es'" (change)="cambiarLenguaje('es')" formControlName="lang" class="form-check-input ">{{'Spanish'|translate}}
+                                                </label>
+                                            </div>
+                                            <div class="form-check-inline ">
+                                                <label class="form-check-label ">
+                                                    <input type="radio"  [value]="'en'" (change)="cambiarLenguaje('en')" formControlName="lang" class="form-check-input ">{{'English'|translate}}
                                                 </label>
                                             </div>
                                         </div>

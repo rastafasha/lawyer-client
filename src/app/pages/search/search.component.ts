@@ -111,6 +111,7 @@ export class SearchComponent {
       // this.skip = 0;
       // this.currentPage = 1;
       this.searchForm.reset();
+      this.ngOnInit();
     }
 
   getPaisesList(): void {

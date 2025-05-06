@@ -1,0 +1,27 @@
+<div class="stars">
+  <ul class="star-rating">
+    <li *ngFor="let star of [1,2,3,4,5]" 
+        (mouseenter)="onMouseEnter(star)" 
+        (mouseleave)="onMouseLeave()" 
+        (click)="onClick(star)" 
+        [class.active]="(hoverRating ? star <= hoverRating : star <= rating)">
+      <i class="fa fa-star"></i>
+    </li>
+  </ul>
+</div>
+  <!-- </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+</div> -->

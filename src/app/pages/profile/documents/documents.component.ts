@@ -39,7 +39,8 @@ export class DocumentsComponent {
   isRefreshing = false;
   isSearching = false;
 
-
+  option_selected:number = 1;
+  solicitud_selected:any = null;
 
   valid_form_success = false;
     public text_validation = '';
@@ -60,6 +61,8 @@ export class DocumentsComponent {
 
   currentPage = 1;
   share:any;
+  documents:any[]=[];
+  document_shared:any[]=[];
 
   searchForm!:FormGroup;
   document_selected:any = null;
@@ -132,9 +135,9 @@ export class DocumentsComponent {
   getdocumentsbyUser(){
     this.isLoading = true;
     this.currentPage;
-    this.documentService.getDocumentsByUser(
+    this.documentService.getDocumentsByClient(
       this.user_id ).subscribe((resp:any)=>{
-      // console.log(resp);
+      console.log(resp);
       this.FILES =resp.data
       this.isLoading = false;
       //agrupamos por name_category
@@ -147,7 +150,7 @@ export class DocumentsComponent {
   }
 
   getDocumentsbyCategory(name_category:string){
-    this.documentService.getDocumentsByUserCategory(this.user_id, name_category).subscribe((resp:any)=>{
+    this.documentService.getDocumentsByClientCategory(this.user_id, name_category).subscribe((resp:any)=>{
       this.user_filesfiltered = resp.data;
     })
   }
@@ -217,7 +220,8 @@ closeModalDoc(){
 
     }
     const formData = new FormData();
-    formData.append('user_id', this.user_id+'');
+    // formData.append('user_id', this.user_id+'');
+    formData.append('client_id', this.user_id+'');
     formData.append('name_category', this.name_category);
 
     this.FILES.forEach((file:any, index:number)=>{
@@ -290,12 +294,8 @@ closeModalDoc(){
     this.document_selected = document;
     this.user_member_id = this.user.id;
     this.user_cliente_id = this.user.id;
-    if(this.rol === 'MEMBER'){
-      this.getClientesbyuser();
-    }
-    if(this.rol === 'GUEST'){
-      this.getContactosbyCliente();
-    }
+    
+    this.getContactosbyCliente();
   }
 
   getClientesbyuser(){
@@ -321,7 +321,7 @@ closeModalDoc(){
     })
   }
 
-  onShareIt(){debugger
+  onShareIt(){
     const data ={
       document_id : this.document_selected,
       user_id : this.user.id,
@@ -332,6 +332,29 @@ closeModalDoc(){
     // console.log(data);
     this.documentService.shareDocument(data).subscribe((resp:any)=>{
 
+    })
+  }
+
+  optionSelected(value:number){
+    this.option_selected = value;
+    // if(this.option_selected === 1){
+
+    //   this.ngOnInit();
+    // }
+    if(this.option_selected === 2){
+      this.solicitud_selected = null;
+      // console.log('pidiendo clientes')
+      this.user_cliente_id = this.user.id;
+      this.getDocumentByClient(this.user_cliente_id);
+      
+      
+    }
+  }
+
+  getDocumentByClient(id:number){
+    this.documentService.getDocumentsByClient(id).subscribe((resp:any)=>{
+      // console.log(resp);
+      this.document_shared = resp.data;
     })
   }
 

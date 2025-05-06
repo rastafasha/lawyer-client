@@ -62,7 +62,7 @@
               "fileReplacements": [
                 {
                   "replace": "src/app/environments/environment.ts",
-                  "with": "src/app/environments/environment.laflecha.ts"
+                  "with": "src/app/environments/environment.laflecha-client.ts"
                 }
               ],
               

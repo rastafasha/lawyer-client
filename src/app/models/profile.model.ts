@@ -11,13 +11,14 @@ export class Profile {
   direccion: string = "";
   description: string = "";
   pais: string = "";
+  lang: string = "";
   estado: string = "";
   ciudad: string = "";
   telhome: string = "";
   telmovil: string = "";
   avatar: string = "";
   status: number = 1;
-  gender: number = 1 ;
+  gender: number = 0 ;
   // status: string = "";
   rating: number = 0;
   speciality_title: string = "";
