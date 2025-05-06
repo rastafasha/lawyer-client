@@ -46,13 +46,7 @@ export class DocumentService {
           map((resp:{ok: boolean, document: Document}) => resp.document)
           );
     }
-    getDocumentsByUser(_id: number) {
-      const url = `${baseUrl}/documents/showbyuser/${_id}`;
-      return this.http.get<any>(url, this.headers)
-        .pipe(
-          map((resp:{ok: boolean, documents: Document}) => resp.documents)
-          );
-    }
+    
     getDocumentsByClient(_id: number) {
       const url = `${baseUrl}/documents/showbyclient/${_id}`;
       return this.http.get<any>(url, this.headers)

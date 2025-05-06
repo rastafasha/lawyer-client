@@ -236,7 +236,6 @@ closeModalDoc(){
         // Swal.fire('Actualizado', this.text_validation, 'success');
         this.isLoading = false
         this.text_validation = resp.message_text;
-
         Swal.fire({
           position: "top-end",
                 icon: "warning",

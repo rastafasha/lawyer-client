@@ -4,10 +4,16 @@
 
 export const environment = {
   production: true,
-  url_backend: 'http://127.0.0.1:8000/',
-  url_servicios: 'http://127.0.0.1:8000/api',
-  url_frontend: 'http://localhost:4200/',
-  url_media: 'http://127.0.0.1:8000/storage/',
+  // url_backend: 'http://127.0.0.1:8000/',
+  // url_servicios: 'http://127.0.0.1:8000/api',
+  // url_frontend: 'http://localhost:4200/',
+  // url_media: 'http://127.0.0.1:8000/storage/',
+
+  // remoto
+  url_backend: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/',
+    url_servicios: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/public/api',
+    url_frontend: 'https://malcolmcordova.com/lawyer-client-app/',
+    url_media: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/storage/app/public/',
   
 };
 
