@@ -7,7 +7,7 @@
     "start:dev": "ng serve --port 4204",
     "start:prod": "ng build && lite-server -p 8080 --baseDir dist/browser/lawyer-client",
     "build": "ng build",
-    "build:laflecha": "ng build --configuration laflecha-client",
+    "build:laflecha-client": "ng build --configuration laflecha-client",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

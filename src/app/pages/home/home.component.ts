@@ -14,15 +14,22 @@ import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { ListaUsuariosComponent } from '../../components/ListaUsuarios/ListaUsuarios.component';
 import { UserService } from '../../services/usuario.service';
+import { Profile } from '../../models/profile.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   imports: [
-    HeaderComponent, MenuFooterComponent,
-    AvisoComponent, CategoriaHorizontalComponent,
-    SliderHorizontalComponent, ListProductsComponent,
-    LateralComponent, ListProductsHComponent,
-    CommonModule, BackButtnComponent, ListaUsuariosComponent,
+    HeaderComponent, 
+    MenuFooterComponent,
+    AvisoComponent, 
+    CategoriaHorizontalComponent,
+    SliderHorizontalComponent, 
+    ListProductsComponent,
+    LateralComponent,
+    CommonModule, 
+    BackButtnComponent, 
+    ListaUsuariosComponent,
     TranslateModule
   ],
   providers: [TranslateService],
@@ -33,11 +40,15 @@ export class HomeComponent {
   pageTitle = 'Home';
   user!: Usuario;
   users: any = [];
+  profile: Profile = new Profile();
 
   private translate = inject(TranslateService);
   
   constructor(
     private authService: AuthService,
+    private router: Router,
+    
+
   ){
     this.user = this.authService.getUser();
     this.translate.use('es'); // Set default language
@@ -47,5 +58,8 @@ export class HomeComponent {
     window.scrollTo(0, 0);
   }
 
+  searchData(){
+    this.router.navigateByUrl('/search');
+  }
 
 }

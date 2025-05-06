@@ -40,7 +40,7 @@ export class ClientService {
   }
 
   getClient(id:Client) {
-    const url = `${baseUrl}/client/show/${id}`;
+    const url = `${baseUrl}/clients/show/${id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp:{ok: boolean, user:Client}) => resp.user)
@@ -48,7 +48,7 @@ export class ClientService {
   }
 
   getClientsByUser(user:any) {
-    const url = `${baseUrl}/client/clientes-user/${user}`;
+    const url = `${baseUrl}/clients/clientes-user/${user}`;
     return this.http.get<any>(url,this.headers)
       .pipe(
         map((resp:{ok: boolean, clients:Client}) => resp.clients)
@@ -56,7 +56,7 @@ export class ClientService {
   }
  
   getByContactosCliente(user:any) {
-    const url = `${baseUrl}/client/contactos-cliente/${user}`;
+    const url = `${baseUrl}/clients/contactos-cliente/${user}`;
     return this.http.get<any>(url,this.headers)
       .pipe(
         map((resp:{ok: boolean, clientes: any}) => resp)
@@ -67,13 +67,13 @@ export class ClientService {
 
   addClienttoUser(data:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = baseUrl+'/client/addClienttoUser';
+    const URL = baseUrl+'/clients/addClienttoUser';
     return this.http.post(URL,data, {headers:headers});
   }
  
 
   removeClient(_id: number) {
-    const url = `${baseUrl}/client/removeClientFromUser/${_id}`;
+    const url = `${baseUrl}/clients/removeClientFromUser/${_id}`;
     return this.http.delete(url, this.headers);
   }
 }

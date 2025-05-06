@@ -10,7 +10,7 @@
 
           <div>
             <!-- aviso  -->
-            <app-aviso></app-aviso>
+            <app-aviso [profile]="profile" [user]="user"></app-aviso>
             <!-- aviso  -->
             <!--category name-->
             <app-categoria-horizontal></app-categoria-horizontal>
@@ -26,9 +26,9 @@
                     {{'Search'|translate}}
                     <i class="fa fa-search" style="margin-left: 10px;"></i>
                   </span>
-                  <!-- <button type="button" class="btn btn-primary submit-list-form ">
+                  <button type="button" class="btn btn-primary submit-list-form " (click)="searchData()">
                     <i class="fa fa-search"></i>
-                  </button> -->
+                  </button>
                 </label>
 
               </div>

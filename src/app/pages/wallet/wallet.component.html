@@ -35,7 +35,7 @@ infiniteScroll
         <!-- solicitudes -->
         <div  *ngFor="let item of solicitudes"   >
           <div class="group itemFav shadow" *ngIf="!solicitud_selected">
-            <div class="fa fa-paypal"></div>
+            <div class="fa fa-bookmark"></div>
             <div class="div1pagocon" (click)="solicitudSelected(item)">
               
               <div class="d-flex justify-content-between align-items-center">
@@ -43,7 +43,8 @@ infiniteScroll
                 <div class="status_verified">
                   <span class="badge  bg-primary" *ngIf="item.status === 1"> {{'Pending'|translate}}</span>
                   <span class="badge bg-success" *ngIf="item.status === 2">{{'Verified'|translate}}</span>
-                  <span class="badge bg-danger" *ngIf="item.status === 3">{{'For Review'|translate}}</span>
+                  <span class="badge bg-waring" *ngIf="item.status === 3">{{'For Review'|translate}}</span>
+                  <span class="badge bg-success" *ngIf="item.status === 4">{{'Finished'|translate}}</span>
                 </div>
 
                 <button class="btn btn-outline-primary">
@@ -57,16 +58,18 @@ infiniteScroll
         <div class="div1pagocon" *ngIf="solicitud_selected">
           <div class="card-body">
             
-            <h5 class="card-title">{{solicitud_selected.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</h5>
+            <p class="card-title">{{solicitud_selected.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</p>
+            <p>{{'Username'|translate}}: {{cliente.username}}</p>
             <span class="badge  bg-primary" *ngIf="solicitud_selected.status === 1"> {{'Pending'|translate}}</span>
             <span class="badge bg-success" *ngIf="solicitud_selected.status === 2">{{'Verified'|translate}}</span>
-            <span class="badge bg-danger" *ngIf="solicitud_selected.status === 3">{{'For Review'|translate}}</span>
+            <span class="badge bg-warning" *ngIf="solicitud_selected.status === 3">{{'For Review'|translate}}</span>
+            <span class="badge bg-success" *ngIf="solicitud_selected.status === 4">{{'Finished'|translate}}</span>
             <!-- <p>Johndoe@gmail.com</p> -->
             <!-- <p>{{solicitud_selected.created_at}}</p> -->
-            <p>Description:{{solicitud_selected.pedido.item_tarifa}}</p>
-            <p>{{solicitud_selected.pedido.precio|currency}}</p>
-           <p>Quantity:{{pedido.quantity}}</p>
-            <p>{{'Start'|translate}}: {{cliente.username}}</p>
+            <p>{{pedido.item_tarifa}}</p>
+            <p>{{pedido.precio|currency}}</p>
+           <!-- <p>Quantity:{{pedido.quantity}}</p> -->
+            
             
             <div class="d-flex justify-content-end align-items-center gap-5">
               <a [routerLink]="['/especialista/', cliente.id]">

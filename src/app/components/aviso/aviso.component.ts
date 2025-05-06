@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
@@ -15,11 +15,12 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './aviso.component.css'
 })
 export class AvisoComponent {
-  user!: Usuario;
+  @Input() profile!: Profile;
+  @Input() user!:  Usuario;
   user_id!: number;
   isLoading:boolean = false;
   isProfile:boolean = false;
-  public profile: Profile = new Profile();
+  // public profile: Profile = new Profile();
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
@@ -35,13 +36,11 @@ export class AvisoComponent {
     this.profileService.getByClient(this.user_id).subscribe({
       next: (res) => {
         this.profile = res.profile || null;
-        console.log(this.profile);
-        this.isProfile = true;
+        // console.log(this.profile);
         this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
-        this.isProfile = false;
         this.isLoading = false;
       }
     });

@@ -117,7 +117,7 @@ export class WalletComponent {
     
     if(this.user_cliente_id){
       this.userService.showUser(this.user_cliente_id).subscribe((resp:any)=>{
-        console.log('respuesta para guest',resp);
+        // console.log('respuesta para guest',resp);
         this.cliente = resp.user[0];
         this.profile = resp.user[0].profile;
 
