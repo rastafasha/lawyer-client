@@ -33,9 +33,9 @@ export class PaymentmethodComponent {
   pageTitle = 'Payment Methods';
   public tiposdepagos: PaymentMethod [] = [];
   public tiposdepagosuser: PaymentMethod [] = [];
-  public user!: Usuario;
+  public user!: any;
   isLoading:boolean = false;
-  user_id!:number;
+  user_id!:string;
   tipoSeleccionado:any;
   pagoSeleccionado:any;
 
@@ -57,13 +57,12 @@ export class PaymentmethodComponent {
     private fb: FormBuilder,
     private activatedRoute: ActivatedRoute,
   ) {
-    this.user = this.authService.getUser();
+    this.user = this.authService.getLocalStorage();
   }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.user = this.authService.getUser();
-    this.user_id = this.user.id;
+    this.user_id = this.user.uid;
     this.getPaymentMethodByUserId();
 
   }
@@ -71,7 +70,7 @@ export class PaymentmethodComponent {
 
   getPaymentMethodByUserId() {
     this.isLoading = true;
-    this.paymentMService.getPaymentMethodByUserId(this.user.id).subscribe(
+    this.paymentMService.getPaymentMethodByUserId(this.user_id).subscribe(
       (resp: any) => {
         this.tiposdepagosuser = resp;
         this.isLoading = false;
@@ -85,12 +84,10 @@ export class PaymentmethodComponent {
 
   selectedTypeEdit(tipo:any){
     this.pagoSeleccionado = tipo.value;
-    // console.log(this.pagoSeleccionado);
 }
 
 selectedType(tipodepago:any){
     this.tipoSeleccionado = tipodepago;
-    // console.log(this.tipoSeleccionado);
 }
 
 
@@ -127,7 +124,6 @@ save(){
       user_id: this.user.id
     }
     this.paymentMService.createPaymentmethod(data).subscribe((resp:any)=>{
-      // console.log(resp);
       this.tipo = '';
       this.bankAccountType = '';
       this.bankName = '';
@@ -140,13 +136,10 @@ save(){
   }
 
 deleteTipoPago(tiposdepago:any){
-
-    this.paymentMService.deletePaymentmethod(tiposdepago.id).subscribe(
+    this.paymentMService.deletePaymentmethod(tiposdepago._id).subscribe(
       (resp:any) =>{
         this.getPaymentMethodByUserId();
-        
       });
-    
   }
 
 }

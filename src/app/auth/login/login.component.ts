@@ -15,11 +15,11 @@ declare const gapi: any;
 @Component({
   selector: 'app-login',
   imports: [ReactiveFormsModule, ModalCondicionesComponent,
-     NgIf, TranslateModule,
-     PwaNotifInstallerComponent
-    ],
+    NgIf, TranslateModule,
+    PwaNotifInstallerComponent
+  ],
   templateUrl: './login.component.html',
-  styleUrls: [ './login.component.css' ]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   name = new FormControl();
@@ -36,22 +36,19 @@ export class LoginComponent implements OnInit {
   submitted = false;
   loginError!: string;
   error = null;
-
   public auth2: any;
-
   user!: Usuario;
 
   // Registro
   public formSumitted = false;
-  
-  // Registro
+  public isLoading = false;
 
-  errors:any = null;
+  // Registro
+  errors: any = null;
   registerForm!: FormGroup;
   langs: string[] = [];
   public activeLang = 'es';
-
-  
+  public currentStep: number = 1;
 
   constructor(
     private router: Router,
@@ -59,7 +56,7 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private translate: TranslateService,
     // private placesServices: PlacesService
-    
+
   ) {
 
     // this.translate.setDefaultLang('es');
@@ -67,148 +64,162 @@ export class LoginComponent implements OnInit {
     this.translate.use('es');
     this.translate.addLangs(["es", "en"]);
     this.langs = this.translate.getLangs();
-    translate.get(this.langs).subscribe(res =>{
+    translate.get(this.langs).subscribe(res => {
       console.log(res);
     })
     // console.log(this.translate);
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       username: ['', Validators.required],
-      email: [ '', [Validators.required, Validators.email] ],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       password2: ['', Validators.required],
       confirmPassword: ['', Validators.required],
-      role: ['GEST', Validators.required],
+      role: ['', Validators.required],
       terminos: [false, Validators.required],
-  
+
     }, {
       validators: this.passwordsIguales('password', 'password2')
-  
-    }); 
+
+    });
   }
-  
-ngOnInit(){
-  
-  const lang = localStorage.getItem('lang');
+
+  ngOnInit() {
+
+    const lang = localStorage.getItem('lang');
     if (lang) {
       this.activeLang = lang;
       this.translate.use(lang);
-      }
-  
-  this.loginForm = this.fb.group({
-    email: [ localStorage.getItem('email') || '', [Validators.required, Validators.email] ],
-    password: ['', Validators.required],
-    remember: [false]
+    }
 
-  });
-  this.authService.getLocalStorage();
-  
-}
+    this.loginForm = this.fb.group({
+      email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+      password: ['', Validators.required],
+      remember: [false]
 
+    });
+    this.authService.getLocalStorage();
 
-
-login(){ 
-  if(!this.loginForm){
-    Swal.fire('Error', 'Favor ingresar datos', 'error');
-    return;
   }
 
-  this.authService.login(
-    this.loginForm.value.email ? this.loginForm.value.email : '' ,
-    this.loginForm.value.password ? this.loginForm.value.password: ''
 
-  ).subscribe(
-    (resp:any) =>{
-      if(this.loginForm.get('remember')?.value){
-        localStorage.setItem('email', this.loginForm.get('email')?.value);
-        // document.location.reload();
-        
-      }else{
-        localStorage.removeItem('email');
-      }
-      this.authService.getLocalStorage();
-      if(localStorage.getItem('user')){
-        setTimeout(()=>{
-          this.router.navigateByUrl('/app');
-        },500)
+  login() {
+    this.isLoading = true;
+    this.authService.login(this.loginForm.value).subscribe(
+      resp => {
+        localStorage.setItem('estaAutenticado', 'true');
+        this.authService.getLocalStorage();
 
+        if (this.loginForm.get('remember')?.value) {
+          localStorage.setItem('email', this.loginForm.get('email')?.value);
+        } else {
+          localStorage.removeItem('email');
+        }
+
+        this.router.navigateByUrl('/home');
+      }, (err) => {
+        Swal.fire('Error', err.error.msg, 'error');
       }
-      
-    },(error) => {
-      Swal.fire('Error', error.error.msg, 'error');
-      this.errors = error.error.msg;
-      document.location.reload();
-    }
     )
-    // console.log(this.user)
-}
 
+  }
 
+nextStep() {
+    const username = this.registerForm.get('username');
+    const email = this.registerForm.get('email');
 
-
-// Registro
-crearUsuario(){
-  this.formSumitted = true;
-  // if(this.registerForm.invalid){
-  //   return;
-  // }
-
-  this.authService.crearUsuario(this.registerForm.value).subscribe(
-    resp =>{
-      Swal.fire('Registrado!', `Ya puedes ingresar`, 'success');
-      this.ngOnInit();
-    },(error) => {
-      Swal.fire('Error', error.error.msg, 'error');
-      this.errors = error.error;
+    if (username?.invalid || email?.invalid) {
+      username?.markAsTouched();
+      email?.markAsTouched();
+      return;
     }
-  );
-  return false;
-}
-
-campoNoValido(campo: string): boolean {
-  if(this.registerForm.get(campo)?.invalid && this.formSumitted){
-    return true;
-  }else{
-    return false;
+    this.currentStep = 2;
   }
-}
 
-aceptaTerminos(){
-  return !this.registerForm.get('terminos')?.value && this.formSumitted;
-}
-
-passwordNoValido(){
-  const pass1 = this.registerForm.get('password')?.value;
-  const pass2 = this.registerForm.get('confirmPassword')?.value;
-
-  if((pass1 !== pass2) && this.formSumitted){
-    return true;
-  }else{
-    return false;
+  prevStep() {
+    this.currentStep = 1;
   }
-}
 
-passwordsIguales(pass1Name: string, pass2Name: string){
-  return (formGroup: FormGroup) =>{
-    const pass1Control = formGroup.get(pass1Name);
-    const pass2Control = formGroup.get(pass2Name);
 
-    if(pass1Control?.value === pass2Control?.value){
-      pass2Control?.setErrors(null)
-    }else{
-      pass2Control?.setErrors({noEsIgual: true});
+  // Registro
+  crearUsuario() {
+    this.formSumitted = true;
+    if (this.registerForm.invalid) return;
+
+    this.authService.crearUsuario(this.registerForm.value).subscribe({
+      next: (resp: any) => {
+        // 1. IMPORTANTE: Guarda los datos que vienen en la respuesta (ajusta según tu backend)
+        // Normalmente el backend devuelve { ok: true, usuario, token }
+        if (resp.token && resp.usuario) {
+          localStorage.setItem('token', resp.token);
+          localStorage.setItem('user', JSON.stringify(resp.usuario));
+        }
+
+        // 2. Ahora sí actualizamos el estado del servicio
+        this.authService.getLocalStorage();
+
+        // 3. Mostramos el Swal y redirigimos
+        Swal.fire({
+          title: '¡Gracias por Registrarte!',
+          text: 'En breve te enviaremos a tu perfil para completar los datos requeridos',
+          icon: 'success',
+          timer: 3000, // Le damos 3 segundos para que lea el mensaje
+          showConfirmButton: false
+        }).then(() => {
+          // Redirigimos después de que el Swal se cierre o pase el tiempo
+          this.router.navigateByUrl('/profile');
+        });
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg || 'No se pudo completar el registro', 'error');
+      }
+    });
+  }
+
+  campoNoValido(campo: string): boolean {
+    if (this.registerForm.get(campo)?.invalid && this.formSumitted) {
+      return true;
+    } else {
+      return false;
     }
   }
-}
-// Registro
 
-switchRegistrologin(){
-  const container = document.querySelector(".logincontainer");
-  if (container) {
-    container.classList.toggle("sign-up-mode");
+  aceptaTerminos() {
+    return !this.registerForm.get('terminos')?.value && this.formSumitted;
   }
-  window.scrollTo(0, 0);
-}
+
+  passwordNoValido() {
+    const pass1 = this.registerForm.get('password')?.value;
+    const pass2 = this.registerForm.get('confirmPassword')?.value;
+
+    if ((pass1 !== pass2) && this.formSumitted) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  passwordsIguales(pass1Name: string, pass2Name: string) {
+    return (formGroup: FormGroup) => {
+      const pass1Control = formGroup.get(pass1Name);
+      const pass2Control = formGroup.get(pass2Name);
+
+      if (pass1Control?.value === pass2Control?.value) {
+        pass2Control?.setErrors(null)
+      } else {
+        pass2Control?.setErrors({ noEsIgual: true });
+      }
+    }
+  }
+  // Registro
+
+  switchRegistrologin() {
+    const container = document.querySelector(".logincontainer");
+    if (container) {
+      container.classList.toggle("sign-up-mode");
+    }
+    window.scrollTo(0, 0);
+  }
 
 
 }

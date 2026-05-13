@@ -11,24 +11,13 @@ import { Profile } from '../../models/profile.model';
   styleUrl: './lateral.component.scss'
 })
 export class LateralComponent {
-  user!: Usuario;
+  user!: any;
   profile!: Profile;
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
   ) {
-    this.user = this.authService.getUser();
-  }
-  ngOnInit(): void {
-    this.user = this.authService.getUser();
-    // this.getProfile();
+    this.user = this.authService.getLocalStorage();
   }
 
-
-  getProfile(){
-    this.profileService.getByUser(this.user.id).subscribe((resp:any) => {
-      // console.log(resp);
-      this.profile = resp.profile;
-    })
-  }
 }

@@ -5,18 +5,16 @@
         <p class="text-center">
             {{'Refreshing'|translate}} ...
         </p>
-
-
     </div>
     <div class="container-fluid">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12 ">
+                <div class="col-xs-12 mb-3 mt-3">
 
                     <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
                     <app-loading *ngIf="isLoading"></app-loading>
                     <!-- filtro buscador -->
-                    <details class="shadowSearch cuadrosearch">
+                    <details class="shadowSearch cuadrosearch ">
                         <summary class="">{{'Search'|translate}}</summary>
                         <form [formGroup]="searchForm">
                             <div class="row ">
@@ -64,7 +62,7 @@
                                     </div>
                                 </div>
                                 <div class="col-10 col-md-1 mt-3">
-                                    <div class="doctor-submit d-flex ">
+                                    <div class="doctor-submit d-flex  ">
                                         <button type="button" class="btn btn-outline-primary submit-list-form "
                                             (click)="resetSearch()">
                                             <i class="fa fa-refresh"></i>
@@ -78,19 +76,10 @@
                     </details>
                     <button type="button" class="btn btn-outline-primary submit-list-form " data-bs-toggle="modal"
                         data-bs-target="#add_publicidad">
-                        <i class="fa fa-plus"></i>
+                        <i class="fa fa-upload"></i>
                     </button>
-
-                    <div class="tab-content-set">
-                        <ul class="nav">
-                            <li>
-                                <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 1}" (click)="optionSelected(1)">Mis Documentos</a>
-                            </li>
-                            <li>
-                                <a href="#" onclick="return false;" [ngClass]="{'active': option_selected == 2}" (click)="optionSelected(2)">Compartidos</a>
-                            </li>
-                        </ul>
-                    </div>
+                    <div class="clear"></div>
+                    <br>
 
                     <div class="container" *ngIf="!isLoading">
                         <!-- modal add-->
@@ -115,6 +104,9 @@
                                                     </span>
                                                 </label>
                                             </div>
+                                            <!-- <div class="col-xl-12">
+                                                <label class="form-label">{{'formulario.Upload Files'|translate}}: *</label>
+                                            </div> -->
                                             <div class="col-12 col-sm-6">
                                                 <label for="file" class="upload labelgoogle">
                                                     <input type="file" class="input" id="customFile" multiple="true"
@@ -124,7 +116,7 @@
                                                     </span>
                                                 </label>
                                             </div>
-                                          
+
                                         </div>
 
                                         <div class="form-group row" *ngIf="text_success">
@@ -150,17 +142,12 @@
                             </div>
                         </div>
                         <!-- modal -->
-
-
-
-
+                        <!-- carpetas -->
                         <div class="row">
                             <div class="container">
                                 <div class=" col-xs-12" *ngIf="!isSearching">
 
-                                    
-
-                                    <div class=" carpetas " *ngIf="option_selected === 1">
+                                    <div class=" carpetas ">
                                         <div class="div-group " *ngFor="let cat of user_files">
                                             <a data-bs-toggle="modal"
                                                 [attr.data-bs-target]="'#view-doc-'+cat.name_category"
@@ -177,7 +164,7 @@
                                                 </div>
                                             </a>
 
-
+                                            <!-- modal -->
                                             <div [attr.id]="'view-doc-'+cat.name_category" class="modal fade add-modal"
                                                 role="dialog">
                                                 <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -196,7 +183,8 @@
                                                                 *ngFor="let FILE of user_filesfiltered;let i = index">
 
                                                                 <div class="itemlist">
-                                                                    <div class="d-flex flex-stack mb-3">
+                                                                    <div class="d-flex flex-stack mb-3"
+                                                                        *ngIf="!document_selected">
                                                                         <div class="me-3">
                                                                             <a
                                                                                 [routerLink]="['/profile/documents/file', FILE.id]">
@@ -242,18 +230,19 @@
                                                                             (click)="solicitudSelected(FILE.id)">Share</button>
 
                                                                     </div>
+
                                                                     <div class="share__options"
-                                                                        *ngIf="document_selected">
+                                                                        *ngIf="document_selected === FILE.id">
                                                                         <select class="form-control"
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             [(ngModel)]="share">
-                                                                            <option *ngFor="let data of clientes"
-                                                                                [value]="data.id">
-                                                                                {{data.username}}
+                                                                            <option *ngFor="let document of clientes"
+                                                                                [value]="document.id">
+                                                                                {{document.username}}
                                                                             </option>
                                                                         </select>
                                                                         <button class="btn btn-primary btn-sm"
-                                                                            (click)="onShareIt()">
+                                                                            (click)="onShareIt(document_selected)">
                                                                             >
                                                                             Share
                                                                         </button>
@@ -262,14 +251,7 @@
                                                                             {{'Back'|translate}}
                                                                         </button>
                                                                     </div>
-                                                                    <!-- <div *ngIf="document_selected">
-                                                                        <button
-                                                                          class="btn btn-primary btn-sm"
-                                                                          (click)="document_selected = null"
-                                                                        >
-                                                                        {{'Back'|translate}}
-                                                                        </button>
-                                                                      </div> -->
+
                                                                 </div>
                                                             </ng-container>
 
@@ -277,131 +259,10 @@
                                                     </div>
                                                 </div>
                                             </div>
-
+                                            <!-- modal -->
                                         </div>
 
 
-                                    </div>
-
-                                    <div class=" carpetas "  *ngIf="option_selected === 2">
-                                        <div class="div-group " *ngFor="let cat of document_shared">
-                                            <a data-bs-toggle="modal"
-                                                [attr.data-bs-target]="'#view-doc-'+cat.name_category"
-                                                (click)="getDocumentsbyCategory(cat.name_category)"
-                                                style="cursor: pointer;">
-
-                                                <div class="folder-info">
-                                                    <div class="menu-opt">
-                                                        <i class="fa fa-list"></i>
-                                                    </div>
-                                                    <i class="fa fa-folder"></i>
-                                                    <h2>{{'Category'|translate}}: {{cat.name_category}}</h2>
-                                                    <p> {{cat.created_at}}</p>
-                                                </div>
-                                            </a>
-
-
-                                            <div [attr.id]="'view-doc-'+cat.name_category" class="modal fade add-modal"
-                                                role="dialog">
-                                                <div class="modal-dialog modal-dialog-centered modal-lg">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLabel"><i
-                                                                    class="fa fa-folder-open"></i>
-                                                                {{'Category'|translate}}: {{cat.name_category}}</h5>
-                                                            <a href="javascript:void(0);"
-                                                                class="btn btn-outline-danger me-1"
-                                                                data-bs-dismiss="modal">{{'formulario.Close'|translate}}</a>
-                                                        </div>
-
-                                                        <div class="modal-body text-center columnadoble">
-                                                            <ng-container
-                                                                *ngFor="let FILE of user_filesfiltered;let i = index">
-
-                                                                <div class="itemlist">
-                                                                    <div class="d-flex flex-stack mb-3">
-                                                                        <div class="me-3">
-                                                                            <a
-                                                                                [routerLink]="['/profile/documents/file', FILE.id]">
-                                                                                <img *ngIf="FILE.type ==='pdf'|| FILE.type ==='doc' || 
-                                                                                FILE.type ==='docx'"
-                                                                                    src="assets/svg/doc.svg"
-                                                                                    class="w-50px ms-n1 me-1 filesvg"
-                                                                                    alt="">
-                                                                                <img *ngIf="FILE.type ==='jpg' || FILE.type ==='jpeg'"
-                                                                                    src="assets/svg/jpg.svg"
-                                                                                    class="w-50px ms-n1 me-1 filesvg"
-                                                                                    alt="">
-                                                                                <img *ngIf="FILE.type ==='png'"
-                                                                                    src="assets/svg/png.svg"
-                                                                                    class="w-50px ms-n1 me-1 filesvg"
-                                                                                    alt="">
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="info_itemlist"
-                                                                        *ngIf="!document_selected">
-                                                                        <a [routerLink]="['/profile/documents/file', FILE.id]"
-                                                                            class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_file
-                                                                            | slice:0:10}}... .{{FILE.type}}</a>
-
-                                                                        <span
-                                                                            class="text-gray-400 fw-bolder">{{'Category'|translate}}:
-                                                                            <a href="javascript:void(0);"
-                                                                                onclick="return false;"
-                                                                                class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_category}}</a></span>
-                                                                        <span
-                                                                            class="text-gray-400 fw-bolder">{{'formulario.Size'|translate}}:
-                                                                            <a href="javascript:void(0);"
-                                                                                onclick="return false;"
-                                                                                class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}}
-                                                                            </a></span>
-
-                                                                    </div>
-                                                                    <div class="buttons" *ngIf="!document_selected">
-                                                                        <button class="btn btn-danger btn-sm"
-                                                                            (click)="deleteFile(FILE.id)">x</button>
-                                                                        <button class="btn btn-success btn-sm"
-                                                                            (click)="solicitudSelected(FILE.id)">Share</button>
-
-                                                                    </div>
-                                                                    <div class="share__options"
-                                                                        *ngIf="document_selected">
-                                                                        <select class="form-control"
-                                                                            [ngModelOptions]="{standalone: true}"
-                                                                            [(ngModel)]="share">
-                                                                            <option *ngFor="let data of clientes"
-                                                                                [value]="data.id">
-                                                                                {{data.username}}
-                                                                            </option>
-                                                                        </select>
-                                                                        <button class="btn btn-primary btn-sm"
-                                                                            (click)="onShareIt()">
-                                                                            >
-                                                                            Share
-                                                                        </button>
-                                                                        <button class="btn btn-primary btn-sm"
-                                                                            (click)="document_selected = null">
-                                                                            {{'Back'|translate}}
-                                                                        </button>
-                                                                    </div>
-                                                                    <!-- <div *ngIf="document_selected">
-                                                                        <button
-                                                                          class="btn btn-primary btn-sm"
-                                                                          (click)="document_selected = null"
-                                                                        >
-                                                                        {{'Back'|translate}}
-                                                                        </button>
-                                                                      </div> -->
-                                                                </div>
-                                                            </ng-container>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        </div>
                                     </div>
                                 </div>
                             </div>

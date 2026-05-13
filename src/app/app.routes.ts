@@ -19,20 +19,20 @@ import { BannerComponent } from './pages/admin/banner/banner.component';
 import { ChatComponent } from './pages/chat/chat.component';
 
 export const routes: Routes = [
-    {path: '', component: HomeComponent},
+    {path: 'home', canActivate: [AuthGuard], component: HomeComponent},
     {path: 'login', component: LoginComponent},
     
-    {path: 'favorites', component: FavoritesComponent},
+    {path: 'favorites', canActivate: [AuthGuard], component: FavoritesComponent},
     {path: 'search', component: SearchComponent},
 
-    {path: 'especialidades', component: CategoriaComponent},
+    {path: 'especialidades', canActivate: [AuthGuard], component: CategoriaComponent},
     {path: 'especialidad/:id', component: CategoriaComponent},
     {path: 'especialista/:id', component: EspecialistaComponent},
     
     {path: 'chat/:id', component: ChatComponent},
     
     //user
-    {path: 'profile', component: ProfileComponent},
+    {path: 'profile', canActivate: [AuthGuard], component: ProfileComponent},
     {path: 'profile/settings', component: SettingsComponent},
     {path: 'profile/edit/:id', component: EditComponent},
     {path: 'profile/documents', component: DocumentsComponent},
@@ -43,9 +43,9 @@ export const routes: Routes = [
     {path: 'admin/banners', component: BannerComponent},
 
     //wallet
-    {path: 'wallet', component: WalletComponent},
+    {path: 'wallet', canActivate: [AuthGuard], component: WalletComponent},
     {path: 'wallet-payment', component: PaymentComponent},
     {path: 'orders', component: OrderComponent},
 
-    {path: '**', redirectTo: '', pathMatch: 'full'},
+    {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];

@@ -65,7 +65,7 @@ export class FavoritesService {
     const url = `${baseUrl}/favorites/showbyCliente/${cliente}`;
     return this.http.get<any>(url,this.headers)
       .pipe(
-        map((resp:{ok: boolean, favorites: any}) => resp)
+        map((resp:{ok: boolean, favorites: any}) => resp.favorites)
       )
   }
 

@@ -41,12 +41,12 @@ import { PaymentmethodService } from '../../services/paymentmethod.service';
 })
 export class EspecialistaComponent {
   pageTitle= 'Profile';
-    public user!: Usuario;
+    public user!: any;
 
     public isLoading:boolean = false;
     loadingTitle!:string;
     // public profile!: Profile;
-    public profile: Profile = new Profile();
+    public profile!: Profile;
     public redessociales!: RedesSociales[];
     public precios!: Precios[];
     public speciality_profile!: Speciality;
@@ -56,7 +56,8 @@ export class EspecialistaComponent {
     role!:Profile ;
     solicitudes_selected: any[] = [];
     toastr: any;
-    user_id!: number;
+    user_id!: any;
+    profile_id?: string;
     rating!: number;
     tiposdePagoUser: any[] = [];
 
@@ -81,7 +82,7 @@ export class EspecialistaComponent {
       private fb: FormBuilder,
       private paymentService: PaymentmethodService,
     ) {
-      this.user = this.authService.getUser();
+      this.user = this.authService.getLocalStorage();
     }
   
     ngOnInit(): void {
@@ -89,20 +90,19 @@ export class EspecialistaComponent {
       this.activatedRoute.params.subscribe(({ id }) => {
         this.getProfile(id);
       });
-      // this.validarFormularioPerfil();
-      
     }
   
     getProfile(id:number){
       this.isLoading = true;
       this.loadingTitle = 'Cargando perfil';
       this.profileService.getByUser(id).subscribe((resp:any) => {
-        console.log(resp);
         if(resp.status === '404' || resp.ok === false){
           alert('no hay perfil')
           this.isLoading = false;
         }
         this.profile = resp.profile  || [];
+        this.profile_id = this.profile._id;
+        this.user_id = this.profile.usuario?.uid;
         this.rating = resp.profile.rating || 0;
         if(this.profile){
 
@@ -114,8 +114,8 @@ export class EspecialistaComponent {
               ? JSON.parse(resp.profile.precios) || []
               : resp.profile.precios || [];
               
-          this.speciality_profile = resp.profile.speciality_id;
-          this.user_id = resp.profile.user_id;
+          this.speciality_profile = resp.profile.especialidad;
+          
           this.isLoading = false;
           this.getSpeciality();
           this.getPaymentMethods();
@@ -125,40 +125,37 @@ export class EspecialistaComponent {
   
     getSpeciality(){
       this.specialityService.getSpeciality(this.speciality_profile).subscribe((resp:any) => {
-        // console.log(resp);
         this.speciality = resp;
       })
     }
 
     getPaymentMethods(){
       this.paymentService.getPaymentMethodByUserId(this.user_id).subscribe((resp:any) => {
-        // console.log(resp);
         this.tiposdePagoUser = resp;
       })
     }
 
     cambiarStatus(data:any){
       const VALUE = data;
-      // console.log(VALUE);
 
       const datos = {
         "status": VALUE
       }
       this.isLoading = true;
-      this.profileService.updateProfileStatus(datos, this.profile.id).subscribe(
-        resp =>{
-          this.isLoading = false;
-          this.ngOnInit();
-        }
-      )
+      // this.profileService.updateProfileStatus(datos, this.profile_id).subscribe(
+      //   resp =>{
+      //     this.isLoading = false;
+      //     this.ngOnInit();
+      //   }
+      // )
     }
 
 
     solicitarItem(data:any){
 
       const formData = new FormData();
-      formData.append("user_id", this.profile.user_id+'');
-      formData.append("client_id", this.user.id+'');
+      formData.append("user_id", this.user_id);
+      formData.append("client_id", this.user_id);
       formData.append("pedido", JSON.stringify(data));
       
 

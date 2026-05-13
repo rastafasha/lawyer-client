@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -11,10 +10,10 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './menu-footer.component.css'
 })
 export class MenuFooterComponent {
-  public user: Usuario;
+  public user: any;
   constructor(
       private authService: AuthService,
     ) {
-      this.user = this.authService.getUser();
+      this.user = this.authService.getLocalStorage();
     }
 }

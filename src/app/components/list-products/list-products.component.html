@@ -20,17 +20,16 @@
     <div class="div-group" *ngFor="let item of profiles">
       <div class="foto">
         <div class="post-date">
-          <a [routerLink]="['/especialista/', item.user_id]">
-            <img [src]="item.avatar | imagenPipe : 'users'" alt="" />
-            <!-- <img *ngIf="item.avatar" [src]="item.avatar  " alt=""> -->
+          <a [routerLink]="['/especialista/', item.usuario]">
+            <img [src]="(item.img|| '') | imagenPipe : 'profiles'" alt="" />
           </a>
         </div>
       </div>
       <div class="info">
-        <h2>{{ item.surname }}</h2>
-        <h3>{{ item.speciality_title }}</h3>
+        <h2>{{ item.last_name }}</h2>
+        <h3>{{ item.especialidad?.nombre }}</h3>
         <div class="div1-home">
-          <div class="stars">
+          <!-- <div class="stars">
             <ul class="star-rating" *ngIf="item.rating === 5">
               <li class="active"><i class="fa fa-star"></i></li>
               <li class="active"><i class="fa fa-star"></i></li>
@@ -88,7 +87,7 @@
               <li><i class="fa fa-star"></i></li>
               <li><i class="fa fa-star"></i></li>
             </ul>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

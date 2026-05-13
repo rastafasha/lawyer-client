@@ -7,8 +7,8 @@ export class Favorite{
 
 export class Profile {
   id!: number;
-  user_id!: number;
-  speciality_id!: number;
+  user_id!: string;
+  speciality!: string;
   nombre: string = "";
   username: string = "";
   surname: string = "";

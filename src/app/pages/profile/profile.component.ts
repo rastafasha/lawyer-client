@@ -27,65 +27,49 @@ import { TranslateModule } from '@ngx-translate/core';
     ImagenPipe,
     LoadingComponent,
     TranslateModule
-],
+  ],
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent {
-  pageTitle= 'Profile';
-  public user!: Usuario;
-  // public profile!: Profile;
+  pageTitle = 'Profile';
+  public user!: any;
   public speciality_profile!: Speciality;
-  public speciality!: Speciality ;
-  public isLoading:boolean = false;
-    loadingTitle!:string;
+  public speciality!: Speciality;
+  public isLoading: boolean = false;
+  loadingTitle!: string;
 
-  public profile: Profile = new Profile();
-  public redessociales: RedesSociales [] =[];
+  public profile!: Profile;
+  public redessociales: RedesSociales[] = [];
 
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
     private specialityService: SpecialitiesService,
   ) {
-    this.user = this.authService.getUser();
+    this.user = this.authService.getLocalStorage();
   }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.user = this.authService.getUser();
-    if(this.profile){
-      // this.getProfile();
-
-    }
+    this.getProfile();
   }
 
-  getProfile(){
+  getProfile() {
     this.isLoading = true;
     this.loadingTitle = 'Loading Profile...';
-    this.profileService.getByClient(this.user.id).subscribe((resp:any) => {
+    this.profileService.getByUser(this.user.uid).subscribe((resp: any) => {
       // console.log(resp);
       this.profile = resp.profile || null;
-      this.redessociales = typeof resp.profile.redessociales === 'string' 
-            ? JSON.parse(resp.profile.redessociales) || []
-            : resp.profile.redessociales || [];
+      this.redessociales = typeof resp.profile.redssociales === 'string'
+        ? JSON.parse(resp.profile.redssociales) || []
+        : resp.profile.redssociales || [];
       this.speciality_profile = resp.profile.speciality_id;
       this.isLoading = false;
-      // this.getSpeciality();
-      // setTimeout(() => {
-      // }
-      // , 5000);
     })
   }
 
-  getSpeciality(){
-    this.specialityService.getSpeciality(this.speciality_profile).subscribe((resp:any) => {
-      // console.log(resp);
-      this.speciality = resp || null;
-
-    })
-  }
 
   logout() {
     this.authService.logout();

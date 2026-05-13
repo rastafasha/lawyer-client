@@ -57,7 +57,7 @@ export class SpecialitiesService {
   
         const URL =
           baseUrl +
-          '/speciality/showByUserFiltered/' +
+          '/specialities/showByUserFiltered/' +
           
           LINK;
         // return this.http.get<any>(URL);
@@ -77,14 +77,14 @@ export class SpecialitiesService {
   }
 
   getSpeciality(id: Speciality) {
-    const url = `${baseUrl}/speciality/show/${id}`;
+    const url = `${baseUrl}/specialities/${id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp:{ok: boolean, speciality: Speciality}) => resp.speciality)
         );
   }
   getSpecialitywithUsers(id: number) {
-    const url = `${baseUrl}/speciality/showWithUsers/${id}`;
+    const url = `${baseUrl}/specialities/showWithUsers/${id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp:{ok: boolean, speciality: any}) => resp)
@@ -100,7 +100,7 @@ export class SpecialitiesService {
   }
 
   listarUsuario(id:string):Observable<any>{
-    const url = `${baseUrl}/speciality/user_speciality/${id}`;
+    const url = `${baseUrl}/specialities/user_speciality/${id}`;
     return this.http.get<any>(url,this.headers)
     .pipe(
       map((resp:{ok: boolean, speciality: Speciality}) => resp.speciality)
@@ -110,17 +110,17 @@ export class SpecialitiesService {
 
 
   createspeciality(speciality:Speciality) {
-    const url = `${baseUrl}/speciality/store`;
+    const url = `${baseUrl}/specialities/store`;
     return this.http.post(url, speciality, this.headers);
   }
 
   updatespeciality(speciality:Speciality) {
-    const url = `${baseUrl}/speciality/update/${speciality.id}`;
+    const url = `${baseUrl}/specialities/update/${speciality._id}`;
     return this.http.put(url, speciality, this.headers);
   }
 
   deletespeciality(_id: string) {
-    const url = `${baseUrl}/specialitys/destroy/${_id}`;
+    const url = `${baseUrl}/specialities/destroy/${_id}`;
     return this.http.delete(url, this.headers);
   }
 

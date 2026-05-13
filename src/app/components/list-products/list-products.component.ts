@@ -9,7 +9,7 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-list-products',
-  imports: [CommonModule, NgFor, RouterModule, 
+  imports: [CommonModule, NgFor, RouterModule,
     ImagenPipe, LoadingComponent,
     InfiniteScrollDirective, TranslateModule
   ],
@@ -18,40 +18,37 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ListProductsComponent {
 
-  public isLoading:boolean = false;
+  public isLoading: boolean = false;
   isEdnOfList = false;
-  loadingTitle!:string;
- public profiles!: Profile[];
+  loadingTitle!: string;
+  public profiles!: Profile[];
+  itemsPerPage = 10;
+  nextUrl!: number;
+  isRefreshing = false;
 
- itemsPerPage = 10;
- nextUrl!:number ;
- isRefreshing = false;
+  constructor(
+    private profileService: ProfileService,
+  ) { }
 
- constructor(
-  private profileService: ProfileService,
-)
+  ngOnInit(): void {
+    this.getProfiles();
 
-{} 
-ngOnInit(): void {
-  this.getProfiles();
+  }
 
-}
-
-getProfiles(){
-  this.isLoading = true;
-  this.loadingTitle = 'Cargando Perfiles';
-    this.profileService.getProfileRecientes().subscribe((resp:any) => {
-      // console.log(resp);
+  getProfiles() {
+    this.isLoading = true;
+    this.loadingTitle = 'Cargando Perfiles';
+    this.profileService.getProfiles().subscribe((resp: any) => {
       this.profiles = resp;
       this.nextUrl = resp.next_page_url;
       this.isLoading = false;
-      
+
     })
   }
 
-  onScrollDown(){
+  onScrollDown() {
     if (!this.nextUrl || this.isLoading) return;
-    this.profileService.getProfileRecientes(this.itemsPerPage, this.nextUrl ).subscribe({
+    this.profileService.getProfileRecientes(this.itemsPerPage, this.nextUrl).subscribe({
       next: (resp: any) => {
         if (resp.users.data.next_page_url) {
           this.nextUrl = resp.next_page_url;
@@ -67,21 +64,21 @@ getProfiles(){
     });
   }
 
-  onScrollUp(){
-    this.refreshData(); 
+  onScrollUp() {
+    this.refreshData();
   }
 
-  trackByCharacterId: TrackByFunction<any>  = (index: number, character: any) => character.id;
+  trackByCharacterId: TrackByFunction<any> = (index: number, character: any) => character.id;
 
 
-    refreshData() { 
-      this.isRefreshing = true; 
-      // Simulate data fetching 
-      setTimeout(() => { 
-        this.isRefreshing = false; 
-        // Update your data here 
-        this.getProfiles();
-      }, 2000); 
-    }
+  refreshData() {
+    this.isRefreshing = true;
+    // Simulate data fetching 
+    setTimeout(() => {
+      this.isRefreshing = false;
+      // Update your data here 
+      this.getProfiles();
+    }, 2000);
+  }
 
 }

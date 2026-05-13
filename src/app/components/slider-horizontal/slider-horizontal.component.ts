@@ -30,7 +30,7 @@ export class SliderHorizontalComponent {
   listBanner(): void {
     this.isLoading = true;
     this.bannerService.getBannerActivos().subscribe((resp:any)=>{
-      this.pubs = resp.data;
+      this.pubs = resp;
       this.isLoading = false;
 
     })

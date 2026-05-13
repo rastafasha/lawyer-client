@@ -16,6 +16,7 @@ import { ListaUsuariosComponent } from '../../components/ListaUsuarios/ListaUsua
 import { UserService } from '../../services/usuario.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
+import { ProfileService } from '../../services/profile.service';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ import { Router } from '@angular/router';
     LateralComponent,
     CommonModule, 
     BackButtnComponent, 
-    ListaUsuariosComponent,
+    // ListaUsuariosComponent,
     TranslateModule
   ],
   providers: [TranslateService],
@@ -38,24 +39,35 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
   pageTitle = 'Home';
-  user!: Usuario;
-  users: any = [];
-  profile: Profile = new Profile();
+  user!: any;
+  user_id!:string;
+  profile!: Profile;
 
   private translate = inject(TranslateService);
   
   constructor(
     private authService: AuthService,
     private router: Router,
+    private profileService: ProfileService,
     
 
   ){
-    this.user = this.authService.getUser();
+    this.user = this.authService.getLocalStorage();
     this.translate.use('es'); // Set default language
   }
 
   ngOnInit(){
     window.scrollTo(0, 0);
+    this.user_id = this.user.uid;
+    this.getClienteProfile();
+  }
+
+  getClienteProfile(){
+    
+    this.profileService.getByUser(this.user_id).subscribe((resp:any) => {
+      // console.log(resp);
+      this.profile = resp.profile || null;
+    })
   }
 
   searchData(){

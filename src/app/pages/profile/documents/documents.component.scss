@@ -63,6 +63,9 @@
         width: 100%;
 }
 
+.modal{
+    top:30px
+}
 
 .tab-content-set{
     & .nav{
@@ -76,6 +79,7 @@
 
     }
 }
+
 
 @media (max-width: 768px) {
     .columnadoble{

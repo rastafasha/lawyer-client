@@ -32,7 +32,7 @@ export class ProfileService {
 
 
   getProfiles() {
-    const url = `${baseUrl}/profiles`;
+    const url = `${baseUrl}/profile/all`;
     return this.http.get<any>(url,this.headers)
       .pipe(
         map((resp:{ok: boolean, profiles: Profile}) => resp.profiles)
@@ -64,42 +64,30 @@ export class ProfileService {
   }
 
   getByUser(usuario:any) {
-    const url = `${baseUrl}/profile/showbyUser/${usuario}`;
+    const url = `${baseUrl}/profile/user_profile/${usuario}`;
     return this.http.get<any>(url,this.headers)
       .pipe(
         map((resp:{ok: boolean, profile: any}) => resp)
       )
   }
-  getByClient(usuario:any) {
-    const url = `${baseUrl}/profile/showbyClient/${usuario}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, profile: any}) => resp)
-      )
-  }
-
-  listarUsuario(id:string):Observable<any>{
-    const url = `${baseUrl}/profile/user_profile/${id}`;
-    return this.http.get<any>(url,this.headers)
-    .pipe(
-      map((resp:{ok: boolean, profile: Profile}) => resp.profile)
-    )
-
-  }
-
 
 
   createProfile(data:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
     const URL = baseUrl+'/profile/store';
-    return this.http.post(URL,data, {headers:headers});
+    return this.http.post(URL,data, this.headers);
   }
   updateProfile( data:any, profile_id:any,){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
     const URL = baseUrl+'/profile/update/'+profile_id;
-    return this.http.post(URL,data,{headers:headers});
+    return this.http.put(URL,data,this.headers);
   }
-  updateProfileStatus( data:any, profile_id:number){
+  updateProfileRating( data:any){
+
+    const url = `${baseUrl}/profile/update/rating/`;
+    return this.http.put(url,  data, this.headers);
+  }
+  updateProfileStatus( data:any, profile_id:string){
 
     const url = `${baseUrl}/profile/update/status/${profile_id}`;
     return this.http.put(url,  data, this.headers);

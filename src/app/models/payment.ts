@@ -1,14 +1,20 @@
 import { environment } from "../environments/environment";
+import { Usuario } from "./usuario.model";
+
+
 const base_url = environment.mediaUrlRemoto;
 
-export class Banner {
+export class Payment {
    constructor(
-    public url: string,
-    public target: string,
+
+    public usuario: Usuario,
+    // public blog: Post[],
+    public monto: string,
+    public referencia: string,
     public validacion: string,
+    public status: string,
     public createdAt: Date,
     public updatedAt: Date,
-    public status?: 'PENDING' | 'PUBLISHED' ,
     public img?: string,
     public _id?: string
 

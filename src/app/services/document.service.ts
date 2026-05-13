@@ -40,15 +40,15 @@ export class DocumentService {
     
   
     getDocument(_id: number) {
-      const url = `${baseUrl}/documents/show/${_id}`;
+      const url = `${baseUrl}/documents/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, document: Document}) => resp.document)
           );
     }
-    
-    getDocumentsByClient(_id: number) {
-      const url = `${baseUrl}/documents/showbyclient/${_id}`;
+
+    getDocumentsByUser(_id: number) {
+      const url = `${baseUrl}/documents/user/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
@@ -78,9 +78,7 @@ export class DocumentService {
         '/?page=' +
         page +
         LINK;
-      // return this.http.get<any>(URL);
-
-      return this.http.options<any>(URL, this.headers)
+      return this.http.get<any>(URL, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
           );
@@ -89,13 +87,6 @@ export class DocumentService {
 
     getDocumentsByUserCategory(user_id: number, name_category:string) {
       const url = `${baseUrl}/documents/showByCategory/${user_id}/${name_category}`;
-      return this.http.get<any>(url, this.headers)
-        .pipe(
-          map((resp:{ok: boolean, documents: Document}) => resp.documents)
-          );
-    }
-    getDocumentsByClientCategory(client_id: number, name_category:string) {
-      const url = `${baseUrl}/documents/showByClientCategory/${client_id}/${name_category}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, documents: Document}) => resp.documents)
@@ -114,12 +105,12 @@ export class DocumentService {
     createDocument(data:any){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
       const URL = baseUrl+'/documents/store';
-      return this.http.post(URL,data, {headers:headers});
+      return this.http.post(URL,data, this.headers);
     }
     updateDocument( data:any, document_id:any,){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
       const URL = baseUrl+'/documents/update/'+document_id;
-      return this.http.post(URL,data,{headers:headers});
+      return this.http.post(URL,data,this.headers);
     }
     updateStatus( data:any, document_id:number){
   
@@ -132,6 +123,7 @@ export class DocumentService {
       return this.http.delete(url, this.headers);
     }
     shareDocument(data:any) {
+      const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
       const url = `${baseUrl}/documents/share/`;
       return this.http.post(url, data, this.headers);
     }

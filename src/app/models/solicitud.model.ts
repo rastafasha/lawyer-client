@@ -1,8 +1,8 @@
 export class Solicitud {
-    id!: number;
-    user_id!: number;
-    status!: number;
-    created_at!: Date;
+    _id!: string;
+    nombre!: string;
+    public status?: 'PENDING' | 'REVIEW' | 'VERIFIED' | 'FINISHED';
+    createdAt!: Date;
     pedido: Pedido = new Pedido();
   
   }

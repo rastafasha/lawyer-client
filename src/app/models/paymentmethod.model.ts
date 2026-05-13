@@ -9,7 +9,7 @@ export class PaymentMethod {
     email!:string;
     tipo!:string;
     username!:any;
-    status!:string;
+   status?: 'INACTIVE' | 'ACTIVE' 
   
   }
   

@@ -1,24 +1,23 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { environment } from '../environments/environment';
 
-const base_url = environment.url_media;
+const base_url = environment.mediaUrlRemoto;
 
 @Pipe({
-  name: 'imagenPipe'
+    name: 'imagenPipe'
 })
 export class ImagenPipe implements PipeTransform {
 
-  transform(img: string, tipo: 'users'|'payments'|'posts'|'profiles'|'banners'|'pubs' |'documents'| 'clients'): string {
+  transform(img: string, tipo: 'users'|'pagos'|'posts'|'profiles'|'banners'): string {
 
     if(!img){
-      return `${base_url}no-image.png`;
+      return `assets/img/no-image.jpg`;
     } else if(img.includes('https')){
       return img;
     } else if(img){
-      // ${tipo}
-      return `${base_url}/${img}`;
+      return `${base_url}${tipo}/${img}`;
     }else {
-      return `${base_url}no-image.png`;
+      return `${base_url}/pagos/no-image.jpg`;
     }
 
 

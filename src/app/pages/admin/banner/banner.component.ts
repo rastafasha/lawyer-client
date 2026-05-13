@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, TrackByFunction } from '@angular/core';
 import { LateralComponent } from '../../../components/lateral/lateral.component';
-import { ListProductsInternoComponent } from '../../../components/list-products-interno/list-products-interno.component';
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { MenuFooterComponent } from '../../../shared/menu-footer/menu-footer.component';

@@ -25,54 +25,52 @@
         <a href="javascript:void(0)" (click)="closeMenu()" class="close"></a>
         <div class="usermenu">
             <div class="fichahome">
-                <p>{{'saludo'|translate}}! <strong>{{user.username |slice: 0:10 }}...</strong></p>
-                <!-- <div *ngIf="profile">
-                    <div class="stars" *ngIf="profile.rating  ">
-                        <ul class="star-rating" *ngIf="profile.rating === 5">
-                          <li class="active"><i class="fa fa-star "></i></li>
-                          <li class="active"><i class="fa fa-star "></i></li>
-                          <li class="active"><i class="fa fa-star "></i></li>
-                          <li class="active"><i class="fa fa-star "></i></li>
-                          <li class="active"><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                        <li ><i class="fa fa-star "></i></li>
-                      </ul>
-                    </div>
+                <p>{{'saludo'|translate}}! <strong>{{usuario.username |slice: 0:10 }}...</strong></p>
+
+                <!-- <div class="stars" *ngIf="profile.rating  ">
+                    <ul class="star-rating" *ngIf="profile.rating === 5">
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                      <li class="active"><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 4 && profile.rating < 5">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
+                  <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                    <li ><i class="fa fa-star "></i></li>
+                  </ul>
                 </div> -->
-                
 
             </div>
 
@@ -91,10 +89,8 @@
                         </li>
                     </ul>
                 </div> -->
-                <a routerLink="/profile">
-                    
-                    <img [src]="profile.avatar  | imagenPipe: 'users' " alt="">
-                   
+                <a  *ngIf="profile" routerLink="/profile">
+                    <img [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
                 </a>
             </div>
             <div class="logointerno ">
@@ -147,10 +143,29 @@
                 </li>
             </ul>
             
+            <!-- <div class="dropdown">
+                <div class="flags">
+                    <img *ngIf="activeLang === 'es'" class="left-image" style="width: 30px;" [src]="'assets/images/venezuela.png'" >
+                    <img *ngIf="activeLang == 'en'" class="left-image" style="width: 30px;" [src]="'assets/images/usa.png'" >
+                </div>
+                <div class="dropdown-content">
+                    <li class="has-child-menu">
+                        <a style="cursor: pointer;" >
+                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/usa.png'" >
+                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a>
+                        </a>
+                    </li>
+                    <li class="has-child-menu">
+                        <a style="cursor: pointer;"  >
+                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/venezuela.png'" >
+                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a>
+                        </a>
+                    </li>
+                </div>
+              </div> -->
             <div class="user-header-top ">
-                <a routerLink="/profile">
-                    <img  [src]="profile.avatar  | imagenPipe: 'clients' " alt="">
-                    <!-- <img  [src]="profile.avatar   " alt=""> -->
+                <a *ngIf="profile" routerLink="/profile">
+                    <img  [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
                 </a>
             </div>
         </div>

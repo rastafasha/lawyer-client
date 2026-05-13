@@ -1,114 +1,168 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, of, tap } from 'rxjs';
+import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { RegisterForm } from '../auth/interfaces/register-form.interface';
 import { environment } from '../environments/environment';
+import { Usuario } from '../models/usuario.model';
 
-const url_servicios = environment.url_servicios;
+const baseUrl = environment.url_servicios;
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
 
-  user:any;
-  token:any;
+  public usuario: Usuario | null = null;
+  public estaAutenticado = false;
+  private currentUserSubject = new BehaviorSubject<Usuario | null>(null);
+  public currentUser$ = this.currentUserSubject.asObservable();
+  
+  public auth2: any;
 
   constructor(
     private router: Router,
     public http: HttpClient
-    ) {
-      this.getLocalStorage();//devuelve el usuario logueado
-    }
+  ) {
+    this.getLocalStorage();//devuelve el usuario logueado
+  }
 
-    getUser(){
-      return this.user;
-    }
-  
-    getLocalStorage(){
-      if(localStorage.getItem('token') && localStorage.getItem('user')){
-        let USER = localStorage.getItem('user');
-        this.user = JSON.parse(USER ? USER: '');
-        this.router.navigateByUrl('/app/home');
-      }else{
-        this.user = null;
-        this.router.navigateByUrl('/login');
+  get token():string{
+    return localStorage.getItem('token') || '';
+  }
+
+  get role(): 'SUPERADMIN' | 'ADMIN' | 'USER'|'MEMBER' {
+    return this.usuario?.role || 'USER';
+  }
+
+  get uid():string{
+    return this.usuario?.uid || '';
+  }
+
+  get headers(){
+    return{
+      headers: {
+        'x-token': this.token
       }
-      // console.log(this.user);
-      
-   }
-
-   saveLocalStorage(auth:any){
-    if(auth && auth.access_token){
-      localStorage.setItem("token",auth.access_token.original.access_token);
-      localStorage.setItem("user",JSON.stringify(auth.user));
-      localStorage.setItem('authenticated', 'true');
-      return true;
     }
-    return false;
   }
 
-  
-  guardarLocalStorage( user:any, access_token: any){
-    // localStorage.setItem('token', JSON.stringify(token));
-  localStorage.setItem('user', JSON.stringify(user));
-  localStorage.setItem('token', access_token.original.access_token);
+  guardarLocalStorage(token: string, userData: any){
+    localStorage.setItem('token', token);
+    localStorage.setItem('user', JSON.stringify(userData));
+    this.getLocalStorage();  // Populate service state and emit
   }
 
+  getLocalStorage(): Usuario | null {
+    const authStr = localStorage.getItem('estaAutenticado');
+    this.estaAutenticado = authStr === 'true';
 
-  login(email:string,password:string){
 
-    // return this.http.post<any>(`${this.serverUrl}/login`, {email: email, password: password}, { withCredentials: false })
+    const token = localStorage.getItem('token');
+    const userStr = localStorage.getItem('user');
+    
+    if (token && userStr) {
+      try {
+        const userData = JSON.parse(userStr);
+        // Create User instance from parsed data (match JSON shape)
+        this.usuario = new Usuario(
+          userData.username || '',
+          userData.email || '',
+          userData.terminos || false,
+          undefined,  // password not stored
+          userData.google || false,
+          userData.role,
+          userData.uid,
+          userData.createdAt ? new Date(userData.createdAt) : undefined,
+          userData.updatedAt ? new Date(userData.updatedAt) : undefined
+        );
+        this.currentUserSubject.next(this.usuario);
+      } catch (e) {
+        console.error('Error parsing user from localStorage:', e);
+        this.usuario = null;
+        this.currentUserSubject.next(null);
+      }
+    } else {
+      this.usuario = null;
+      this.currentUserSubject.next(null);
+    }
 
-    let URL = url_servicios+"/loginguest";
-    return this.http.post(URL, {email: email,password: password})
-    .pipe(
-      map((auth:any) => {
-        console.log(auth);
-        const result = this.guardarLocalStorage(auth.user, auth.access_token);
-        return result;
-      }),
-      catchError((error:any) => {
-        console.log(error);
-        return of(undefined);
-      })
-    )
-
+    return this.usuario;
   }
 
-  crearUsuario(formData: RegisterForm){
-    let URL = url_servicios+"/registerguest";
+  getEstaAutenticado(): boolean {
+    return this.estaAutenticado;
+  }
+
+  login(formData: any) {
+    return this.http.post(`${baseUrl}/auth/login`, formData)
+      .pipe(
+        tap((resp: any) => {
+          localStorage.setItem('estaAutenticado', 'true');
+          this.guardarLocalStorage(resp.token, resp.user);
+        })
+      )
+  }
+
+  logout(){
+    this.currentUserSubject.next(null);
+    this.refresh();
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('estaAutenticado');
+    localStorage.removeItem('cart');
+    this.usuario = null;
+    this.estaAutenticado = false;
+    this.router.navigateByUrl('./login');
+  }
+
+  refresh(): void {
+    window.location.reload();
+    this.router.navigateByUrl('/home');
+  }
+
+  crearUsuario(formData: RegisterForm) {
+    let URL = baseUrl + "/register";
     return this.http.post(URL, formData)
-    .pipe(map(user => {
-      localStorage.setItem('auth_token', JSON.stringify(user));
+      .pipe(map(user => {
+        localStorage.setItem('auth_token', JSON.stringify(user));
 
-      return user;
-    }));
+        return user;
+      }));
   }
 
-
- logout(){
-  localStorage.removeItem('token');
-  localStorage.removeItem('user');
-  localStorage.removeItem('authenticated');
-  this.router.navigateByUrl('/login');
- }
-
-
- closeMenu(){
-  var menuLateral = document.getElementsByClassName("sidemenu ");
-  for (var i = 0; i<menuLateral.length; i++) {
-     menuLateral[i].classList.remove("active");
+  closeMenu() {
+    var menuLateral = document.getElementsByClassName("sidemenu ");
+    for (var i = 0; i < menuLateral.length; i++) {
+      menuLateral[i].classList.remove("active");
+    }
   }
-}
 
-getLocalDarkMode(){
-  if(localStorage.getItem('darkmode')){
-    var element = document.body;
-  element.classList.add("darkmode");
-}
-}
+  getLocalDarkMode() {
+    if (localStorage.getItem('darkmode')) {
+      var element = document.body;
+      element.classList.add("darkmode");
+    }
+  }
+
+  validarToken(): Observable<boolean> {
+    return this.http.get(`${baseUrl}/auth/renew`, {
+      headers: {
+        'x-token': this.token
+      }
+    }).pipe(
+      map((resp: any) => {
+        const { username, email, google, role, uid } = resp.usuario;
+
+        this.usuario = new Usuario(username, email, !!google, undefined, !!google, role, uid);
+        this.guardarLocalStorage(resp.token, resp.user);
+        return true;
+      }),
+      catchError(error => of(false))
+    );
+  }
+
   
+
 
 }

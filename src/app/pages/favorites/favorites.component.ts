@@ -13,7 +13,6 @@ import { FavoritesService } from '../../services/favorites.service';
 import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { Favorite } from '../../models/favorite.model';
-import { Profile } from '../../models/profile.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 
 @Component({
@@ -35,112 +34,100 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
 })
 export class FavoritesComponent {
   pageTitle = 'Favorites';
-  loadingTitle!:string;
+  loadingTitle!: string;
   isRefreshing = false;
   isLoading = false;
   isEdnOfList = false;
   searchForm!: FormGroup;
-  name_file ='';
-  user!:Usuario;
-    rol!:string;
-    characters: Array<any> = [];
-    favorites: Array<Favorite> = [];
-    nextUrl:string = '';
-    private favoriteService = inject(FavoritoService);
-    private favoritesService = inject(FavoritesService);
-    private authService = inject(AuthService);
-    private fb = inject(FormBuilder);
+  name_file = '';
+  user!: any;
+  rol!: string;
+  characters: Array<any> = [];
+  favorites: Array<Favorite> = [];
+  nextUrl: string = '';
 
-    ngOnInit():void{
-      window.scrollTo(0, 0);
-      this.getCharactrs();
-      this.validarFormularioPerfil();
-      this.searchForm.reset();
+  private favoriteService = inject(FavoritoService);
+  private favoritesService = inject(FavoritesService);
+  private authService = inject(AuthService);
+  private fb = inject(FormBuilder);
 
-    this.user = this.authService.getUser();
+  ngOnInit(): void {
+    window.scrollTo(0, 0);
+    this.getCharactrs();
+    this.validarFormularioPerfil();
+    this.searchForm.reset();
+
+    this.user = this.authService.getLocalStorage();
     this.rol = this.user.roles[0];
-    console.log(this.rol);
-    if(this.rol === 'MEMBER'){
-      this.favoritesByUser();
-    }
-    if(this.rol === 'GUEST'){
-      this.favoritesByCliente();
-    }
-    }
-
-    validarFormularioPerfil(){
-      this.searchForm = this.fb.group({
-        pais: [''],
-        speciality_id: [''],
-        name_file: [''],
-        rating: [''],
-        id: [''],
-      });
-    }
-
-    getCharactrs(){
-      this.isLoading = true;
-      this.favoriteService.getCharacters().subscribe(
-        (response: any) => {
-          this.characters = response.results;
-          this.nextUrl = response.info.next;
-          this.isLoading = false;
-      })
-    }
-
-
-    favoritesByUser(){
-      this.favoritesService.getByUser(this.user.id).subscribe((resp:any)=>{
-        console.log('respuesta member',resp);
-        this.favorites = resp;
-      })
-    }
-    favoritesByCliente(){
-      this.favoritesService.getByCliente(this.user.id).subscribe((resp:any)=>{
-        console.log('respuesta guest',resp);
-        this.favorites = resp.favorites.data;
-        console.log('favorites guest',this.favorites);
-
-      })
-    }
-
-
-    onScrollDown(){
-      if (!this.nextUrl || this.isLoading) return;
-      this.favoriteService.getCharacters(this.nextUrl).subscribe({
-        next: (resp: any) => {
-          if (resp.info.next) {
-            this.nextUrl = resp.info.next;
-            this.characters = [...this.characters, ...resp.results];
-          } else {
-            this.isEdnOfList = true;
-            this.loadingTitle = 'No hay más personajes para mostrar';
-            alert('ultima pagina');
-          }
-        },
-        error: () => {
-          this.isLoading = false;
-        }
-      });
-    }
-
-    onScrollUp(){
-      this.refreshData(); 
-    }
-
-    trackByCharacterId: TrackByFunction<any>  = (index: number, character: any) => character.id;
-
-
-      refreshData() { 
-        this.isRefreshing = true; 
-        // Simulate data fetching 
-        setTimeout(() => { 
-          this.isRefreshing = false; 
-          // Update your data here 
-          this.getCharactrs();
-        }, 2000); 
-      }
-      
-      
-
+    this.favoritesByUser();
   }
+
+  validarFormularioPerfil() {
+    this.searchForm = this.fb.group({
+      pais: [''],
+      speciality_id: [''],
+      name_file: [''],
+      rating: [''],
+      id: [''],
+    });
+  }
+
+  getCharactrs() {
+    this.isLoading = true;
+    this.favoriteService.getCharacters().subscribe(
+      (response: any) => {
+        this.characters = response.results;
+        this.nextUrl = response.info.next;
+        this.isLoading = false;
+      })
+  }
+
+  favoritesByUser() {
+    this.favoritesService.getByUser(this.user.uid).subscribe((resp: any) => {
+      console.log('respuesta member', resp);
+      this.favorites = resp;
+    })
+  }
+
+  
+
+
+  onScrollDown() {
+    if (!this.nextUrl || this.isLoading) return;
+    this.favoriteService.getCharacters(this.nextUrl).subscribe({
+      next: (resp: any) => {
+        if (resp.info.next) {
+          this.nextUrl = resp.info.next;
+          this.characters = [...this.characters, ...resp.results];
+        } else {
+          this.isEdnOfList = true;
+          this.loadingTitle = 'No hay más personajes para mostrar';
+          alert('ultima pagina');
+        }
+      },
+      error: () => {
+        this.isLoading = false;
+      }
+    });
+  }
+
+  onScrollUp() {
+    this.refreshData();
+  }
+
+  trackByCharacterId: TrackByFunction<any> = (index: number, character: any) => character.id;
+
+
+  refreshData() {
+    this.isRefreshing = true;
+    // Simulate data fetching 
+    setTimeout(() => {
+      this.isRefreshing = false;
+      // Update your data here 
+      this.getCharactrs();
+    }, 2000);
+  }
+
+
+
+}

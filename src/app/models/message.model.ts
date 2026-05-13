@@ -3,4 +3,5 @@ export class Message {
       client_id!:number;
       user_id!:number;
       message!:string;
+      tema!:string;
 }

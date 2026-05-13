@@ -2,23 +2,22 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../models/usuario.model';
 import { ProfileService } from '../../services/profile.service';
 import { Profile } from '../../models/profile.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule,ImagenPipe, TranslateModule],
+  imports: [RouterLink, CommonModule, ImagenPipe, TranslateModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
   year: number = new Date().getFullYear();
-  public user: Usuario;
-  public profile: Profile = new Profile();
+  public usuario: any;
+  public profile!: Profile;
   langs: string[] = [];
   public activeLang = 'es';
 
@@ -29,30 +28,32 @@ export class HeaderComponent {
     private profileService: ProfileService,
     private translate: TranslateService
   ) {
-    this.user = this.authService.getUser();
+    this.usuario = this.authService.getLocalStorage();
+
     // this.translate.setDefaultLang('es');
     this.translate.setDefaultLang(this.activeLang);
     this.translate.use('es');
     this.translate.addLangs(["es", "en"]);
     this.langs = this.translate.getLangs();
-    
-    // console.log(this.translate);
+    translate.get(this.langs).subscribe(res => {
+      // console.log(res);
+    })
   }
 
-  
-  
+
+
   ngOnInit(): void {
     this.authService.getLocalDarkMode();
-    this.user = this.authService.getUser();
-    // this.getProfile();
+    
+    this.getProfile();
     const lang = localStorage.getItem('lang');
     if (lang) {
       this.activeLang = lang;
       this.translate.use(lang);
-      }
+    }
   }
 
-  public cambiarLenguaje(lang:any) {
+  public cambiarLenguaje(lang: any) {
     this.activeLang = lang;
     this.translate.use(lang);
     this.flag = !this.flag;
@@ -60,8 +61,10 @@ export class HeaderComponent {
   }
 
   getProfile() {
-    this.profileService.getByClient(this.user.id).subscribe((resp:any) => {
-      this.profile = resp.profile ? resp.profile : null;
+    if (!this.usuario?.uid) return;
+
+    this.profileService.getByUser(this.usuario?.uid).subscribe((resp: any) => {
+      this.profile = resp.profile;
     });
   }
 
@@ -83,29 +86,29 @@ export class HeaderComponent {
     this.authService.logout();
   }
 
-  onDarkMode(dark:string){
+  onDarkMode(dark: string) {
     var element = document.body;
 
     const classExists = document.getElementsByClassName(
       'darkmode'
-     ).length > 0;
+    ).length > 0;
 
     var dayNight = document.getElementsByClassName("site");
-      for (var i = 0; i<dayNight.length; i++) {
-        // dayNight[i].classList.toggle("darkmode");
-        element.classList.toggle("darkmode");
+    for (var i = 0; i < dayNight.length; i++) {
+      // dayNight[i].classList.toggle("darkmode");
+      element.classList.toggle("darkmode");
 
-      }
-      // localStorage.setItem('dark', dark);
+    }
+    // localStorage.setItem('dark', dark);
 
-      if (classExists) {
-        localStorage.removeItem('darkmode');
-        // console.log('✅ class exists on page, removido');
-      } else {
-        localStorage.setItem('darkmode', dark);
-        // console.log('⛔️ class does NOT exist on page, agregado');
-      }
-      // console.log('Pulsado');
+    if (classExists) {
+      localStorage.removeItem('darkmode');
+      // console.log('✅ class exists on page, removido');
+    } else {
+      localStorage.setItem('darkmode', dark);
+      // console.log('⛔️ class does NOT exist on page, agregado');
+    }
+    // console.log('Pulsado');
   }
 
 }

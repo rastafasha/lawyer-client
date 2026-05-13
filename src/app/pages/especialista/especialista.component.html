@@ -16,15 +16,15 @@
                 </div>
                 <div class="foto_info" *ngIf="profile">
                   <div class="fi_foto">
-                    <img *ngIf="!profile.avatar" [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+                    <img *ngIf="profile" [src]="(profile.img ||'' ) | imagenPipe: 'profiles' " alt="">
                   </div>
                   <div class="info_info">
-                    <h3>{{ profile.nombre }} {{ profile.surname }}</h3>
-                    <h5 *ngIf="speciality">{{ speciality.title }}</h5>
+                    <h3>{{ profile.first_name }} {{ profile.last_name }}</h3>
+                    <h5 *ngIf="speciality">{{ speciality.nombre }}</h5>
                     <!-- <h4>{{ user.email }}</h4> -->
-                    <span class="badge  bg-primary" *ngIf="profile.status === 1"> {{'Pending'|translate}} </span>
-                    <span class="badge bg-success" *ngIf="profile.status === 2">{{'Verified'|translate}} </span> 
-                    <span class="badge bg-danger" *ngIf="profile.status === 3">{{'For Review'|translate}} </span>
+                    <span class="badge  bg-primary" *ngIf="profile.status === 'PENDING'"> {{'Pending'|translate}} </span>
+                    <span class="badge bg-success" *ngIf="profile.status === 'VERIFIED'">{{'Verified'|translate}} </span> 
+                    <span class="badge bg-danger" *ngIf="profile.status === 'REVIEW'">{{'For Review'|translate}} </span>
                     <div class="stars">
 
                       <ul class="star-rating" *ngIf="rating === 5">
@@ -83,7 +83,7 @@
                   </div>
                 </div>
                 <div class="descp">
-                  <p>{{ profile.description }}</p>
+                  <p>{{ profile.shortdescription }}</p>
                 </div>
                 <!-- <div class="div1" >
                   
@@ -116,8 +116,13 @@
                 <ng-container *ngFor="let tipop of tiposdePagoUser">
 
                   <div class="tarifa">
-                    <p>{{ tipop.tipo }}</p>
-                    <p>{{ tipop.bankName }}</p>
+                    <ul>
+                      <li>{{ tipop.tipo }}</li>
+                      <li>{{ tipop.bankName }}</li>
+                      <li>{{ tipop.bankAccount }}</li>
+                      <li>{{ tipop.ciorif }}</li>
+                      <li>{{ tipop.bankAccountType }}</li>
+                    </ul>
                   </div>
                 </ng-container>
 

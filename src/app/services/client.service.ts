@@ -14,16 +14,16 @@ export class ClientService {
 
   public client!: Client;
   constructor(private http: HttpClient,
-    public authService:AuthService
+    public authService: AuthService
   ) { }
 
-  get token():string{
+  get token(): string {
     return localStorage.getItem('token') || '';
   }
 
 
-  get headers(){
-    return{
+  get headers() {
+    return {
       headers: {
         'x-token': this.token
       }
@@ -33,47 +33,39 @@ export class ClientService {
 
   getClientes() {
     const url = `${baseUrl}/clients`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, clients: Client}) => resp.clients)
-      )
-  }
-
-  getClient(id:Client) {
-    const url = `${baseUrl}/clients/show/${id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
-        map((resp:{ok: boolean, user:Client}) => resp.user)
-        );
-  }
-
-  getClientsByUser(user:any) {
-    const url = `${baseUrl}/clients/clientes-user/${user}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, clients:Client}) => resp.clients)
-      )
-  }
- 
-  getByContactosCliente(user:any) {
-    const url = `${baseUrl}/clients/contactos-cliente/${user}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, clientes: any}) => resp)
+        map((resp: { ok: boolean, clients: Client }) => resp.clients)
       )
   }
 
-  
-
-  addClienttoUser(data:any){
-    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = baseUrl+'/clients/addClienttoUser';
-    return this.http.post(URL,data, {headers:headers});
+  getClient(id: any) {
+    const url = `${baseUrl}/clients/${id}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, user: Client }) => resp.user)
+      );
   }
- 
 
-  removeClient(_id: number) {
-    const url = `${baseUrl}/clients/removeClientFromUser/${_id}`;
+  getMyClients(user: any) {
+    const url = `${baseUrl}/clients/myclients/${user}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, clients: Client }) => resp.clients)
+      )
+  }
+
+
+  addClienttoUser(data: any) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token });
+    const URL = baseUrl + '/clients/addclient';
+    return this.http.post(URL, data, { headers: headers });
+  }
+
+
+  removeClient(client_id: string) {
+    // Solo pasamos el client_id, el user_id lo sabrá el backend por el token
+    const url = `${baseUrl}/clients/removeclient/${client_id}`;
     return this.http.delete(url, this.headers);
   }
 }

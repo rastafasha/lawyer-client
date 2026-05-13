@@ -33,39 +33,39 @@ export class PaymentmethodService {
   
   
     getPaymentmethods() {
-      const url = `${baseUrl}/paymentmethods`;
+      const url = `${baseUrl}/tipospago`;
       return this.http.get<any>(url,this.headers)
         .pipe(
-          map((resp:{ok: boolean, tiposdepagos: PaymentMethod[]}) => resp.tiposdepagos)
+          map((resp:{ok: boolean, paymentMethods: PaymentMethod[]}) => resp.paymentMethods)
         )
     }
     
   
     getPaymentmethod(_id: number) {
-      const url = `${baseUrl}/paymentmethods/show/${_id}`;
+      const url = `${baseUrl}/tipospago/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
           map((resp:{ok: boolean, tipodepago: PaymentMethod}) => resp.tipodepago)
           );
     }
   
-    getPaymentMethodByUserId(_id: number) {
-      const url = `${baseUrl}/paymentmethods/showbyUser/${_id}`;
+    getPaymentMethodByUserId(_id: string) {
+      const url = `${baseUrl}/tipospago/user/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
-          map((resp:{ok: boolean, tiposdepagosuser: PaymentMethod[]}) => resp.tiposdepagosuser)
+          map((resp:{ok: boolean, paymentMethods: PaymentMethod[]}) => resp.paymentMethods)
           );
     }
   
     getPaymentmethodsRecientes() {
-      const url = `${baseUrl}/paymentmethods/recientes`;
+      const url = `${baseUrl}/tipospago/recientes`;
       return this.http.get<any>(url,this.headers)
         .pipe(
           map((resp:{ok: boolean, recientes: PaymentMethod}) => resp.recientes)
         )
     }
     getPaymentmethodsDestacados() {
-      const url = `${baseUrl}/paymentmethods/destacados`;
+      const url = `${baseUrl}/tipospago/destacados`;
       return this.http.get<any>(url,this.headers)
         .pipe(
           map((resp:{ok: boolean, destacados: PaymentMethod}) => resp.destacados)
@@ -73,43 +73,34 @@ export class PaymentmethodService {
     }
   
     getByUser(usuario:any) {
-      const url = `${baseUrl}/paymentmethods/showbyUser/${usuario}`;
+      const url = `${baseUrl}/tipospago/showbyUser/${usuario}`;
       return this.http.get<any>(url,this.headers)
         .pipe(
           map((resp:{ok: boolean, tipodepago: any}) => resp)
         )
     }
   
-    listarUsuario(id:string):Observable<any>{
-      const url = `${baseUrl}/paymentmethods/user_paymentmethods/${id}`;
-      return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, tipodepago: PaymentMethod}) => resp.tipodepago)
-      )
-  
-    }
-  
   
   
     createPaymentmethod(data:any){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-      const URL = baseUrl+'/paymentmethods/store';
+      const URL = baseUrl+'/tipospago/store';
       return this.http.post(URL,data, {headers:headers});
     }
     updatePaymentmethod( data:any, id:any,){
       const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
-      const URL = baseUrl+'/paymentmethods/update/'+id;
+      const URL = baseUrl+'/tipospago/update/'+id;
       return this.http.post(URL,data,{headers:headers});
     }
     
     updateStatus( data:any, profile_id:number){
 
-      const url = `${baseUrl}/paymentmethods/update/status/${profile_id}`;
+      const url = `${baseUrl}/tipospago/update/status/${profile_id}`;
       return this.http.put(url,  data, this.headers);
     }
   
     deletePaymentmethod(_id: number) {
-      const url = `${baseUrl}/paymentmethods/destroy/${_id}`;
+      const url = `${baseUrl}/tipospago/destroy/${_id}`;
       return this.http.delete(url, this.headers);
     }
   

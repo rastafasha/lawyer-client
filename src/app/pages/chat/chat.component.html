@@ -5,10 +5,10 @@
 
          <div class="card-body-top">
           <div class=" fotoperfil">
-            <img *ngIf="!profile.avatar" [src]="profile.avatar  | imagenPipe: 'users' " alt="">
+            <img *ngIf="profile" [src]="(profile.img || '')  | imagenPipe: 'users' " alt="">
           </div>
           <div class="perfil">
-            <h2 class="name">{{profile.nombre}} {{profile.surname}} </h2>
+            <h2 class="name">{{profile.first_name}} {{profile.last_name}} </h2>
             <h4 class="job-title">{{profile.ciudad}}, {{profile.pais}}</h4>
             
           </div>
@@ -27,14 +27,14 @@
         <div class="reds" style="margin-top: 120px; padding: 15px;" *ngIf="redessociales && redessociales.length > 0">
           <div class="cont" *ngFor="let red of redessociales;let i = index;" >
             
-            <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank" rel="noopener noreferrer">
+            <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.name_red" target="_blank" rel="noopener noreferrer">
               <div class="option-admin">
                 <i [class]="red.icono"></i>
                 <!-- <p>{{ red.title }}</p> -->
               </div>
             </a>
             <a *ngIf="red.icono === 'fa fa-whatsapp'" 
-                href="https://wa.me/{{red.url}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
+                href="https://wa.me/{{red.name_red}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
                 target="_blank" rel="noopener noreferrer">
                   <div class="option-admin">
                     <i [class]="red.icono"></i>

@@ -12,8 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-list-products-h',
   imports: [CommonModule, NgFor, RouterModule, ImagenPipe,
-    NgIf,
-    LoadingComponent, TranslateModule
+    NgIf, LoadingComponent, TranslateModule
   ],
   templateUrl: './list-products-h.component.html',
   styleUrl: './list-products-h.component.css'

@@ -39,10 +39,10 @@ export class ChatComponent {
 
   pageTitle = 'Chat';
 
-  public user!: Usuario;
-  public user_id!: number;
+  public user!: any;
+  public user_id!: string;
   public client!: Client;
-  public client_id!: number; 
+  public client_id!: string; 
   public profile!: Profile;
   public redessociales: RedesSociales[]= [];
 
@@ -54,12 +54,12 @@ export class ChatComponent {
     private authService: AuthService,
     private messageService: MessageService,
   ){
-    this.client = this.authService.getUser();
+    this.user = this.authService.getLocalStorage();
   }
 
   ngOnInit(){
     this.activatedRoute.params.subscribe( ({id}) => this.getUserProfile(id));
-    
+    this.user_id = this.user.uid;
   }
 
   public sendMessage() {
@@ -75,7 +75,7 @@ export class ChatComponent {
   getUserProfile(id:string){
     this.profileService.getByUser(id).subscribe((resp:any)=>{
       this.profile = resp.profile;
-      this.user_id = resp.profile.user_id;
+      
       try {
         this.redessociales = typeof resp.profile.redessociales === 'string' 
           ? JSON.parse(resp.profile.redessociales) || []
@@ -94,7 +94,7 @@ export class ChatComponent {
 
     public listMessage() {
       this.messageService
-        .getByClient(this.client.id, this.user_id)
+        .getByClient(this.client_id, this.user_id)
         .subscribe((resp: any) => {
           this.messages = resp;
           console.log(this.messages);
@@ -103,8 +103,8 @@ export class ChatComponent {
   
     enviarMensaje(data: any) {
       const formData = new FormData();
-      formData.append('cliente_id', this.client.id + '');
-      formData.append('user_id', this.user_id + '');
+      formData.append('cliente_id', this.client_id );
+      formData.append('user_id', this.user_id);
       formData.append('message', this.message);
   
       this.messageService.createMessage(formData).subscribe({

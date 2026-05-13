@@ -2,8 +2,6 @@ import { Component, inject, TrackByFunction } from '@angular/core';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { LateralComponent } from '../../components/lateral/lateral.component';
-import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
-import { ListProductsComponent } from '../../components/list-products/list-products.component';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { FavoritoService } from '../../services/favorito.service';
@@ -99,7 +97,6 @@ export class SearchComponent {
         this.rating,
         this.speciality_id,
       ).subscribe((resp:any)=>{
-        console.log(resp);
         this.isLoading = false;
        
       })

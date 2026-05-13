@@ -43,14 +43,10 @@
             <br>
             <!---Destacados-->
             <!--Recientes-->
-
             <app-list-products></app-list-products>
 
           </div>
 
-          <div *ngIf="user.roles[0] === 'SUPERADMIN' || user.roles[0] === 'ADMIN'">
-            <app-ListaUsuarios [users]="users"></app-ListaUsuarios>
-          </div>
         </div>
         <!-- lateral -->
         <div class="col-xs-12 col-sm-3 col-md-3">
