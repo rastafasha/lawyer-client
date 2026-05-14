@@ -12,15 +12,17 @@ import { UserService } from '../../services/usuario.service';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { ClientService } from '../../services/client.service';
 import { Profile, RedesSociales } from '../../models/profile.model';
 import Swal from 'sweetalert2';
+import { RouterLink } from '@angular/router';
 
+declare var bootstrap: any;
 @Component({
   selector: 'app-wallet',
   imports: [
-    MenuFooterComponent, HeaderComponent,
+    MenuFooterComponent,
+    HeaderComponent,
     CommonModule,
     BackButtnComponent,
     NgFor, TranslateModule,
@@ -28,6 +30,7 @@ import Swal from 'sweetalert2';
     LoadingComponent, NgIf,
     FormsModule,
     ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.scss'
@@ -99,12 +102,18 @@ export class WalletComponent {
     this.ngOnInit();
   }
 
-   solicitudSelected(solicitud: any) {
+  solicitudSelected(solicitud: any) {
     this.solicitud_selected = solicitud;
   }
 
+  abrirDetalle(item: any) {
+    this.solicitud_selected = item;
+    // 1. Abrir Offcanvas
+    const el = document.getElementById('offcanvasNotif');
+    const bsOffcanvas = new bootstrap.Offcanvas(el);
+    bsOffcanvas.show();
+  }
 
- 
 
 
 

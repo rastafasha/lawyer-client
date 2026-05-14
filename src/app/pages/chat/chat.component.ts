@@ -21,9 +21,9 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [
     HeaderComponent,
     FormsModule,
-    NgIf, NgFor, 
-    BackButtnComponent, 
-    ImagenPipe, 
+    NgIf, NgFor,
+    BackButtnComponent,
+    ImagenPipe,
     TranslateModule,
     CommonModule,
     RouterModule
@@ -33,32 +33,32 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ChatComponent {
 
-  public message:string = '';
-  public messages:any =[];
-  public user_selected!:any;
+  public message: string = '';
+  public messages: any = [];
+  public user_selected!: any;
 
   pageTitle = 'Chat';
 
   public user!: any;
   public user_id!: string;
   public client!: Client;
-  public client_id!: string; 
+  public client_id!: string;
   public profile!: Profile;
-  public redessociales: RedesSociales[]= [];
+  public redessociales: RedesSociales[] = [];
 
-  constructor( 
+  constructor(
     private chatService: ChatService,
     private activatedRoute: ActivatedRoute,
     private userService: UserService,
     private profileService: ProfileService,
     private authService: AuthService,
     private messageService: MessageService,
-  ){
+  ) {
     this.user = this.authService.getLocalStorage();
   }
 
-  ngOnInit(){
-    this.activatedRoute.params.subscribe( ({id}) => this.getUserProfile(id));
+  ngOnInit() {
+    this.activatedRoute.params.subscribe(({ id }) => this.getUserProfile(id));
     this.user_id = this.user.uid;
   }
 
@@ -72,49 +72,45 @@ export class ChatComponent {
     this.message = '';
   }
 
-  getUserProfile(id:string){
-    this.profileService.getByUser(id).subscribe((resp:any)=>{
+  getUserProfile(id: string) {
+    this.profileService.getByUser(id).subscribe((resp: any) => {
       this.profile = resp.profile;
-      
+
       try {
-        this.redessociales = typeof resp.profile.redessociales === 'string' 
+        this.redessociales = typeof resp.profile.redessociales === 'string'
           ? JSON.parse(resp.profile.redessociales) || []
           : resp.profile.redessociales || [];
       } catch (error) {
         console.error('Error parsing redessociales:', error);
         // this.redessociales = [];
       }
-      console.log(this.redessociales);
     });
-    setTimeout(() => {
-      // this.listMessage();
-    }, 1000);
-    }
+  }
 
 
-    public listMessage() {
-      this.messageService
-        .getByClient(this.client_id, this.user_id)
-        .subscribe((resp: any) => {
-          this.messages = resp;
-          console.log(this.messages);
-        });
-    }
-  
-    enviarMensaje(data: any) {
-      const formData = new FormData();
-      formData.append('cliente_id', this.client_id );
-      formData.append('user_id', this.user_id);
-      formData.append('message', this.message);
-  
-      this.messageService.createMessage(formData).subscribe({
-        next: (resp: any) => {
-          this.message = resp;
-        },
-        error: (err) => {
-          console.error(err);
-        },
+  public listMessage() {
+    this.messageService
+      .getByClient(this.client_id, this.user_id)
+      .subscribe((resp: any) => {
+        this.messages = resp;
+        console.log(this.messages);
       });
-    }
-  
+  }
+
+  enviarMensaje(data: any) {
+    const formData = new FormData();
+    formData.append('cliente_id', this.client_id);
+    formData.append('user_id', this.user_id);
+    formData.append('message', this.message);
+
+    this.messageService.createMessage(formData).subscribe({
+      next: (resp: any) => {
+        this.message = resp;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
 }
