@@ -68,7 +68,7 @@ export class ListaUsuariosComponent {
 
   onScrollDown() {
     if (!this.nextUrl || this.isLoading) return;
-    this.usersServices.listUsers(this.itemsPerPage, this.nextUrl).subscribe({
+    this.usersServices.listUsersPaginados(this.itemsPerPage, this.nextUrl).subscribe({
       next: (resp: any) => {
         if (resp.users.data.next_page_url) {
           this.nextUrl = resp.users.data.next_page_url;

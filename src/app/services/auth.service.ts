@@ -70,6 +70,7 @@ export class AuthService {
           userData.email || '',
           userData.terminos || false,
           undefined,  // password not stored
+          userData.profile,
           userData.google || false,
           userData.role,
           userData.uid,
@@ -152,9 +153,9 @@ export class AuthService {
       }
     }).pipe(
       map((resp: any) => {
-        const { username, email, google, role, uid } = resp.usuario;
+        const { username, email, terminos, profile, google, role, uid } = resp.usuario;
 
-        this.usuario = new Usuario(username, email, !!google, undefined, !!google, role, uid);
+        this.usuario = new Usuario(username, email, terminos, undefined, profile,  !!google, role, uid);
         this.guardarLocalStorage(resp.token, resp.user);
         return true;
       }),

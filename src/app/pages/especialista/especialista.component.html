@@ -20,7 +20,7 @@
                   </div>
                   <div class="info_info">
                     <h3>{{ profile.first_name }} {{ profile.last_name }}</h3>
-                    <h5 *ngIf="speciality">{{ speciality.nombre }}</h5>
+                    <p *ngIf="speciality">{{ speciality.nombre }}</p>
                     <!-- <h4>{{ user.email }}</h4> -->
                     <span class="badge  bg-primary" *ngIf="profile.status === 'PENDING'"> {{'Pending'|translate}} </span>
                     <span class="badge bg-success" *ngIf="profile.status === 'VERIFIED'">{{'Verified'|translate}} </span> 
@@ -74,7 +74,7 @@
                  
                   <div class="options">
                     <div *ngIf=""></div>
-                    <button type="button" (click)="addFavorite()" class="btn btn-outline-danger">
+                    <button type="button" (click)="addToFavorites()" class="btn btn-outline-danger">
                       <i class="fa fa-heart text-danger"></i>
                     </button>
                     <!-- <button type="button" [routerLink]="['/chat/', profile.client_id]" class="btn btn-primary">

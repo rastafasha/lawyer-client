@@ -19,49 +19,64 @@ export class UserService {
 
   ) { }
 
-  
-
-  listUsers(page: number = 1, perPage: number = 10){
-    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = `${url_servicios}/users?page=${page}&per_page=${perPage}`;
-    return this.http.get(URL, {headers:headers});
+   get token():string{
+    return localStorage.getItem('token') || '';
   }
 
-  getCharacters(apiUrl:string = `${url_servicios}/users`):Observable<any> {
-      return this.http.get(apiUrl).pipe(share())
-  
+
+  get headers(){
+    return{
+      headers: {
+        'x-token': this.token
+      }
     }
+  }
+
+
+  listUsers(){
+    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
+    const URL = `${url_servicios}/usuarios/`;
+    return this.http.get(URL, this.headers);
+  }
+  listUsersMember(){
+    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
+    const URL = `${url_servicios}/usuarios/member`;
+    return this.http.get(URL, this.headers);
+  }
+  listUsersPaginados(page: number = 1, perPage: number = 10){
+    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
+    const URL = `${url_servicios}/usuarios/paginados?page=${page}&per_page=${perPage}`;
+    return this.http.get(URL, this.headers);
+  }
+
+  
 
   listConfig(){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
-    const URL = url_servicios+'/users/config';
-    return this.http.get(URL, {headers:headers});
+    const URL = url_servicios+'/usuarios/config';
+    return this.http.get(URL, this.headers);
   }
   storeUser(data:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/users/store";
-    return this.http.post(URL,data, {headers:headers});
+    const URL = url_servicios+"/usuarios/store";
+    return this.http.post(URL,data, this.headers);
   }
   showUser(user_id:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/user/show/"+user_id;
-    return this.http.get(URL,{headers:headers});
+    const URL = url_servicios+"/usuarios/"+user_id;
+    return this.http.get(URL,this.headers);
   }
   editUser(data:any, user_id:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/users/update/"+user_id;
-    return this.http.post(URL,data,{headers:headers});
+    const URL = url_servicios+"/usuarios/update/"+user_id;
+    return this.http.post(URL,data,this.headers);
   }
   
-  showUserProfile(user_id:any){
-    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/users/profile/"+user_id;
-    return this.http.get(URL,{headers:headers});
-  }
+ 
   editUserProfile(data:any, user_id:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/staffs/update/"+user_id;
-    return this.http.post(URL,data,{headers:headers});
+    const URL = url_servicios+"/usuarios/update/"+user_id;
+    return this.http.post(URL,data,this.headers);
   }
 
 
@@ -75,16 +90,16 @@ export class UserService {
   
   deleteUser(user_id:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/users/destroy/"+user_id;
-    return this.http.delete(URL, {headers:headers});
+    const URL = url_servicios+"/usuarios/destroy/"+user_id;
+    return this.http.delete(URL, this.headers);
   }
 
   
 
   updateStatus(data:any, user_id:any){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = url_servicios+"/users/update/status/"+user_id;
-    return this.http.put(URL,data,{headers:headers});
+    const URL = url_servicios+"/usuarios/update/status/"+user_id;
+    return this.http.put(URL,data,this.headers);
   }
 
   isPermission(permission:string){

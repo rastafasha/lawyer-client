@@ -19,14 +19,13 @@
           <div class="post navTabs" *ngIf="!isLoading">
             <div class=" itemFav shadow " *ngFor="let item of profiles">
               <div class="group  itemFav lastposthome">
-                <a [routerLink]="['/especialista/', item._id]">
+                <a [routerLink]="['/especialista/', item.usuario]">
                   <img [src]="(item.img || '') | imagenPipe: 'profiles' " alt="">
 
                 </a>
                 <div class="div1">
                   <h4 style="margin: 0; padding: 0;">{{item.first_name}} {{item.last_name}}</h4>
-                  <h5 style="margin: 0; padding: 0;">{{item.ciudad}}</h5>
-                  <p style="margin: 0; padding: 0;">{{item.shortdescription | slice:0:45}}...</p>
+                  <p style="margin: 0; padding: 0;">{{item.ciudad}}</p>
                   <!-- <div class="stars">
 
                     <ul class="star-rating" *ngIf="item.rating === 5">

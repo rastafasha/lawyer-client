@@ -7,11 +7,13 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TranslateModule } from '@ngx-translate/core';
+import { UserService } from '../../services/usuario.service';
+import { Usuario } from '../../models/usuario.model';
 @Component({
   selector: 'app-list-products',
   imports: [CommonModule, NgFor, RouterModule,
     ImagenPipe, LoadingComponent,
-    InfiniteScrollDirective, TranslateModule
+    InfiniteScrollDirective, TranslateModule, 
   ],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.scss'
@@ -21,30 +23,31 @@ export class ListProductsComponent {
   public isLoading: boolean = false;
   isEdnOfList = false;
   loadingTitle!: string;
-  public profiles!: Profile[];
+  public usuarios!: Usuario[];
   itemsPerPage = 10;
   nextUrl!: number;
   isRefreshing = false;
 
   constructor(
     private profileService: ProfileService,
+    private ususarioService: UserService,
   ) { }
 
   ngOnInit(): void {
-    this.getProfiles();
+    this.getUsers();
 
   }
 
-  getProfiles() {
+  getUsers() {
     this.isLoading = true;
     this.loadingTitle = 'Cargando Perfiles';
-    this.profileService.getProfiles().subscribe((resp: any) => {
-      this.profiles = resp;
+    this.ususarioService.listUsersMember().subscribe((resp: any) => {
+      this.usuarios = resp.usuarios;
       this.nextUrl = resp.next_page_url;
       this.isLoading = false;
-
     })
   }
+  
 
   onScrollDown() {
     if (!this.nextUrl || this.isLoading) return;
@@ -52,7 +55,7 @@ export class ListProductsComponent {
       next: (resp: any) => {
         if (resp.users.data.next_page_url) {
           this.nextUrl = resp.next_page_url;
-          this.profiles = [...this.profiles, ...resp.results];
+          this.usuarios = [...this.usuarios, ...resp.results];
         } else {
           this.isEdnOfList = true;
           this.loadingTitle = 'No hay más personajes para mostrar';
@@ -77,7 +80,7 @@ export class ListProductsComponent {
     setTimeout(() => {
       this.isRefreshing = false;
       // Update your data here 
-      this.getProfiles();
+      this.getUsers();
     }, 2000);
   }
 

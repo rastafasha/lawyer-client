@@ -36,6 +36,13 @@ export class SpecialitiesService {
         map((resp:{ok: boolean, specialities: Speciality[]}) => resp.specialities)
       )
   }
+  getSpecialitysUsadas() {
+    const url = `${baseUrl}/specialities/lista`;
+    return this.http.get<any>(url,this.headers)
+      .pipe(
+        map((resp:{ok: boolean, specialities: Speciality[]}) => resp.specialities)
+      )
+  }
 
   getAllClientReportByPatient(
         
@@ -83,8 +90,8 @@ export class SpecialitiesService {
         map((resp:{ok: boolean, speciality: Speciality}) => resp.speciality)
         );
   }
-  getSpecialitywithUsers(id: number) {
-    const url = `${baseUrl}/specialities/showWithUsers/${id}`;
+  getSpecialitywithUsers(slug: string) {
+    const url = `${baseUrl}/specialities/usuarios_especialidad/${slug}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp:{ok: boolean, speciality: any}) => resp)

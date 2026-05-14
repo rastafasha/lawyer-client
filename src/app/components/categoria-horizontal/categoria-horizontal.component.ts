@@ -29,7 +29,7 @@ export class CategoriaHorizontalComponent {
 
 ngOnInit() {
   this.isLoading = true;
-  this.specialitiesService.getSpecialitys().subscribe((resp:any) => {
+  this.specialitiesService.getSpecialitysUsadas().subscribe((resp:any) => {
     this.specialities = resp;
     this.isLoading = false;
   });

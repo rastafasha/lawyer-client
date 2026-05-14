@@ -26,7 +26,7 @@ export const routes: Routes = [
     {path: 'search', component: SearchComponent},
 
     {path: 'especialidades', canActivate: [AuthGuard], component: CategoriaComponent},
-    {path: 'especialidad/:id', component: CategoriaComponent},
+    {path: 'especialidad/:slug', component: CategoriaComponent},
     {path: 'especialista/:id', component: EspecialistaComponent},
     
     {path: 'chat/:id', component: ChatComponent},

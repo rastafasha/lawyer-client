@@ -1,5 +1,6 @@
 export class Speciality {
   _id!: string;
   nombre: string = "";
-  count_profiles: number =0;
+  slug: string = "";
+  totalUsuarios: number =0;
 }

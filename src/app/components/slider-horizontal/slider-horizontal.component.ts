@@ -3,6 +3,7 @@ import { BannerService } from '../../services/banner.service';
 import { Banner } from '../../models/banner.model';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { LoadingComponent } from '../../shared/loading/loading.component';
+import { AdminRolesPipe } from '../../pipes/admin-roles.pipe';
 
 @Component({
   selector: 'app-slider-horizontal',
@@ -10,7 +11,7 @@ import { LoadingComponent } from '../../shared/loading/loading.component';
     CommonModule,
     NgFor,
     NgIf,
-    LoadingComponent
+    LoadingComponent,
   ],
   templateUrl: './slider-horizontal.component.html',
   styleUrl: './slider-horizontal.component.css'

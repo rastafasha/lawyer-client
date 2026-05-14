@@ -56,18 +56,18 @@ export class CategoriaComponent {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    this.activatedRoute.params.subscribe(({ id }) => {
-      this.getSpeciality(id);
+    this.activatedRoute.params.subscribe(({ slug }) => {
+      this.getSpeciality(slug);
     });
   }
-  getSpeciality(id: number) {
+  getSpeciality(slug: string) {
     this.isLoading = true;
     this.loadingTitle = 'Cargando especialidad';
-    this.specialityService.getSpecialitywithUsers(id).subscribe((resp: any) => {
+    this.specialityService.getSpecialitywithUsers(slug).subscribe((resp: any) => {
       // console.log(resp);
-      this.Title = resp.speciality.title;
+      this.Title = resp.speciality.nombre;
       this.speciality = resp.speciality;
-      this.profiles = resp.users.data;
+      this.profiles = resp.profiles;
       this.isLoading = false;
     });
   }

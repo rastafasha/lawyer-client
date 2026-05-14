@@ -14,16 +14,16 @@ export class FavoritesService {
 
   public favorite!: Favorite;
   constructor(private http: HttpClient,
-    public authService:AuthService
+    public authService: AuthService
   ) { }
 
-  get token():string{
+  get token(): string {
     return localStorage.getItem('token') || '';
   }
 
 
-  get headers(){
-    return{
+  get headers() {
+    return {
       headers: {
         'x-token': this.token
       }
@@ -32,58 +32,43 @@ export class FavoritesService {
 
 
   getFavorites() {
-    const url = `${baseUrl}/favorites`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, favorites: Favorite}) => resp.favorites)
-      )
-  }
-
-  getCharacters(apiUrl:string = `${baseUrl}/favorites`):Observable<any> {
-      return this.http.get(apiUrl).pipe(share())
-  
-    }
-  
-
-  getFavorite(_id: number) {
-    const url = `${baseUrl}/favorites/show/${_id}`;
+    const url = `${baseUrl}/favoritos`;
     return this.http.get<any>(url, this.headers)
       .pipe(
-        map((resp:{ok: boolean, favorite: Favorite}) => resp.favorite)
-        );
-  }
-
-
-  getByUser(usuario:any) {
-    const url = `${baseUrl}/favorites/showbyUser/${usuario}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, favorites: any}) => resp)
-      )
-  }
-  getByCliente(cliente:any) {
-    const url = `${baseUrl}/favorites/showbyCliente/${cliente}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, favorites: any}) => resp.favorites)
+        map((resp: { ok: boolean, favorites: Favorite }) => resp.favorites)
       )
   }
 
-
-
-  createFavorite(data:any){
-    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
-    const URL = baseUrl+'/favorites/store';
-    return this.http.post(URL,data, {headers:headers});
+  getFavorite(_id: number) {
+    const url = `${baseUrl}/favoritos/${_id}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, favorite: Favorite }) => resp.favorite)
+      );
   }
-  updateFavorite( data:any, favorite_id:any,){
-    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token})
-    const URL = baseUrl+'/favorites/update/'+favorite_id;
-    return this.http.post(URL,data,{headers:headers});
+
+
+  getByUser(usuario: any) {
+    const url = `${baseUrl}/favoritos/user_favorites/${usuario}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, favorites: any }) => resp)
+      )
+  }
+
+  createFavorite(data: any) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token });
+    const URL = baseUrl + '/favoritos/crear';
+    return this.http.post(URL, data, this.headers);
+  }
+  updateFavorite(data: any, favorite_id: any,) {
+    const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token })
+    const URL = baseUrl + '/favoritos/editar/' + favorite_id;
+    return this.http.post(URL, data, this.headers);
   }
 
   deleteFavorite(_id: string) {
-    const url = `${baseUrl}/favorites/destroy/${_id}`;
+    const url = `${baseUrl}/favoritos/borrar/${_id}`;
     return this.http.delete(url, this.headers);
   }
 
