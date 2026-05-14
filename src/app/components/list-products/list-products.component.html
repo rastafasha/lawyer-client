@@ -1,98 +1,76 @@
 <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
 <div class="row">
-  <ul
-  class="post"
-  infiniteScroll
-  [infiniteScrollDistance]="2"
-  [infiniteScrollUpDistance]="2"
-  [infiniteScrollThrottle]="50"
-  (scrolled)="onScrollDown()"
-  (scrolledUp)="onScrollUp()"
-  [class.refreshing]="isRefreshing"
->
-  <div class="pull-down-indicator" *ngIf="isRefreshing">
-    <app-loading></app-loading>
-    <p class="text-center">refrescando ...</p>
-  </div>
-  <li class="group" *ngIf="!isLoading">
-    <h3>{{'recent'|translate}}</h3>
-    <br>
-    <div class="div-group" *ngFor="let item of usuarios">
-      <div class="foto">
-        <div class="post-date">
-          <a [routerLink]="['/especialista/', item.uid]">
-            <img [src]="(item.profile?.img|| '') | imagenPipe : 'profiles'" alt="" />
-          </a>
-        </div>
-      </div>
-      <div class="info">
-        <h2>{{ item.username }}</h2>
-        <h3>{{ item.profile?.especialidad?.nombre }}</h3>
-        <div class="div1-home">
-          <!-- <div class="stars">
-            <ul class="star-rating" *ngIf="item.rating === 5">
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-            </ul>
-            <ul
-              class="star-rating"
-              *ngIf="item.rating >= 4 && item.rating < 5"
-            >
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-            </ul>
-            <ul
-              class="star-rating"
-              *ngIf="item.rating >= 3 && item.rating < 4"
-            >
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-            </ul>
-            <ul
-              class="star-rating"
-              *ngIf="item.rating >= 2 && item.rating < 3"
-            >
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-            </ul>
-            <ul
-              class="star-rating"
-              *ngIf="item.rating >= 1 && item.rating < 2"
-            >
-              <li class="active"><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-            </ul>
-            <ul
-              class="star-rating"
-              *ngIf="item.rating >= 0 && item.rating < 1"
-            >
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-              <li><i class="fa fa-star"></i></li>
-            </ul>
-          </div> -->
-        </div>
-      </div>
+  <ul class="post" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
+    [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
+    [class.refreshing]="isRefreshing">
+    <div class="pull-down-indicator" *ngIf="isRefreshing">
+      <app-loading></app-loading>
+      <p class="text-center">refrescando ...</p>
     </div>
-  </li>
-  
-</ul>
-</div>
+    <li class="group" *ngIf="!isLoading">
+      <h3>{{'recent'|translate}}</h3>
+      <br>
+      <div class="div-group" *ngFor="let item of usuarios">
+        <div class="foto">
+          <div class="post-date">
+            <a [routerLink]="['/especialista/', item.uid]">
+              <img [src]="(item.profile?.img|| '') | imagenPipe : 'profiles'" alt="" />
+            </a>
+          </div>
+        </div>
+        <div class="info">
+          <h2>{{ item.username }}</h2>
+          <h3>{{ item.profile?.especialidad?.nombre }}</h3>
+          <div class="div1-home">
+            <div class="stars">
+              <!-- *ngIf="item.profile?.rating === 5" -->
+              <ul class="star-rating" >
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+              </ul>
+              <!-- <ul class="star-rating" *ngIf="item.profile?.rating >= 4 && item.profile?.rating < 5">
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+              </ul>
+              <ul class="star-rating" *ngIf="rating >= 3 && rating < 4">
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+              </ul>
+              <ul class="star-rating" *ngIf="rating >= 2 && rating < 3">
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+              </ul>
+              <ul class="star-rating" *ngIf="rating >= 1 && rating < 2">
+                <li class="active"><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+              </ul>
+              <ul class="star-rating" *ngIf="rating >= 0 && rating < 1">
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+                <li><i class="fa fa-star "></i></li>
+              </ul> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
 
+  </ul>
+</div>

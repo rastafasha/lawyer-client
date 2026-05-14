@@ -47,20 +47,14 @@ export class SolicitudesService {
   }
 
   getByUser(usuario:any) {
-    const url = `${baseUrl}/solicitudes/user/${usuario}`;
+    const url = `${baseUrl}/solicitudes/cliente/${usuario}`;
     return this.http.get<any>(url,this.headers)
       .pipe(
         map((resp:{ok: boolean, solicitudes: Solicitud}) => resp.solicitudes)
       )
   }
   
-  getByClientesUser(usuario:any) {
-    const url = `${baseUrl}/solicitudes/clientes-user/${usuario}`;
-    return this.http.get<any>(url,this.headers)
-      .pipe(
-        map((resp:{ok: boolean, clientes: Solicitud}) => resp.clientes)
-      )
-  }
+
   getByContactosCliente(usuario:any) {
     const url = `${baseUrl}/solicitudes/contactos-cliente/${usuario}`;
     return this.http.get<any>(url,this.headers)

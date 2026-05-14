@@ -58,6 +58,7 @@ export class EspecialistaComponent {
   solicitudes_selected: any[] = [];
   toastr: any;
   user_id!: any;
+  client_id!: any;
   profile_id?: string;
   rating!: number;
   tiposdePagoUser: any[] = [];
@@ -92,6 +93,7 @@ export class EspecialistaComponent {
     this.activatedRoute.params.subscribe(({ id }) => {
       this.getProfile(id);
     });
+    this.client_id = this.user.uid;
   }
 
   getProfile(id: number) {
@@ -155,13 +157,13 @@ export class EspecialistaComponent {
 
   solicitarItem(data: any) {
 
-    const formData = new FormData();
-    formData.append("user_id", this.user_id);
-    formData.append("client_id", this.user_id);
-    formData.append("pedido", JSON.stringify(data));
+    const datos: any = {
+      usuario: this.user_id,
+      cliente: this.client_id,
+      pedido: data
+    }
 
-
-    this.solicitudService.createSolicitud(formData).subscribe({
+    this.solicitudService.createSolicitud(datos).subscribe({
       next: (resp: any) => {
         this.solicitud = resp;
         Swal.fire('Éxito!', 'Solicitud creada correctamente', 'success');

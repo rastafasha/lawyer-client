@@ -47,15 +47,15 @@
                 <div class="tarjeta_producto">
                   <div class="tp_tope">
                     <div class="fa fa-bookmark text-warning"></div>
-                    <h5 class="card-title">{{solicitud_selected.created_at | date:'dd/MM/yyyy HH:mm:ss'}}</h5>
-                    <span class="badge  bg-primary" *ngIf="solicitud_selected.status === 1">
+                    <h5 class="card-title">{{solicitud_selected.createdAt | date:'dd/MM/yyyy HH:mm:ss'}}</h5>
+                    <span class="badge  bg-primary" *ngIf="solicitud_selected.status === 'PENDING'">
                       {{'Pending'|translate}}</span>
                     <span class="badge bg-success"
-                      *ngIf="solicitud_selected.status === 2">{{'Verified'|translate}}</span>
-                    <span class="badge bg-warning" *ngIf="solicitud_selected.status === 3">{{'For
-                      Review'|translate}}</span>
+                      *ngIf="solicitud_selected.status === 'VERIFIED'">{{'Verified'|translate}}</span>
+                    <span class="badge bg-warning" *ngIf="solicitud_selected.status === 'REVIEW'">
+                      {{'For Review'|translate}}</span>
                     <span class="badge bg-success"
-                      *ngIf="solicitud_selected.status === 4">{{'Finished'|translate}}</span>
+                      *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finished'|translate}}</span>
                     <div class="checkbox-wrapper-6">
                       <!-- <p>{{'Start'|translate}}</p> -->
                       <!-- <input class="tgl tgl-light" id="cb1-6" type="checkbox" name="status"
@@ -68,28 +68,16 @@
                     </div>
                   </div>
                   <div class="tp_description">
-                    <p> {{'Description'|translate}}:{{solicitud_selected.pedido.item_tarifa}}</p>
-                    <p>{{'Price'|translate}}:{{solicitud_selected.pedido.precio|currency}}</p>
-                    <!-- <p> {{'Quantity'|translate}}:{{pedido.quantity}}</p> -->
-                    <select class="form-control form-select-solid fw-bolder" name="role" [(ngModel)]="status"
-                      [ngModelOptions]="{ standalone: true }" (change)="cambiarStatus(status)" placeholder="state">
-                      <option>-- {{'Select'|translate}} --</option>
-                      <option value="1">{{'Pending'|translate}}</option>
-                      <option value="2">{{'Verified'|translate | lowercase}}</option>
-                      <option value="3">{{'For Review'|translate | lowercase}}</option>
-                      <option value="4">{{'Finished'|translate | lowercase}}</option>
-                    </select>
+                    <p> {{'Description'|translate}}:{{solicitud_selected.pedido[0].item_tarifa}}</p>
+                    <p>{{'Price'|translate}}:{{solicitud_selected.pedido[0].precio|currency}}</p>
+                    
                   </div>
                 </div>
                 <div class="tarjetacliente">
-                  <div class="tc_imagem">
-                    <img [src]="(profile.img || '')  | imagenPipe: 'users' " alt="">
-                  </div>
+                  
 
                   <div class="tc_info">
-                    <p>{{'Username'|translate}}: {{client.username}}</p>
-                    <p>{{'Name'|translate}}: {{profile.first_name}} {{profile.last_name}}</p>
-                    <p>{{'Country'|translate}}: {{profile.pais}}</p>
+                    <p>{{'Username'|translate}}: {{solicitud_selected.usuario.username}}</p>
                   </div>
                   <div class="tc_actions">
                     <!-- si existe la relacion de cliente con el usuario usamos el id del cliente -->
