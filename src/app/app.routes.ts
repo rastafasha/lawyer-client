@@ -17,6 +17,7 @@ import { BannerComponent } from './pages/admin/banner/banner.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { ReportarPagoComponent } from './pages/wallet/reportar-pago/reportar-pago.component';
 import { MisNotificacionesComponent } from './pages/mis-notificaciones/mis-notificaciones.component';
+import { MisPagosComponent } from './pages/profile/mis-pagos/mis-pagos.component';
 
 export const routes: Routes = [
     {path: 'home', canActivate: [AuthGuard], component: HomeComponent},
@@ -44,8 +45,9 @@ export const routes: Routes = [
     //wallet
     {path: 'notificaciones', canActivate: [AuthGuard], component: MisNotificacionesComponent},
     {path: 'solicitudes', canActivate: [AuthGuard], component: WalletComponent},
-    {path: 'reportar-pago/:id', component: ReportarPagoComponent},
     {path: 'orders', component: OrderComponent},
-
+    {path: 'reportar-pago/:id', component: ReportarPagoComponent},
+    {path: 'mis-pagos', component: MisPagosComponent},
+    
     {path: '**', redirectTo: 'home', pathMatch: 'full'},
 ];

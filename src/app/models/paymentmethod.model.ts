@@ -1,6 +1,6 @@
 export class PaymentMethod {
-    id!: number;
-    user_id!: number;
+    _id!: string;
+    user_id!: string;
     bankAccountType!:string;
     bankName!:string;
     bankAccount!:string;

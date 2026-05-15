@@ -49,13 +49,7 @@ export class PaymentmethodService {
           );
     }
   
-    getPaymentMethodByUserId(_id: string) {
-      const url = `${baseUrl}/tipospago/user/${_id}`;
-      return this.http.get<any>(url, this.headers)
-        .pipe(
-          map((resp:{ok: boolean, paymentMethods: PaymentMethod[]}) => resp.paymentMethods)
-          );
-    }
+   
   
     getPaymentmethodsRecientes() {
       const url = `${baseUrl}/tipospago/recientes`;
@@ -73,10 +67,10 @@ export class PaymentmethodService {
     }
   
     getByUser(usuario:any) {
-      const url = `${baseUrl}/tipospago/showbyUser/${usuario}`;
+      const url = `${baseUrl}/tipospago/user/${usuario}`;
       return this.http.get<any>(url,this.headers)
         .pipe(
-          map((resp:{ok: boolean, tipodepago: any}) => resp)
+          map((resp:{ok: boolean, paymentMethods: PaymentMethod}) => resp.paymentMethods)
         )
     }
   

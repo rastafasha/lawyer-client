@@ -57,14 +57,19 @@
                   <p>{{'Documents'|translate}}</p>
                 </div>
               </a>
+              <a routerLink="/mis-pagos" >
               <div class="option-admin">
                 <i class="fa fa-user"></i>
-                <p>Messages</p>
+                <p>Mis Pagos</p>
               </div>
-              <div class="option-admin">
-                <i class="fa fa-user"></i>
-                <p>Notifications</p>
-              </div>
+              </a>
+              <a routerLink="/notificaciones" >
+                <div class="option-admin">
+                  <i class="fa fa-user"></i>
+                  <p>Notifications</p>
+                </div>
+
+              </a>
               <a (click)="logout()">
                 <div class="option-admin">
                   <i class="fa fa-power-off"></i>

@@ -101,7 +101,7 @@
     <div class="tc_actions" *ngIf="solicitud_selected.status === 'VERIFIED'">
       <!-- si existe la relacion de cliente con el usuario usamos el id del cliente -->
       <div class="btn-group" role="group">
-        <button type="button" (click)="deleteContact()" class="btn btn-danger">
+        <button type="button" (click)="deleteContact(solicitud_selected.usuario.uid)" class="btn btn-danger">
           <i class="fa fa-trash"></i>
         </button>
         <button type="button" (click)="addClient()" class="btn btn-primary">

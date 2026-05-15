@@ -16,6 +16,7 @@ import { ClientService } from '../../services/client.service';
 import { Profile, RedesSociales } from '../../models/profile.model';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 declare var bootstrap: any;
 @Component({
@@ -72,6 +73,7 @@ export class WalletComponent {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private router = inject(Router);
+  private toastr = inject(ToastrService);
 
 
 
@@ -113,7 +115,7 @@ export class WalletComponent {
     const facturaCompleta = this.solicitud_selected;
 
     if (!facturaCompleta) {
-      // this.toastr.error('Error al recuperar los datos de la factura');
+      this.toastr.error('Error al recuperar los datos de la factura');
       return;
     }
 
@@ -193,29 +195,38 @@ export class WalletComponent {
     this.clientService.addClienttoUser(formData).subscribe({
       next: (resp: any) => {
         this.client = resp;
-        Swal.fire('Éxito!', 'Cliente creado correctamente', 'success');
+        this.toastr.success('Éxito!', 'Cliente creado correctamente')
         this.ngOnInit();
       }
       , error: (err) => {
-        Swal.fire('Error', 'Error al crear el cliente', 'error');
+        this.toastr.error('Error', 'Error al crear el cliente')
         console.error(err);
       }
     });
   }
 
-  deleteContact() {
-    const formData = new FormData();
-    formData.append("client_id", this.client.uid + '');
-
-    this.clientService.removeClient(this.client_id).subscribe({
-      next: (resp: any) => {
-        this.client = resp;
-        Swal.fire('Éxito!', 'client eliminado correctamente', 'success');
+ deleteContact(client_id: any) {
+    Swal.fire({
+      title: 'Estas Seguro?',
+      text: "No podras recuperarlo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clientService.removeClient(client_id).subscribe(
+          response => {
+            this.ngOnInit();
+          }
+        )
+        Swal.fire(
+          'Borrado!',
+          'El client fue borrado.',
+          'success'
+        )
         this.ngOnInit();
-      }
-      , error: (err) => {
-        Swal.fire('Error', 'Error al eliminar el client', 'error');
-        console.error(err);
       }
     });
   }

@@ -135,7 +135,7 @@ export class EspecialistaComponent {
   }
 
   getPaymentMethods() {
-    this.paymentService.getPaymentMethodByUserId(this.user_id).subscribe((resp: any) => {
+    this.paymentService.getByUser(this.user_id).subscribe((resp: any) => {
       this.tiposdePagoUser = resp;
     })
   }

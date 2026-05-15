@@ -1,15 +1,14 @@
 <app-skeleton-loader *ngIf="isLoading" [rows]="4" [columns]="1"></app-skeleton-loader>
 
 <div class="container py-4 bg-light min-vh-100 animate fadeIn">
-  
+
   <div class="d-flex justify-content-between align-items-center mb-3">
     <app-backButtn pageTitle="Reportar Pago"></app-backButtn>
-  <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm" 
-          (click)="instruccionesModal.open()" 
-          title="Ayuda de la sección">
-    <i class="fas fa-question"></i>
-  </button>
-</div>
+    <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm" (click)="instruccionesModal.open()"
+      title="Ayuda de la sección">
+      <i class="fa fa-question"></i>
+    </button>
+  </div>
 
   <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
     <div class="card-body p-4">
@@ -22,16 +21,16 @@
             <!-- Si no hay nroFactura en el state, mostramos "Pago de Factura" -->
 
             <h6 class="mb-0 fw-bold text-primary">
-              {{ factura()?.nroFactura ? 'Factura #' + factura().nroFactura : 'Pago de Deuda Total' }}
+              {{ solicitud()?.nroFactura ? 'Factura #' + solicitud().nroFactura : 'Pago de Deuda Total' }}
             </h6>
-            <small class="text-primary opacity-75">Monto sugerido: ${{ factura()?.totalPagar }}</small>
+            <small class="text-primary opacity-75">Monto sugerido: ${{ solicitud()?.amount }}</small>
           </div>
           <div class="text-end">
             <!-- Cálculo en tiempo real según la tasa del servicio -->
             <h5 class="mb-0 fw-bold text-primary">
-              {{ (paymentForm.get('amount')?.value * tasa()) | currency:'Bs. ':'symbol':'1.2-2' }}
+              {{ (paymentForm.get('amount')?.value * tasa) | currency:'Bs. ':'symbol':'1.2-2' }}
             </h5>
-            <small class="text-primary opacity-75">Tasa BCV: {{ tasa() }} Bs.</small>
+            <small class="text-primary opacity-75">Tasa BCV: {{ tasa }} Bs.</small>
           </div>
         </div>
       </div>
@@ -45,12 +44,13 @@
           <!-- Selección Método de Pago -->
           <div class="mb-4">
             <label class="form-label fw-bold small text-muted">Método de Pago</label>
-            <select formControlName="metodo_pago" name="metodo_pago" id="metodo_pago" class="form-select" (change)="onChangePayment($event)">
+            <select formControlName="metodo_pago" name="metodo_pago" id="metodo_pago" class="form-select"
+              (change)="onChangePayment($event)">
               <option value="">Seleccione un método de pago</option>
               <!-- Usamos el _id como value para que sea único -->
-              <!-- <option [value]="metodo._id" *ngFor="let metodo of paymentMethods">
+              <option [value]="metodo._id" *ngFor="let metodo of paymentMethods">
                 {{metodo.tipo}} - {{metodo.bankName}}
-              </option> -->
+              </option>
             </select>
           </div>
 
@@ -91,15 +91,14 @@
           <div class="col-6">
             <label class="form-label text-muted small fw-bold">BANCO DESTINO</label>
             <select formControlName="bank_destino"
-        class="form-select form-select-lg rounded-3 border-light bg-light fs-6"
-        name="bank_destino" 
-        id="bank_destino"
-        style="pointer-events: none; background-color: #e9ecef;"> <!-- El color es para que parezca desactivado -->
-  <option value="" disabled selected>Seleccione Banco</option>
-  <option [value]="banco.bankName" *ngFor="let banco of paymentMethods">
-    {{banco.bankName}}
-  </option>
-</select>
+              class="form-select form-select-lg rounded-3 border-light bg-light fs-6" name="bank_destino"
+              id="bank_destino" style="pointer-events: none; background-color: #e9ecef;">
+              <!-- El color es para que parezca desactivado -->
+              <option value="" disabled selected>Seleccione Banco</option>
+              <option [value]="banco.bankName" *ngFor="let banco of paymentMethods">
+                {{banco.bankName}}
+              </option>
+            </select>
           </div>
           <div class="col-6">
             <label class="form-label text-muted small fw-bold">REFERENCIA</label>
@@ -121,7 +120,7 @@
               <label class="form-label text-muted small fw-bold">EQUIVALENTE BS.</label>
               <div
                 class="py-3 px-2 bg-success-subtle text-success fw-bold rounded-3 text-center border border-success border-opacity-10">
-                {{ (paymentForm.get('amount')?.value * tasa()) | number:'1.2-2' }}
+                {{ (paymentForm.get('amount')?.value * tasa) | number:'1.2-2' }}
               </div>
             </div>
           </div>

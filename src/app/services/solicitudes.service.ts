@@ -38,7 +38,7 @@ export class SolicitudesService {
       )
   }
 
-  getSolicitud(id: Solicitud) {
+  getSolicitud(id: string) {
     const url = `${baseUrl}/solicitudes/${id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(

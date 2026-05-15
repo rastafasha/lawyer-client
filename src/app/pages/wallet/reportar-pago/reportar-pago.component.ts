@@ -10,6 +10,10 @@ import { SkeletonLoaderComponent } from '../../../shared/skeleton-loader/skeleto
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 import { PaymentmethodService } from '../../../services/paymentmethod.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../../services/auth.service';
+import { PaymentService } from '../../../services/payment.service';
+import { SolicitudesService } from '../../../services/solicitudes.service';
+import { Solicitud } from '../../../models/solicitud.model';
 
 
 @Component({
@@ -25,15 +29,19 @@ export class ReportarPagoComponent {
   title = 'Volver';
 
   // Signals
-  factura = signal<any>(null); // Viene de la pantalla anterior
-  tasa = signal(0);
+  solicitud = signal<any>(null); // Viene de la pantalla anterior
+  // tasa = signal(0);
+  tasa = 508;
   loading = signal(false);
   imagePreview = signal<string | null>(null);
   selectedFile: File | null = null;
   userId!: string;
   paymentSelected!: any;
   paymentMethods: PaymentMethod[] = [];
-  user!: Profile;
+  user!: any;
+  // solicitud!:Solicitud;
+  usuario_id!: any;
+  amount!: number;
 
   info = `
   <h2>Sección: Reportar Pago</h2>
@@ -48,12 +56,14 @@ export class ReportarPagoComponent {
   </ul>`;
 
   private fb = inject(FormBuilder);
-  // private paymentService = inject(PaymentService);
+  private paymentService = inject(PaymentService);
   private paymenttiposService = inject(PaymentmethodService);
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   public toastr = inject(ToastrService);
   private fileUploadService = inject(FileUploadService);
+  private authService = inject(AuthService);
+  private solicitudService = inject(SolicitudesService);
 
   paymentForm: FormGroup = this.fb.group({
     metodo_pago: ['', Validators.required],
@@ -68,39 +78,48 @@ export class ReportarPagoComponent {
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    const USER = localStorage.getItem("user");
-    this.userId = JSON.parse(USER || '{}').uid;
-    this.user = JSON.parse(USER || '{}');
+    this.user = this.authService.getLocalStorage();
     this.getTasadelDia();
-    this.getPaymentsMethods();
+    // this.getPaymentsMethods();
     // 1. Obtenemos el ID de la URL
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-
     // 2. Obtenemos los datos extendidos (monto, nroFactura) del historial
     const state = window.history.state;
     if (id === 'deuda-total') {
       // Caso: Viene del Home con el monto acumulado
-      if (state && state.factura) {
-        this.factura.set(state.factura);
-        this.paymentForm.patchValue({ amount: state.factura.totalPagar });
+      if (state && state.solicitud) {
+        this.solicitud.set(state.solicitud);
+        this.paymentForm.patchValue({ amount: state.solicitud.pedido[0].precio });
       }
     } else if (id && id !== 'nuevo') {
-      // Caso: Viene de una factura específica
-      if (state && state.factura) {
-        this.factura.set(state.factura);
-        this.paymentForm.patchValue({ amount: state.factura.totalPagar });
+      // Caso: Viene de una solicitud específica
+      if (state && state.solicitud) {
+        this.solicitud.set(state.solicitud);
+        this.paymentForm.patchValue({ amount: state.solicitud.pedido[0].precio });
       } else {
         // Solo llamamos a la API si NO es 'deuda-total'
-        // this.facturaService.getFactura(id).subscribe(resp => {
-        //   this.factura.set(resp.factura);
-        //   this.paymentForm.patchValue({ amount: resp.factura.totalPagar });
-        // });
+        this.solicitudService.getSolicitud(id).subscribe((resp: any) => {
+          // 1. Guardas la respuesta completa en el Signal
+          this.solicitud.set(resp);
+
+          // 2. Extraes el precio desde el Signal recién actualizado
+          const precioPedido = this.solicitud()?.pedido?.[0]?.precio;
+          // 3. Rellenas el formulario con el monto (Solución al problema)
+          if (precioPedido) {
+            this.paymentForm.patchValue({ amount: precioPedido });
+          }
+          // 2. Lees el Signal ejecutándolo como función () y accedes a .cliente.uid
+          this.usuario_id = this.solicitud()?.usuario?.uid;
+          this.getPaymentsMethods();
+        })
       }
     }
   }
 
+
+
   getPaymentsMethods() {
-    this.paymenttiposService.getPaymentmethods().subscribe((resp: any) => {
+    this.paymenttiposService.getByUser(this.usuario_id).subscribe((resp: any) => {
       this.paymentMethods = resp;
     })
   }
@@ -112,7 +131,7 @@ export class ReportarPagoComponent {
     const idSeleccionado = target.value;
 
     // Buscamos el objeto completo
-    // this.paymentSelected = this.paymentMethods.find(method => method._id === idSeleccionado);
+    this.paymentSelected = this.paymentMethods.find(method => method._id === idSeleccionado);
 
     if (this.paymentSelected) {
       // Seteamos automáticamente el valor en el campo 'bank_destino' del formulario
@@ -140,39 +159,39 @@ export class ReportarPagoComponent {
 
   enviarPago() {
     debugger
-    const facturaData = this.factura();
-    if (!facturaData || this.loading()) return;
+    const solicitudData = this.solicitud();
+    if (!solicitudData || this.loading()) return;
 
     // Si es un pago de deuda total, el ID será 'DEUDA_TOTAL' o null según prefiera tu backend
-    const facturaId = facturaData._id;
+    const solicitudId = solicitudData._id;
 
     this.loading.set(true);
 
     this.fileUploadService
-      .actualizarFoto(this.selectedFile!, 'pagos', facturaData._id)
+      .actualizarFoto(this.selectedFile!, 'pagos', solicitudData._id)
       .then(imgUrl => {
         const payload = {
-          factura: facturaId === 'DEUDA_TOTAL' ? null : facturaId, // Enviamos null si es abono general
-          esPagoTotal: facturaId === 'DEUDA_TOTAL', // Flag útil para el backend
+          solicitud: solicitudId === 'DEUDA_TOTAL' ? null : solicitudId, // Enviamos null si es abono general
+          esPagoTotal: solicitudId === 'DEUDA_TOTAL', // Flag útil para el backend
           cliente: this.userId,
           amount: this.paymentForm.get('amount')?.value,
-          tasaBCV: this.tasa(),
+          tasaBCV: this.tasa,
           referencia: this.paymentForm.get('referencia')?.value,
           metodo_pago: this.paymentSelected?.tipo,
           bank_destino: this.paymentForm.get('bank_destino')?.value,
           img: imgUrl
         };
 
-        // this.paymentService.createPayment(payload).subscribe({
-        //   next: () => {
-        //     this.toastr.success('¡Pago reportado con éxito!');
-        //     this.router.navigate(['/mis-pagos']);
-        //   },
-        //   error: () => {
-        //     this.loading.set(false);
-        //     this.toastr.error('Error al registrar el pago');
-        //   }
-        // });
+        this.paymentService.createPayment(payload).subscribe({
+          next: () => {
+            this.toastr.success('¡Pago reportado con éxito!');
+            this.router.navigate(['/mis-pagos']);
+          },
+          error: () => {
+            this.loading.set(false);
+            this.toastr.error('Error al registrar el pago');
+          }
+        });
       })
       .catch(err => {
         this.loading.set(false);
