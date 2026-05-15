@@ -55,6 +55,15 @@ export class ClientService {
       )
   }
 
+  getMySpecialists(user: any) {
+    const url = `${baseUrl}/clients/myspecialists/${user}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, specialists: Client }) => resp)
+      )
+  }
+
+
 
   addClienttoUser(data: any) {
     const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token });

@@ -8,7 +8,7 @@
       {{'Refreshing'|translate}} ...
     </p>
   </div>
-  
+
   <div class="container-fluid">
     <div class="container">
       <div class="row">
@@ -111,63 +111,21 @@
 
 
           <div class="carousel-inner-data" *ngIf="!isLoading">
-            <div class="post navTabs" *ngIf="favorites.length > 0 else message">
-              <div class=" itemFav scrollinganimate" *ngFor="let character of favorites; trackby: trackByCharacterId">
-                <div class="group  itemFav lastposthome">
-                  <a href="lawyer-profile.html">
-                    <!-- <img [src]="character.profile.avatar" alt=""> -->
-                    <img *ngIf="!character.profile.avatar" [src]="character.profile.avatar  | imagenPipe: 'profiles' "
-                      alt="">
-                  </a>
-                  <div class="div1">
-                    <p>{{character.profile.nombre}} {{character.profile.surname}}</p>
-                    <p>{{character.profile.email}}</p>
-                    <!-- <p>{{character.profile.gender}}</p> -->
-                    <!-- <p>Lorem ipsum dolor sit amet consectetur...</p> -->
-                    <div class="stars">
+            <div class="post navTabs" *ngIf="specialists.length > 0 else message">
+              <div *ngFor="let item of specialists">
+                <div class="card border-0 shadow-sm mb-3 ">
+                  <div class="group itemFav shadow">
 
-                      <ul class="star-rating" *ngIf="character.profile.rating === 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="character.profile.rating >= 4 && character.profile.rating < 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="character.profile.rating >= 3 && character.profile.rating < 4">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="character.profile.rating >= 2 && character.profile.rating < 3">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="character.profile.rating >= 1 && character.profile.rating < 2">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="character.profile.rating >= 0 && character.profile.rating < 1">
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
+                    <div class="div1pagocon ">
+                      <div class="d-flex  justify-content-between">
+                        <div class="inf">
+                          <p>{{item.usuario?.username}}</p>
+                          <small>{{item.usuario?.email}}</small>
+                        </div>
+                        <button class="btn btn-outline-primary" (click)="abrirDetalle(item.usuario?.uid)">
+                          <i class="fa fa-eye"></i>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -192,4 +150,67 @@
     </div>
   </div>
 </section>
+
+<!-- OFFCANVAS DETALLE -->
+<div class="offcanvas offcanvas-bottom rounded-top-5 h-75" tabindex="-1" id="offcanvasNotif"
+  style="height: auto; max-height: 60vh; border-radius: 25px 25px 0 0;">
+  <div class="offcanvas-header border-bottom py-3">
+    <h5 class="offcanvas-title fw-bold ">Detalle de Perfil</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+  </div>
+  <app-loading *ngIf="isLoadingFicha"></app-loading>
+  <div class="offcanvas-body p-4" *ngIf="usuario_selected && !isLoadingFicha">
+    <div class="tarjetacliente">
+      <div class="tc_middle">
+        <div class="tc_imagem">
+          <img *ngIf="profile" [src]="(profile.img || '') | imagenPipe: 'profiles' " alt="">
+        </div>
+
+        <div class="tc_info">
+          <p>{{'Name'|translate}}: {{profile?.first_name}} {{profile?.last_name}}</p>
+          <p>{{'Country'|translate}}: {{profile?.pais}}</p>
+          <p>{{'City'|translate}}: {{profile?.ciudad}}</p>
+          <p>{{'Gender'|translate}}: {{profile?.gender}}</p>
+          <p>{{'Description'|translate}}: {{ profile?.shortdescription }}</p>
+          <div class="reds">
+            <div class="cont" *ngFor="let red of redessociales">
+              <a *ngIf="red.icono === 'fa fa-whatsapp'"
+                href="`https://wa.me/`{{red.name_red}}`?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion`"
+                target="_blank" rel="noopener noreferrer">
+                <div class="option-admin">
+                  <i [class]="red.icono"></i>
+                  <!-- <p>{{ red.title }}</p> -->
+                </div>
+              </a>
+              <a *ngIf="red.icono !== 'fa fa-whatsapp'" href="https://{{red.name_red}}/{{red.usuario_red}}" target="_blank" rel="noopener noreferrer">
+                <div class="option-admin">
+                  <i [class]="red.icono"></i>
+                  <!-- <p>{{ red.title }}</p> -->
+                </div>
+              </a>
+            </div>
+
+          </div>
+          <!-- <app-ratingStar *ngIf="profile && user" [profile]="profile"></app-ratingStar> -->
+        </div>
+      </div>
+    </div>
+    <div class="tc_actions">
+      <!-- si existe la relacion de cliente con el usuario usamos el id del cliente -->
+      <div class="btn-group" role="group">
+        <button type="button" (click)="deleteContact(usuario_selected)" class="btn btn-danger">
+          <i class="fa fa-trash"></i>
+        </button>
+
+        <button type="button" [routerLink]="['/chat/', usuario_selected]" class="btn btn-success">
+          <i class="fa fa-comment" aria-hidden="true"></i>
+        </button>
+
+      </div>
+    </div>
+
+
+  </div>
+
+</div>
 <app-menu-footer></app-menu-footer>

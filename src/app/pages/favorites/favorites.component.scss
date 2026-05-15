@@ -1,0 +1,49 @@
+.tarjetacliente{
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    width: 100%;
+    & .tc_tope{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    & .tc_middle{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 70%;
+    }
+    & .tc_imagem{
+        display: flex;
+        width: 30%;
+        align-self: flex-start;
+    }
+
+    & .tc_info{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        & p{
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    & .tc_actions{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap:10px
+    }
+
+}
+
+.reds{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}

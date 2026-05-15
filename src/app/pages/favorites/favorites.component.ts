@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, TrackByFunction } from '@angular/core';
+import { Component, EventEmitter, HostListener, inject, Output, TrackByFunction } from '@angular/core';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CommonModule } from '@angular/common';
@@ -14,7 +14,14 @@ import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { Favorite } from '../../models/favorite.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
-
+import { ClientService } from '../../services/client.service';
+import { Client } from '../../models/client.model';
+import { ProfileService } from '../../services/profile.service';
+import { Profile, RedesSociales } from '../../models/profile.model';
+import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
+import { RouterLink } from '@angular/router';
+declare var bootstrap: any;
 @Component({
   selector: 'app-favorites',
   imports: [
@@ -27,17 +34,21 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
     InfiniteScrollDirective,
     TranslateModule,
     ReactiveFormsModule,
-    ImagenPipe
+    ImagenPipe,
+    RouterLink
   ],
   templateUrl: './favorites.component.html',
-  styleUrl: './favorites.component.css'
+  styleUrl: './favorites.component.scss'
 })
 export class FavoritesComponent {
+   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+
   pageTitle = 'Favorites';
   loadingTitle!: string;
   isRefreshing = false;
   isLoading = false;
   isEdnOfList = false;
+  isLoadingFicha = false;
   searchForm!: FormGroup;
   name_file = '';
   user!: any;
@@ -45,21 +56,92 @@ export class FavoritesComponent {
   characters: Array<any> = [];
   favorites: Array<Favorite> = [];
   nextUrl: string = '';
+  specialists!:Client[]
+  usuario_selected:any;
+  client:any;
+  profile!: Profile;
+  public redessociales!: RedesSociales[];
 
   private favoriteService = inject(FavoritoService);
-  private favoritesService = inject(FavoritesService);
+  private clientService = inject(ClientService);
+  private profileService = inject(ProfileService);
   private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
   private fb = inject(FormBuilder);
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.getCharactrs();
+    this.user = this.authService.getLocalStorage();
+    this.favoritesByUser();
     this.validarFormularioPerfil();
     this.searchForm.reset();
+    
+    this.rol = this.user.role;
+    // this.getCharactrs();
+  }
 
-    this.user = this.authService.getLocalStorage();
-    this.rol = this.user.roles[0];
-    this.favoritesByUser();
+  
+ 
+
+  favoritesByUser() {
+    this.clientService.getMySpecialists(this.user.uid).subscribe((resp: any) => {
+      console.log('respuesta member', resp);
+      this.specialists = resp.specialists;
+    })
+  }
+
+   abrirDetalle(usuario: any) {
+    this.usuario_selected = usuario;
+    // 1. Abrir Offcanvas
+    const el = document.getElementById('offcanvasNotif');
+    const bsOffcanvas = new bootstrap.Offcanvas(el);
+    bsOffcanvas.show();
+    this.getClienteContact();
+  }
+
+  getClienteContact() {
+    this.isLoadingFicha = true;
+    this.profileService.getByUser(this.usuario_selected).subscribe((resp: any) => {
+      this.profile = resp;
+      
+      // this.client_id = this.client.uid;
+      this.profile = resp.profile;
+      this.redessociales = typeof resp.profile.redssociales === 'string'
+        ? JSON.parse(resp[0].profile.redssociales) || []
+        : resp.profile.redssociales || [];
+        this.isLoadingFicha = false;
+    })
+  }
+
+
+
+
+  deleteContact(cliente_selected: any) {
+    Swal.fire({
+      title: 'Estas Seguro?',
+      text: "No podras recuperarlo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.clientService.removeClient(cliente_selected).subscribe(
+          response => {
+            this.closeModal.emit();
+            this.ngOnInit();
+          }
+        )
+        Swal.fire(
+          'Borrado!',
+          'El Archivo fue borrado.',
+          'success'
+        )
+        this.closeModal.emit();
+        this.ngOnInit();
+      }
+    });
   }
 
   validarFormularioPerfil() {
@@ -72,7 +154,8 @@ export class FavoritesComponent {
     });
   }
 
-  getCharactrs() {
+
+   getCharactrs() {
     this.isLoading = true;
     this.favoriteService.getCharacters().subscribe(
       (response: any) => {
@@ -81,15 +164,6 @@ export class FavoritesComponent {
         this.isLoading = false;
       })
   }
-
-  favoritesByUser() {
-    this.favoritesService.getByUser(this.user.uid).subscribe((resp: any) => {
-      console.log('respuesta member', resp);
-      this.favorites = resp;
-    })
-  }
-
-  
 
 
   onScrollDown() {
