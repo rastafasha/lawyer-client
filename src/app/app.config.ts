@@ -8,6 +8,8 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { HttpInterceptor } from '@angular/common/http';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -23,6 +25,12 @@ export const appConfig: ApplicationConfig = {
       enabled: !isDevMode(),
       registrationStrategy: 'registerWhenStable:30000'
     }),
+    provideAnimations(),
+        provideToastr({
+          positionClass: 'toast-top-center', // customize global options
+          timeOut: 3000,
+          // ... more options
+        }),
     ...TranslateModule.forRoot({
       defaultLanguage: 'es',
       loader: {

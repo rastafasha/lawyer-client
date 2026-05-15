@@ -8,15 +8,15 @@ import { SettingsComponent } from './pages/profile/settings/settings.component';
 import { EditComponent } from './pages/profile/edit/edit.component';
 import { DocumentsComponent } from './pages/profile/documents/documents.component';
 import { FilesComponent } from './pages/profile/documents/files/files.component';
-import { PaymentComponent } from './pages/wallet/payment/payment.component';
 import { OrderComponent } from './pages/wallet/order/order.component';
 import { LoginComponent } from './auth/login/login.component';
 import { CategoriaComponent } from './pages/categoria/categoria.component';
 import { EspecialistaComponent } from './pages/especialista/especialista.component';
 import { AuthGuard } from './guards/auth.guard';
-import { PaymentmethodComponent } from './pages/profile/paymentmethod/paymentmethod.component';
 import { BannerComponent } from './pages/admin/banner/banner.component';
 import { ChatComponent } from './pages/chat/chat.component';
+import { ReportarPagoComponent } from './pages/wallet/reportar-pago/reportar-pago.component';
+import { MisNotificacionesComponent } from './pages/mis-notificaciones/mis-notificaciones.component';
 
 export const routes: Routes = [
     {path: 'home', canActivate: [AuthGuard], component: HomeComponent},
@@ -38,13 +38,13 @@ export const routes: Routes = [
     {path: 'profile/documents', component: DocumentsComponent},
     {path: 'profile/documents/file/:id', component: FilesComponent},
     
-    {path: 'profile/paymentmethods', component: PaymentmethodComponent},
     
     {path: 'admin/banners', component: BannerComponent},
-
+    
     //wallet
-    {path: 'wallet', canActivate: [AuthGuard], component: WalletComponent},
-    {path: 'wallet-payment', component: PaymentComponent},
+    {path: 'notificaciones', canActivate: [AuthGuard], component: MisNotificacionesComponent},
+    {path: 'solicitudes', canActivate: [AuthGuard], component: WalletComponent},
+    {path: 'reportar-pago/:id', component: ReportarPagoComponent},
     {path: 'orders', component: OrderComponent},
 
     {path: '**', redirectTo: 'home', pathMatch: 'full'},

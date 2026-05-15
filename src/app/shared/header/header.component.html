@@ -89,18 +89,26 @@
                         </li>
                     </ul>
                 </div> -->
-                <a  *ngIf="profile" routerLink="/profile">
+                <a *ngIf="profile" routerLink="/profile">
                     <img [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
                 </a>
             </div>
             <div class="logointerno ">
                 <svg id="logoNuevo" xmlns="http://www.w3.org/2000/svg" width="138" height="40" viewBox="0 0 138 40">
                     <g id="app_logo" data-name="app logo">
-                      <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)" fill="#9f1a36"/>
-                      <path id="Subtraction_2" data-name="Subtraction 2" d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z" transform="translate(1807 -2736)" fill="#707070"/>
+                        <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)"
+                            fill="#9f1a36" />
+                        <path id="Subtraction_2" data-name="Subtraction 2"
+                            d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z"
+                            transform="translate(1807 -2736)" fill="#707070" />
                     </g>
-                    <text id="Justicia.net" transform="translate(21 35)" fill="#262626" font-size="22" font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500"><tspan x="0" y="0">La</tspan><tspan y="0" fill="#9f1a36">-></tspan><tspan y="0">flecha</tspan></text>
-                  </svg>
+                    <text id="Justicia.net" transform="translate(21 35)" fill="#262626" font-size="22"
+                        font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500">
+                        <tspan x="0" y="0">La</tspan>
+                        <tspan y="0" fill="#9f1a36">-></tspan>
+                        <tspan y="0">flecha</tspan>
+                    </text>
+                </svg>
             </div>
         </div>
         <nav>
@@ -121,51 +129,45 @@
         </div>
     </div>
 
-    <div class="menu-top">
+    <div class="menu-top ">
 
-        <div class="logointerno isqmenu2" style="padding-top: 10px;">
+        <div class="logointerno isqmenu2">
             <svg id="logoNuevo" xmlns="http://www.w3.org/2000/svg" width="138" height="40" viewBox="0 0 138 40">
                 <g id="app_logo" data-name="app logo">
-                  <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)" fill="#9f1a36"/>
-                  <path id="Subtraction_2" data-name="Subtraction 2" d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z" transform="translate(1807 -2736)" fill="#707070"/>
+                    <circle id="Ellipse_13" data-name="Ellipse 13" cx="5" cy="5" r="5" transform="translate(11 11)"
+                        fill="#9f1a36" />
+                    <path id="Subtraction_2" data-name="Subtraction 2"
+                        d="M-1791,2768h0a15.9,15.9,0,0,1-11.313-4.686A15.894,15.894,0,0,1-1807,2752a15.9,15.9,0,0,1,4.687-11.314A15.9,15.9,0,0,1-1791,2736a15.9,15.9,0,0,1,11.314,4.686A15.9,15.9,0,0,1-1775,2752h-6a9.933,9.933,0,0,0-2.932-7.068A9.932,9.932,0,0,0-1791,2742a10.011,10.011,0,0,0-10,10,10.011,10.011,0,0,0,10,10v6Z"
+                        transform="translate(1807 -2736)" fill="#707070" />
                 </g>
-                <text id="Justicia.net" transform="translate(21 35)" fill="#262626" font-size="22" font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500"><tspan x="0" y="0">La</tspan><tspan y="0" fill="#9f1a36">-></tspan><tspan y="0">flecha</tspan></text>
-              </svg>
+                <text id="la_flecha" transform="translate(21 35)" fill="#262626" font-size="22"
+                    font-family="HelveticaNeue-Medium, Helvetica Neue" font-weight="500">
+                    <tspan x="0" y="0">La</tspan>
+                    <tspan y="0" fill="#9f1a36">-></tspan>
+                    <tspan y="0">flecha</tspan>
+                </text>
+            </svg>
 
         </div>
-        <div class="isqmenu3 fotolang">
-            
-            <ul class="menuright">
-
-                <li>
-                    <img class="globowhite"  (click)="onDarkMode('dark')" src="./assets/svg/luna.svg" alt="">
-                    <img class="globoblack"  (click)="onDarkMode('dark')" src="./assets/svg/sol.svg" alt="">
-                </li>
-            </ul>
-            
-            <!-- <div class="dropdown">
-                <div class="flags">
-                    <img *ngIf="activeLang === 'es'" class="left-image" style="width: 30px;" [src]="'assets/images/venezuela.png'" >
-                    <img *ngIf="activeLang == 'en'" class="left-image" style="width: 30px;" [src]="'assets/images/usa.png'" >
+        <div class="isqmenu3 fotolang d-flex justify-content-between align-items-center  w-100">
+            <div class="d-flex align-items-center">
+                <!-- CAMPANA CON BADGE -->
+                <div class="position-relative me-3" routerLink="/notificaciones" style="cursor: pointer;">
+                    <i class="fa fa-regular fa fa-bell fs-4 text-dark"></i>
+                    <span *ngIf="notificacionesPendientes > 0"
+                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                        style="font-size: 0.6rem;">
+                        {{ notificacionesPendientes }}
+                    </span>
                 </div>
-                <div class="dropdown-content">
-                    <li class="has-child-menu">
-                        <a style="cursor: pointer;" >
-                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/usa.png'" >
-                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('en')"><span class="menu-item">{{'English'|translate}}</span></a>
-                        </a>
-                    </li>
-                    <li class="has-child-menu">
-                        <a style="cursor: pointer;"  >
-                            <img class="left-image" style="width: 30px; color: #333;" [src]="'assets/images/venezuela.png'" >
-                            <a  style="cursor: pointer; color: #333;"  (click)="cambiarLenguaje('es')"><span class="menu-item">{{'Spanish'|translate}}</span></a>
-                        </a>
-                    </li>
-                </div>
-              </div> -->
+            </div>
+            <div>
+                <img class="globowhite" (click)="onDarkMode('dark')" src="./assets/svg/luna.svg" alt="">
+                <img class="globoblack" (click)="onDarkMode('dark')" src="./assets/svg/sol.svg" alt="">
+            </div>
             <div class="user-header-top ">
                 <a *ngIf="profile" routerLink="/profile">
-                    <img  [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
+                    <img [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
                 </a>
             </div>
         </div>

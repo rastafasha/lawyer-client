@@ -16,6 +16,7 @@ import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SolicitudesService } from '../../../services/solicitudes.service';
 import { ClientService } from '../../../services/client.service';
+import { ToastrService } from 'ngx-toastr';
 const baseUrl = environment.url_servicios;
 declare let $: any;
 @Component({
@@ -73,6 +74,7 @@ export class DocumentsComponent {
     public router: Router,
     public ativatedRoute: ActivatedRoute,
     public fb: FormBuilder,
+    public toastr: ToastrService,
 
   ) {
     this.user = this.authService.getLocalStorage();
@@ -300,13 +302,7 @@ export class DocumentsComponent {
       client_id: this.share,
     }
     this.documentService.shareDocument(data).subscribe((resp: any) => {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: this.text_success,
-        showConfirmButton: false,
-        timer: 1500
-      });
+      this.toastr.success('Se ha Compartido el Documento')
     })
   }
 

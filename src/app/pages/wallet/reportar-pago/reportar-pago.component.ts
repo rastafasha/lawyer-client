@@ -1,0 +1,184 @@
+import { CommonModule } from '@angular/common';
+import { Component, inject, signal } from '@angular/core';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+import { ModalInstruccionesComponent } from '../../../components/modal-instrucciones/modal-instrucciones.component';
+import { Profile } from '../../../models/favorite.model';
+import { PaymentMethod } from '../../../models/paymentmethod.model';
+import { FileUploadService } from '../../../services/file-upload.service';
+import { SkeletonLoaderComponent } from '../../../shared/skeleton-loader/skeleton-loader.component';
+import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
+import { PaymentmethodService } from '../../../services/paymentmethod.service';
+import { ToastrService } from 'ngx-toastr';
+
+
+@Component({
+  selector: 'app-reportar-pago',
+  imports: [CommonModule, SkeletonLoaderComponent, BackButtnComponent, ReactiveFormsModule,
+    ModalInstruccionesComponent
+  ],
+  templateUrl: './reportar-pago.component.html',
+  styleUrl: './reportar-pago.component.scss'
+})
+export class ReportarPagoComponent {
+  isLoading: boolean = false;
+  title = 'Volver';
+
+  // Signals
+  factura = signal<any>(null); // Viene de la pantalla anterior
+  tasa = signal(0);
+  loading = signal(false);
+  imagePreview = signal<string | null>(null);
+  selectedFile: File | null = null;
+  userId!: string;
+  paymentSelected!: any;
+  paymentMethods: PaymentMethod[] = [];
+  user!: Profile;
+
+  info = `
+  <h2>Sección: Reportar Pago</h2>
+  <p><strong>Nota importante:</strong> Actualmente no utilizamos pasarelas de pago directo. Cualquier actualización sobre métodos de pago automatizados será informada oportunamente a través de la <strong>Cartelera</strong> o <strong>Notificaciones</strong>.</p>
+  
+  <p>Para reportar tu pago con éxito, sigue estas instrucciones:</p>
+  <ul>
+    <li><strong>Datos de Transferencia:</strong> Al seleccionar tu método de pago preferido, el sistema te mostrará automáticamente los datos bancarios del beneficiario para que realices la operación desde tu banca en línea.</li>
+    <li><strong>Registro de Información:</strong> Completa los campos solicitados: Banco de destino y los números o códigos de la <strong>Referencia Bancaria</strong>.</li>
+    <li><strong>Monto del Pago:</strong> El monto ya viene predeterminado según la factura que seleccionaste; no es necesario modificarlo.</li>
+    <li><strong>Comprobante Digital (Obligatorio):</strong> Es indispensable adjuntar la imagen o captura de pantalla de tu pago. Esto nos permite validar tu reporte de manera mucho más eficiente.</li>
+  </ul>`;
+
+  private fb = inject(FormBuilder);
+  // private paymentService = inject(PaymentService);
+  private paymenttiposService = inject(PaymentmethodService);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  public toastr = inject(ToastrService);
+  private fileUploadService = inject(FileUploadService);
+
+  paymentForm: FormGroup = this.fb.group({
+    metodo_pago: ['', Validators.required],
+    bank_destino: ['', Validators.required],
+    referencia: ['', [Validators.required, Validators.minLength(4)]],
+    amount: [0, [Validators.required, Validators.min(0.01)]],
+    img: [null, Validators.required],
+
+  });
+
+
+
+  ngOnInit() {
+    window.scrollTo(0, 0);
+    const USER = localStorage.getItem("user");
+    this.userId = JSON.parse(USER || '{}').uid;
+    this.user = JSON.parse(USER || '{}');
+    this.getTasadelDia();
+    this.getPaymentsMethods();
+    // 1. Obtenemos el ID de la URL
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    // 2. Obtenemos los datos extendidos (monto, nroFactura) del historial
+    const state = window.history.state;
+    if (id === 'deuda-total') {
+      // Caso: Viene del Home con el monto acumulado
+      if (state && state.factura) {
+        this.factura.set(state.factura);
+        this.paymentForm.patchValue({ amount: state.factura.totalPagar });
+      }
+    } else if (id && id !== 'nuevo') {
+      // Caso: Viene de una factura específica
+      if (state && state.factura) {
+        this.factura.set(state.factura);
+        this.paymentForm.patchValue({ amount: state.factura.totalPagar });
+      } else {
+        // Solo llamamos a la API si NO es 'deuda-total'
+        // this.facturaService.getFactura(id).subscribe(resp => {
+        //   this.factura.set(resp.factura);
+        //   this.paymentForm.patchValue({ amount: resp.factura.totalPagar });
+        // });
+      }
+    }
+  }
+
+  getPaymentsMethods() {
+    this.paymenttiposService.getPaymentmethods().subscribe((resp: any) => {
+      this.paymentMethods = resp;
+    })
+  }
+
+  // metodo para el cambio del select 'tipo de transferencia'
+
+  onChangePayment(event: Event) {
+    const target = event.target as HTMLSelectElement;
+    const idSeleccionado = target.value;
+
+    // Buscamos el objeto completo
+    // this.paymentSelected = this.paymentMethods.find(method => method._id === idSeleccionado);
+
+    if (this.paymentSelected) {
+      // Seteamos automáticamente el valor en el campo 'bank_destino' del formulario
+      this.paymentForm.patchValue({
+        bank_destino: this.paymentSelected.bankName
+      });
+    }
+  }
+
+  getTasadelDia() {
+    // this.tasaBcvService.getUltimaTasa().subscribe((resp: any) => {
+    //   this.tasa.set(resp.precio_dia);
+    // })
+  }
+
+  onFileSelected(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      const reader = new FileReader();
+      reader.onload = () => this.imagePreview.set(reader.result as string);
+      reader.readAsDataURL(file);
+    }
+  }
+
+  enviarPago() {
+    debugger
+    const facturaData = this.factura();
+    if (!facturaData || this.loading()) return;
+
+    // Si es un pago de deuda total, el ID será 'DEUDA_TOTAL' o null según prefiera tu backend
+    const facturaId = facturaData._id;
+
+    this.loading.set(true);
+
+    this.fileUploadService
+      .actualizarFoto(this.selectedFile!, 'pagos', facturaData._id)
+      .then(imgUrl => {
+        const payload = {
+          factura: facturaId === 'DEUDA_TOTAL' ? null : facturaId, // Enviamos null si es abono general
+          esPagoTotal: facturaId === 'DEUDA_TOTAL', // Flag útil para el backend
+          cliente: this.userId,
+          amount: this.paymentForm.get('amount')?.value,
+          tasaBCV: this.tasa(),
+          referencia: this.paymentForm.get('referencia')?.value,
+          metodo_pago: this.paymentSelected?.tipo,
+          bank_destino: this.paymentForm.get('bank_destino')?.value,
+          img: imgUrl
+        };
+
+        // this.paymentService.createPayment(payload).subscribe({
+        //   next: () => {
+        //     this.toastr.success('¡Pago reportado con éxito!');
+        //     this.router.navigate(['/mis-pagos']);
+        //   },
+        //   error: () => {
+        //     this.loading.set(false);
+        //     this.toastr.error('Error al registrar el pago');
+        //   }
+        // });
+      })
+      .catch(err => {
+        this.loading.set(false);
+        this.toastr.error('Error al subir el comprobante');
+      });
+  }
+
+
+}

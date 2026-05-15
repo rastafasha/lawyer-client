@@ -10,7 +10,8 @@
                     <form [formGroup]="perfilForm" *ngIf="!isLoading">
                         <!-- datos -->
                         <div class="row">
-                            <div class="col-xs-12 col-sm-12 col-md-3 mb-3">
+                            <app-loading *ngIf="isLoadingImage" [loadingTitle]="loadingTitle"></app-loading>
+                            <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="!isLoadingImage">
                                 <!-- Foto -->
                                 <div class="form-group local-top-form">
                                     <!-- <label class="local-top"> {{'formulario.Picture'|translate}}<span class="login-danger">*</span></label> -->

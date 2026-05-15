@@ -50,33 +50,21 @@
                   <p>{{'Edit Profile'|translate}}</p>
                 </div>
               </a>
-              <!-- <a [routerLink]="['/profile/paymentmethods', user.id]" *ngIf="user.role !== 'SUPERADMIN'"> -->
-              <a [routerLink]="['/profile/paymentmethods']" *ngIf="user.role === 'MEMBER'">
-                <div class="option-admin">
-                  <i class="fa fa-money"></i>
-                  <p> {{'Payment Methods'|translate}}</p>
-                </div>
-              </a>
-              <!-- <a routerLink="/profile/documents/file" *ngIf="user.role !== 'SUPERADMIN'">
-                <div class="option-admin">
-                  <i class="fa fa-user"></i>
-                  <p>Settings</p>
-                </div>
-              </a> -->
-              <a routerLink="/profile/documents" *ngIf="user.role !== 'SUPERADMIN'">
+              
+              <a routerLink="/profile/documents" >
                 <div class="option-admin">
                   <i class="fa fa-briefcase"></i>
                   <p>{{'Documents'|translate}}</p>
                 </div>
               </a>
-              <!-- <div class="option-admin" *ngIf="user.role !== 'SUPERADMIN'">
+              <div class="option-admin">
                 <i class="fa fa-user"></i>
                 <p>Messages</p>
               </div>
-              <div class="option-admin" *ngIf="user.role !== 'SUPERADMIN'">
+              <div class="option-admin">
                 <i class="fa fa-user"></i>
                 <p>Notifications</p>
-              </div> -->
+              </div>
               <a (click)="logout()">
                 <div class="option-admin">
                   <i class="fa fa-power-off"></i>

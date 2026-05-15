@@ -20,6 +20,7 @@ import { LoadingComponent } from '../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentmethodService } from '../../services/paymentmethod.service';
 import { FavoritesService } from '../../services/favorites.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-especialista',
@@ -56,7 +57,6 @@ export class EspecialistaComponent {
   status!: Profile;
   role!: Profile;
   solicitudes_selected: any[] = [];
-  toastr: any;
   user_id!: any;
   client_id!: any;
   profile_id?: string;
@@ -81,8 +81,9 @@ export class EspecialistaComponent {
     private specialityService: SpecialitiesService,
     private solicitudService: SolicitudesService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,
     private paymentService: PaymentmethodService,
+    private toastr: ToastrService,
+    private fb: FormBuilder,
     private favoriteService: FavoritesService,
   ) {
     this.user = this.authService.getLocalStorage();
@@ -166,11 +167,11 @@ export class EspecialistaComponent {
     this.solicitudService.createSolicitud(datos).subscribe({
       next: (resp: any) => {
         this.solicitud = resp;
-        Swal.fire('Éxito!', 'Solicitud creada correctamente', 'success');
+        this.toastr.success('Éxito!', 'Solicitud creada correctamente')
         this.ngOnInit();
       },
       error: (err) => {
-        Swal.fire('Error', 'Error al crear la solicitud', 'error');
+        this.toastr.error('Error', 'Error al crear la solicitud')
         console.error(err);
       }
     });

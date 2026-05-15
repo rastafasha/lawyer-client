@@ -19,9 +19,8 @@
   }
 
   .fotolang{
-    display: flex
-;
-    gap: 30px;
+    display: flex;
+    gap: 5px;
     justify-content: center;
     align-items: center;
   }

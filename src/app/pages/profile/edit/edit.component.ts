@@ -17,6 +17,7 @@ import { PaisService } from '../../../services/pais.service';
 import { Pais } from '../../../models/pais';
 import { PlacesService } from '../../../services/places.service';
 import { FileUploadService } from '../../../services/file-upload.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit',
@@ -41,6 +42,7 @@ export class EditComponent {
   selectedValueCode = '';
 
   public isLoading: boolean = false;
+  public isLoadingImage: boolean = false;
   loadingTitle!: string;
 
 
@@ -50,8 +52,6 @@ export class EditComponent {
   public profile_id!: string;
   public speciality_id!: string;
   public gender!: number;
-
-  // public profile!: Profile;
   public profile!: Profile;
   // public redessociales: RedesSociales[] = []; // Initialize as an empty array
   public precios!: Precios;
@@ -118,6 +118,7 @@ export class EditComponent {
     public paisService: PaisService,
     private fileUploadService: FileUploadService,
     private translate: TranslateService,
+    private toastr: ToastrService,
   ) {
     this.user = this.authService.getLocalStorage();
   }
@@ -152,7 +153,7 @@ export class EditComponent {
     });
   }
 
- validarFormularioPerfil() {
+  validarFormularioPerfil() {
     this.perfilForm = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
@@ -211,7 +212,7 @@ export class EditComponent {
 
   }
 
- 
+
 
 
   addRedSocial() {
@@ -236,7 +237,7 @@ export class EditComponent {
 
   }
 
-   onPaServiceSelect(event: any) {
+  onPaServiceSelect(event: any) {
     const ic = event;
     this.iswhatsapp = false;
     if (ic === 'fa fa-whatsapp') {
@@ -245,7 +246,7 @@ export class EditComponent {
     }
   }
 
-  
+
   addTarifa() {
     if (this.item_tarifa && this.precio) {
       this.tarifas.push({
@@ -267,12 +268,12 @@ export class EditComponent {
 
 
 
-  cambiarImagen(event: any):void {
+  cambiarImagen(event: any): void {
     const file: File = event.target.files[0];
     this.imagenSubir = file;
 
     if (!file) {
-       this.imgTemp = null;
+      this.imgTemp = null;
     }
 
     const reader = new FileReader();
@@ -284,6 +285,7 @@ export class EditComponent {
   }
 
   subirImagen() {
+    this.isLoadingImage = true
     const profileId = this.profileSeleccionado?._id;
     if (!profileId) {
       return;
@@ -293,14 +295,16 @@ export class EditComponent {
       .actualizarFoto(this.imagenSubir, 'profiles', profileId)
       .then(img => {
         this.profileSeleccionado.img = img;
-        // this.toastr.success('Guardado', 'La imagen fue actualizada')
+        this.isLoadingImage = false;
+        this.toastr.success('Guardado', 'La imagen fue actualizada')
       }).catch(err => {
-        // this.toastr.error('Error', 'No se pudo subir la imagen')
+        this.isLoadingImage = false;
+        this.toastr.error('Error', 'No se pudo subir la imagen')
       })
     this.ngOnInit();
   }
 
- 
+
 
   onUserSave() {
     if (!this.perfilForm.valid) {
@@ -309,101 +313,40 @@ export class EditComponent {
       return
     }
 
-    const formData = new FormData();
-    formData.append("first_name", this.perfilForm.value.first_name);
-    formData.append("last_name", this.perfilForm.value.last_name);
+    const data: any = {
+      usuario: this.user.uid,
+      first_name: this.perfilForm.value.first_name,
+      last_name: this.perfilForm.value.last_name,
+      direccion: this.perfilForm.value.direccion || null,
+      shortdescription: this.perfilForm.value.shortdescription || null, // Nombre correcto de tu esquema
+      pais: this.perfilForm.value.pais || null,
+      ciudad: this.perfilForm.value.ciudad || null,
+      telhome: this.perfilForm.value.telhome || null,
+      telmovil: this.perfilForm.value.telmovil || null,             // Nombre correcto de tu esquema
+      n_doc: this.perfilForm.value.n_doc || null,
+      gender: this.perfilForm.value.gender || null,
+      especialidad: this.perfilForm.value.especialidad || null,   // Nombre correcto de tu esquema
+      lang: this.lang || null,
 
-    if (this.perfilForm.value.direccion) {
-      formData.append("direccion", this.perfilForm.value.direccion);
-
-    }
-    if (this.perfilForm.value.description) {
-      formData.append("description", this.perfilForm.value.description);
-
-    }
-    if (this.perfilForm.value.pais) {
-      formData.append("pais", this.perfilForm.value.pais);
-
-    }
-
-    if (this.perfilForm.value.estado) {
-      formData.append("estado", this.perfilForm.value.estado);
-
-    }
-    if (this.perfilForm.value.ciudad) {
-      formData.append("ciudad", this.perfilForm.value.ciudad);
-
-    }
-    if (this.perfilForm.value.telefono) {
-      formData.append("telefono", this.perfilForm.value.telefono);
-
-    }
-    if (this.perfilForm.value.telhome) {
-      formData.append("telhome", this.perfilForm.value.telhome);
-
-    }
-    if (this.perfilForm.value.celular) {
-      formData.append("celular", this.perfilForm.value.celular);
-
-    }
-
-    if (this.perfilForm.value.n_doc) {
-      formData.append("n_doc", this.perfilForm.value.n_doc);
-
-    }
-    if (this.perfilForm.value.gender) {
-      formData.append("gender", this.perfilForm.value.gender);
-
-    }
-    if (this.perfilForm.value.speciality_id) {
-      formData.append("especialidad", this.perfilForm.value.speciality_id);
-
-    }
-    if (this.redssociales) {
-      formData.append("redssociales", this.redssociales);
-
-    }
-    if (this.tarifas) {
-      formData.append("precios", this.tarifas);
-
-    }
-
-    if (this.FILE_AVATAR) {
-      formData.append("imagen", this.FILE_AVATAR);
-    }
-    if (this.lang) {
-      formData.append("lang", this.lang);
-    }
+      // Forzamos el envío de tus variables globales de arreglos
+      redssociales: this.redssociales || [],
+    };
 
 
 
     if (this.profileSeleccionado) {
-      const data = {
-        ...this.perfilForm.value,
-        _id: this.profileSeleccionado._id,
-        usuario: this.user.uid,
-        redssociales: this.redssociales,
-        precios: this.tarifas,
-        
-      }
-      this.profileService.updateProfile(data, this.profileSeleccionado._id).subscribe((resp: any) => {
+      data._id = this.profileSeleccionado._id;
 
+      this.profileService.updateProfile(data, this.profileSeleccionado._id).subscribe((resp: any) => {
         this.profileSeleccionado = resp;
-        Swal.fire('Exito!', 'Se ha actualizado la formData', 'success');
+        this.toastr.success('Exito!', 'Se ha actualizado la data')
         this.ngOnInit();
       });
     } else {
-      const data = {
-        ...this.perfilForm.value,
-        usuario: this.user.uid,
-        redssociales: this.redssociales,
-        precios: this.tarifas,
-      }
+
       this.profileService.createProfile(data).subscribe((resp: any) => {
-        console.log(resp);
         this.profileSeleccionado = resp;
-        Swal.fire('Exito!', 'Se ha creado la data', 'success');
-        // this.router.navigate(['/profile']);
+        this.toastr.success('Exito!', 'Se ha creado la data')
         this.ngOnInit();
       });
     }

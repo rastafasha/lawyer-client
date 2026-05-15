@@ -20,6 +20,7 @@ export class HeaderComponent {
   public profile!: Profile;
   langs: string[] = [];
   public activeLang = 'es';
+  notificacionesPendientes!:number;
 
   flag = false;
 

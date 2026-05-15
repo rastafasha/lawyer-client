@@ -15,7 +15,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClientService } from '../../services/client.service';
 import { Profile, RedesSociales } from '../../models/profile.model';
 import Swal from 'sweetalert2';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 declare var bootstrap: any;
 @Component({
@@ -71,6 +71,7 @@ export class WalletComponent {
   private clientService = inject(ClientService);
   private authService = inject(AuthService);
   private userService = inject(UserService);
+  private router = inject(Router);
 
 
 
@@ -79,20 +80,13 @@ export class WalletComponent {
     this.user = this.authService.getLocalStorage();
     this.rol = this.user.role;
     this.getSolicitudesbyClient();
-
-
   }
 
   getSolicitudesbyClient() {
     this.isLoading = true;
     this.solicitudService.getByUser(this.user.uid).subscribe((resp: any) => {
       this.solicitudes = resp;
-      this.pedido = typeof resp.pedido === 'string'
-        ? JSON.parse(resp.pedido) || []
-        : resp.pedido || [];
       this.isLoading = false;
-
-
     })
   }
 
@@ -113,6 +107,29 @@ export class WalletComponent {
     const bsOffcanvas = new bootstrap.Offcanvas(el);
     bsOffcanvas.show();
   }
+
+  reportarPago(id: string) {
+    // 1. Obtenemos la factura completa del Signal
+    const facturaCompleta = this.solicitud_selected;
+
+    if (!facturaCompleta) {
+      // this.toastr.error('Error al recuperar los datos de la factura');
+      return;
+    }
+
+    // 2. Cerramos el Offcanvas (Bootstrap)
+    const element = document.getElementById('offcanvasDetalle');
+    if (element) {
+      const bsOffcanvas = (window as any).bootstrap?.Offcanvas?.getInstance(element);
+      if (bsOffcanvas) bsOffcanvas.hide();
+    }
+
+    // 3. ¡ESTA ES LA PARTE CLAVE! Enviamos el ID y el STATE
+    this.router.navigate(['/reportar-pago', id], {
+      state: { factura: facturaCompleta } // <--- Aquí viaja el monto, nroFactura, etc.
+    });
+  }
+
 
 
 
@@ -202,5 +219,8 @@ export class WalletComponent {
       }
     });
   }
+
+
+  
 
 }

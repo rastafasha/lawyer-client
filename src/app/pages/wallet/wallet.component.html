@@ -13,7 +13,7 @@
   <div class="container" *ngIf="!isLoading">
     <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
     <!-- solicitudes -->
-    <div *ngFor="let item of solicitudes; let i= index">
+    <div *ngFor="let item of solicitudes; let i = index">
 
       <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
         'border-primary': item.status === 'PENDING',
@@ -54,9 +54,9 @@
           <!-- Fila Media: Monto -->
           <div class="mb-2">
             <p class="mb-0 h4 fw-bold text-dark">
-              {{solicitud_selected.pedido[0].precio | currency}}
+              {{item.pedido[0]?.precio | currency}}
             </p>
-            <p class="text-muted d-block">Ref: {{solicitud_selected.pedido[0].item_tarifa}}</p>
+            <p class="text-muted d-block">Ref: {{item.pedido[0]?.item_tarifa}}</p>
           </div>
 
           <!-- Fila Inferior: Botón de Acción -->
@@ -75,7 +75,7 @@
 
 <!-- OFFCANVAS DETALLE -->
 <div class="offcanvas offcanvas-bottom rounded-top-5 h-75" tabindex="-1" id="offcanvasNotif"
-  style="height: auto; max-height: 90vh; border-radius: 25px 25px 0 0;">
+  style="height: auto; max-height: 60vh; border-radius: 25px 25px 0 0;">
   <div class="offcanvas-header border-bottom py-3">
     <h5 class="offcanvas-title fw-bold text-primary">Detalle de Solicitud</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
@@ -93,13 +93,10 @@
       </span>
       <span class="badge bg-success" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finished'|translate}}
       </span>
-      <p> {{'Description'|translate}}:{{solicitud_selected.pedido[0].item_tarifa}}</p>
-      <p>{{'Price'|translate}}:{{solicitud_selected.pedido[0].precio|currency}}</p>
+      <p> {{'Description'|translate}}: {{solicitud_selected.pedido[0].item_tarifa}}</p>
+      <h4>{{'Price'|translate}}: {{solicitud_selected.pedido[0].precio|currency}}</h4>
       <small class="text-muted">{{ solicitud_selected.created_at | date:'medium' }}</small>
     </div>
-
-    <hr>
-    <h5>Detalles:</h5>
     <p>{{'Username'|translate}}: {{solicitud_selected.usuario.username}}</p>
     <div class="tc_actions" *ngIf="solicitud_selected.status === 'VERIFIED'">
       <!-- si existe la relacion de cliente con el usuario usamos el id del cliente -->
@@ -116,6 +113,14 @@
 
       </div>
     </div>
+    
+     <!-- Botón tipo Binance -->
+      <div class="tc_actions mt-3" *ngIf="solicitud_selected.status === 'VERIFIED'">
+        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-2"
+      (click)="reportarPago(solicitud_selected._id)">
+      PAGAR AHORA
+    </button>
+      </div>
 
   </div>
 
