@@ -7,29 +7,45 @@
 
                     <app-backButtn [pageTitle]="pageTitle" [Title]="Title"></app-backButtn>
                     <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+                    <!-- Foto actual -->
+                    <div class="product_list" *ngIf="!isLoading">
+                        <div class="div1" *ngIf="profileSeleccionado">
+                            <img [src]="(profileSeleccionado.img ?? '') | imagenPipe: 'profiles'"
+                                [alt]="profileSeleccionado.first_name">
+                        </div>
+                        <div class="div2">
+                            <h3>{{user.username}} </h3>
+                            <p *ngIf="profileSeleccionado">{{profileSeleccionado.first_name}}
+                                {{profileSeleccionado.last_name}} </p>
+                            <p>{{user.n_doc}}</p>
+                        </div>
+                    </div>
                     <form [formGroup]="perfilForm" *ngIf="!isLoading">
                         <!-- datos -->
                         <div class="row">
                             <app-loading *ngIf="isLoadingImage" [loadingTitle]="loadingTitle"></app-loading>
                             <div class="col-xs-12 col-sm-12 col-md-3 mb-3" *ngIf="!isLoadingImage">
                                 <!-- Foto -->
-                                <div class="form-group local-top-form">
-                                    <!-- <label class="local-top"> {{'formulario.Picture'|translate}}<span class="login-danger">*</span></label> -->
-                                    <label for="file" class="upload labelgoogle">
-                                        <input type="file" accept="image/*" name="image" id="file"
-                                            (change)="cambiarImagen($event)" class="hide-input input">
-                                        <span class="label__name">
-                                            {{'formulario.Select a Photo'|translate}}
-                                        </span>
-                                    </label>
+                                <div class="d-flex flex-column align-items-center gap-2 mt-3">
+                                    <!-- Área de previsualización circular para que parezca app nativa -->
+                                    <div class="avatar-preview shadow-sm mb-2" *ngIf="FILE_AVATAR">
+                                        <img [src]="IMAGE_PREVISUALIZA"
+                                            class="rounded-circle border border-3 border-white"
+                                            style="width: 120px; height: 120px; object-fit: cover;">
+                                    </div>
+
+                                    <div class="input-group">
+                                        <label class="btn btn-outline-secondary w-100 rounded-pill mb-2">
+                                            <i class="bi bi-camera me-2"></i> Elegir Foto
+                                            <input type="file" accept="image/*" (change)="cambiarImagen($event)" hidden>
+                                        </label>
+
+                                        <button type="button" (click)="subirImagen()" *ngIf="FILE_AVATAR"
+                                            class="btn btn-success w-100 rounded-pill shadow-sm">
+                                            <i class="bi bi-cloud-arrow-up me-2"></i> Confirmar Cambio
+                                        </button>
+                                    </div>
                                 </div>
-                                <div *ngIf="FILE_AVATAR">
-                                    <img [src]="IMAGE_PREVISUALIZA" style="width: 250px;" alt="">
-                                </div>
-                                <button type="button" [disabled]="!imagenSubir" (click)="subirImagen()"
-                                    class="btn btn-success waves-effect waves-light m-r-10 btn-block">
-                                    <i class="fa fa-save"></i> Cambiar imagen
-                                </button>
                             </div>
 
                             <div class="col-xs-12 col-sm-12 col-md-9">
@@ -167,11 +183,8 @@
                                     <!-- País -->
                                     <div class="col-md-4 ">
                                         <div class="input-group">
-                                            <!-- <label for="validationCustom02" class="form-label">{{'formulario.Country'|translate}}</label> -->
-                                            <span class="input-group-text " id="basic-addon1">
-                                                <i class="fa fa-globe" aria-hidden="true"></i><span
-                                                    class="login-danger">*</span>
-                                            </span>
+                                            <label for="validationCustom02" class="form-label">{{'formulario.Country'|translate}}</label>
+                                            <div class="clear"></div>
                                             <select class="form-control" formControlName="pais">
                                                 <option *ngFor="let data of paises" [value]="data.code">
                                                     {{data.pais}}
@@ -195,9 +208,8 @@
                                     <!-- Género -->
                                     <div class="col-12 col-md-4  col-xl-4">
                                         <div class="form-group select-gender input-group gap-3">
-                                            <span class="input-group-text" id="basic-addon1">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </span>
+                                            <label for="validationCustom02" class="form-label">{{'formulario.Gender'|translate}}</label>
+                                            
                                             <div class="form-check-inline ">
                                                 <label class="form-check-label ">
                                                     <input type="radio" [value]="'1'" formControlName="gender"
@@ -215,9 +227,8 @@
                                     <!-- Lang -->
                                     <div class="col-12 col-md-4  col-xl-4">
                                         <div class="form-group select-gender input-group gap-3">
-                                            <span class="input-group-text" id="basic-addon1">
-                                                <i class="fa fa-user" aria-hidden="true"></i>
-                                            </span>
+                                            <label for="validationCustom02" class="form-label">{{'lang'|translate}}</label>
+                                            <div class="clear"></div>
                                             <div class="form-check-inline ">
                                                 <label class="form-check-label ">
                                                     <input type="radio" [value]="'es'" (change)="cambiarLenguaje('es')"
@@ -237,8 +248,7 @@
 
 
                                     <!-- Especialidad -->
-                                    <div class="col-12 col-md-4 col-xl-4"
-                                        *ngIf="user.role ==='MEMBER'">
+                                    <div class="col-12 col-md-4 col-xl-4" *ngIf="user.role ==='MEMBER'">
                                         <div class="input-group">
                                             <span class="input-group-text " id="basic-addon1">
                                                 <i class="fa fa-anchor " aria-hidden="true"></i>

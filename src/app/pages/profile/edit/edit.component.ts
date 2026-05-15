@@ -18,6 +18,7 @@ import { Pais } from '../../../models/pais';
 import { PlacesService } from '../../../services/places.service';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { ToastrService } from 'ngx-toastr';
+import { ImagenPipe } from '../../../pipes/imagen.pipe';
 
 @Component({
   selector: 'app-edit',
@@ -30,7 +31,8 @@ import { ToastrService } from 'ngx-toastr';
     FormsModule,
     NgFor,
     LoadingComponent,
-    TranslateModule
+    TranslateModule,
+    ImagenPipe
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css'
@@ -142,7 +144,6 @@ export class EditComponent {
     this.paisService.getPaises().subscribe(
       (res: any) => {
         this.paises = res.paises;
-        console.log(res);
       }
     );
   }
@@ -185,7 +186,7 @@ export class EditComponent {
             first_name: res.profile.first_name,
             last_name: res.profile.last_name,
             direccion: res.profile.direccion,
-            pais: res.profile.pais,
+            pais: res.profile.code,
             lang: res.profile.lang,
             n_doc: res.profile.n_doc,
             gender: res.profile.gender,

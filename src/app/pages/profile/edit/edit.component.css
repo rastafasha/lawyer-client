@@ -8,6 +8,28 @@
     display: flex;
 }
 
+.product_list {
+    display: grid;
+    /* grid-template-columns: repeat(3, 1fr); */
+    grid-template-columns: 20% 40% 20%;
+
+    /* grid-template-rows: repeat(5, 1fr); */
+        grid-column-gap: 20px;
+    grid-row-gap: 0px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.div1 {
+    grid-area: 1 / 1 / 2 / 2;
+}
+
+.div2 {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
 @media (min-width: 768px) {
     .div-scroll{
         height: calc(80vh - 100px);
