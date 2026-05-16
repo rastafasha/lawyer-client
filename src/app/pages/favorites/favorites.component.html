@@ -172,25 +172,8 @@
           <p>{{'City'|translate}}: {{profile?.ciudad}}</p>
           <p>{{'Gender'|translate}}: {{profile?.gender}}</p>
           <p>{{'Description'|translate}}: {{ profile?.shortdescription }}</p>
-          <div class="reds">
-            <div class="cont" *ngFor="let red of redessociales">
-              <a *ngIf="red.icono === 'fa fa-whatsapp'"
-                href="`https://wa.me/`{{red.name_red}}`?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion`"
-                target="_blank" rel="noopener noreferrer">
-                <div class="option-admin">
-                  <i [class]="red.icono"></i>
-                  <!-- <p>{{ red.title }}</p> -->
-                </div>
-              </a>
-              <a *ngIf="red.icono !== 'fa fa-whatsapp'" href="https://{{red.name_red}}/{{red.usuario_red}}" target="_blank" rel="noopener noreferrer">
-                <div class="option-admin">
-                  <i [class]="red.icono"></i>
-                  <!-- <p>{{ red.title }}</p> -->
-                </div>
-              </a>
-            </div>
-
-          </div>
+          <app-redessociales [redessociales]="redessociales"></app-redessociales>
+         
           <!-- <app-ratingStar *ngIf="profile && user" [profile]="profile"></app-ratingStar> -->
         </div>
       </div>
@@ -202,6 +185,9 @@
           <i class="fa fa-trash"></i>
         </button>
 
+        <button type="button" (click)="irAespecialista(usuario_selected)" class="btn btn-primary">
+          <i class="fa fa-eye" aria-hidden="true"></i>
+        </button>
         <button type="button" [routerLink]="['/chat/', usuario_selected]" class="btn btn-success">
           <i class="fa fa-comment" aria-hidden="true"></i>
         </button>

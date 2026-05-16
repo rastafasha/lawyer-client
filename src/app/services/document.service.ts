@@ -47,16 +47,16 @@ export class DocumentService {
           );
     }
 
-    getDocumentsByUser(_id: number) {
+    getDocumentsByUser(_id: string) {
       const url = `${baseUrl}/documents/user/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
-          map((resp:{ok: boolean, documents: Document}) => resp.documents)
+          map((resp:{ok: boolean, documentos: Document}) => resp.documentos)
           );
     }
 
     getAllClientReportByPatient(
-      user_id :number,
+      user_id :string,
       page = 1,
       created_at = '',
       name_category?: string,
@@ -85,11 +85,11 @@ export class DocumentService {
     }
 
 
-    getDocumentsByUserCategory(user_id: number, name_category:string) {
+    getDocumentsByUserCategory(user_id: string, name_category:string) {
       const url = `${baseUrl}/documents/showByCategory/${user_id}/${name_category}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
-          map((resp:{ok: boolean, documents: Document}) => resp.documents)
+          map((resp:{ok: boolean, documentos: Document}) => resp.documentos)
           );
     }
   

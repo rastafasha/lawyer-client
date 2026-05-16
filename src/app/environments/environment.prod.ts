@@ -3,5 +3,10 @@ export const environment = {
   url_backend: 'http://127.0.0.1:8000/',
   url_servicios: 'http://127.0.0.1:8000/api',
   url_frontend: 'http://localhost:4200/',
-  url_media: 'http://127.0.0.1:8000/storage/',
+ mediaUrlRemoto: 'https://res.cloudinary.com/dmv6aukai/image/upload/v1741218430/lawyerapp',
+  soketServer : 'http://localhost:3000',
+  //notificaciones
+  urlBackedNotification:'https://backend-condoparquecentral-mean.onrender.com/api/notipush/save-subscription',
+  VAPI_KEY_PUBLIC: 'BNc3MfntrpdWAMI0usltUAh-w1RRvkbD_8QdjZRHPCpLVlCxIm2ZQ4N1w_iX49RUAMNR11Valdl8DlIH6PiYa9U',
+ 
 };

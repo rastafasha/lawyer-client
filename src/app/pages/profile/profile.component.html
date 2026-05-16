@@ -1,7 +1,6 @@
 <app-header></app-header>
-<section class="user">
-  <div class="container-fluid">
-    <div class="container">
+<section class="user home">
+   <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9">
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
@@ -13,32 +12,11 @@
                 <p>{{'Username'|translate}}: {{user.username}}</p>
                 <p *ngIf="profile">{{profile.first_name}} {{profile.last_name}}</p>
                 <p>{{user.email}}</p>
-                <p *ngIf="profile.especialidad">{{speciality.nombre}}</p>
-                <!-- <p>{{user.roles}}</p> -->
-                <!-- <p *ngIf="profile">{{profile.status}}</p> -->
                 <span class="badge  bg-primary" *ngIf="profile.status === 'PENDING'"> {{'Pending'|translate}}</span>
                 <span class="badge bg-success" *ngIf="profile.status === 'VERIFIED'">{{'Verified'|translate}}</span>
                 <span class="badge bg-danger" *ngIf="profile.status === 'REVIEW'">{{'For Review'|translate}}</span>
                 <br>
-                <div class="reds" >
-                  <div class="cont" *ngFor="let red of redessociales" >
-                    <a *ngIf="red.icono === 'fa fa-whatsapp'" 
-                        href="https://wa.me/{{red.name_red}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
-                        target="_blank" rel="noopener noreferrer">
-                          <div class="option-admin">
-                            <i [class]="red.icono"></i>
-                            <!-- <p>{{ red.title }}</p> -->
-                          </div>
-                        </a>
-                        <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.name_red" target="_blank" rel="noopener noreferrer">
-                          <div class="option-admin">
-                            <i [class]="red.icono"></i>
-                            <!-- <p>{{ red.title }}</p> -->
-                          </div>
-                        </a>
-                  </div>
-    
-                </div>
+                <app-redessociales [redessociales]="redessociales"></app-redessociales>
     
               </div>
             </div>
@@ -77,6 +55,28 @@
                 </div>
               </a>
             </div>
+             <!-- configurar notificaciones push -->
+            <div class="setting-row" *ngIf="!isLoading && profile" [class.loading]="pushService.isProcessing$ | async">
+                <div class="setting-info">
+                    <i class="fa fa-bell"></i>
+                    <div class="text-container">
+                        <strong>Notificaciones Push</strong>
+                        <span>Avisos importantes</span>
+                    </div>
+                </div>
+
+                <div class="switch-wrapper">
+                    <!-- Spinner pequeño que solo aparece al cargar -->
+                    <div *ngIf="pushService.isProcessing$ | async" class="mini-spinner"></div>
+
+                    <label class="switch">
+                        <input type="checkbox" [disabled]="pushService.isProcessing$ | async"
+                            [checked]="pushService.isSubscribed$ | async" (change)="togglePush()">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </div>
+            <!-- configurar notificaciones push -->
           </div>
           
   
@@ -95,6 +95,5 @@
         <!-- lateral -->
       </div>
     </div>
-   </div>
 </section>
 <app-menu-footer></app-menu-footer>

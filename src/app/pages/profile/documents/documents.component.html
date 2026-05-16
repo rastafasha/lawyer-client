@@ -74,74 +74,15 @@
                             </div>
                         </form>
                     </details>
-                    <button type="button" class="btn btn-outline-primary submit-list-form " data-bs-toggle="modal"
-                        data-bs-target="#add_publicidad">
+                    <button type="button" class="btn btn-outline-primary submit-list-form "
+                        data-bs-target="#add_publicidad" data-bs-toggle="offcanvas">
                         <i class="fa fa-upload"></i>
                     </button>
                     <div class="clear"></div>
                     <br>
 
                     <div class="container" *ngIf="!isLoading">
-                        <!-- modal add-->
-                        <div id="add_publicidad" class="modal fade add-modal" role="dialog">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body text-center ">
-                                        <!-- <img src="assets/img/sent.png" alt="" width="50" height="46"> -->
-                                        <h3> {{'formulario.Add Files'|translate}}</h3>
-                                        <p>{{'formulario.Allowed Files'|translate}}: jpg, jpeg, gif, pdf|
-                                            {{'formulario.Max Weight'|translate}}: 1024kb</p>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-12 col-sm-6">
-                                                <label class="labelgoogle">
-                                                    <input class="form-control input" name="name_category"
-                                                        [ngModelOptions]="{standalone: true}" placeholder=" "
-                                                        [(ngModel)]="name_category" type="text" required>
-                                                    <span class="label__name">
-                                                        {{'Category'|translate}}<span class="login-danger">*</span>
 
-                                                    </span>
-                                                </label>
-                                            </div>
-                                            <!-- <div class="col-xl-12">
-                                                <label class="form-label">{{'formulario.Upload Files'|translate}}: *</label>
-                                            </div> -->
-                                            <div class="col-12 col-sm-6">
-                                                <label for="file" class="upload labelgoogle">
-                                                    <input type="file" class="input" id="customFile" multiple="true"
-                                                        (change)="processFile($event)">
-                                                    <span class="label__name">
-                                                        {{'formulario.Select File'|translate}}(s)
-                                                    </span>
-                                                </label>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="form-group row" *ngIf="text_success">
-                                            <div class="col-12">
-                                                <div class="alert alert-success alert-dismissible fade show"
-                                                    role="alert">
-                                                    <strong>{{'formulario.Success'|translate}}!</strong>{{text_success}}.
-                                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                                        aria-label="Close">
-                                                        <span aria-hidden="true"> </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="m-t-20"> <a href="javascript:void(0);" (click)="closeReload()"
-                                                class="btn btn-outline-danger me-1"
-                                                data-bs-dismiss="modal">{{'formulario.Close'|translate}}</a>
-                                            <button type="submit" class="btn btn-success"
-                                                (click)="save()">{{'formulario.Add'|translate}}</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- modal -->
                         <!-- carpetas -->
                         <div class="row">
                             <div class="container">
@@ -160,7 +101,7 @@
                                                     </div>
                                                     <i class="fa fa-folder"></i>
                                                     <h2>{{'Category'|translate}}: {{cat.name_category}}</h2>
-                                                    <p> {{cat.created_at}}</p>
+                                                    <p> {{cat.createdAt|date}}</p>
                                                 </div>
                                             </a>
 
@@ -237,8 +178,8 @@
                                                                             [ngModelOptions]="{standalone: true}"
                                                                             [(ngModel)]="share">
                                                                             <option *ngFor="let document of clientes"
-                                                                                [value]="document.id">
-                                                                                {{document.username}}
+                                                                                [value]="document.usuario.email">
+                                                                                {{document.usuario.username}}
                                                                             </option>
                                                                         </select>
                                                                         <button class="btn btn-primary btn-sm"
@@ -351,4 +292,60 @@
 
     </div>
 </section>
+
+<!-- modal add-->
+<div id="add_publicidad" class="offcanvas offcanvas-bottom rounded-top-5 h-75"
+    style="height: auto; max-height: 60vh; border-radius: 25px 25px 0 0;">
+    <div class="offcanvas-header border-bottom py-3">
+        <h5 class="offcanvas-title fw-bold text-primary">{{'formulario.Add Files'|translate}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" (click)="closeReload()"></button>
+    </div>
+    <div class="offcanvas-body p-4">
+        <p>{{'formulario.Allowed Files'|translate}}: jpg, jpeg, gif, pdf|
+            {{'formulario.Max Weight'|translate}}: 1024kb</p>
+        <br>
+        <div class="row">
+            <form [formGroup]="documentForm" *ngIf="!isLoading">
+                <div class="col-12 col-sm-6">
+                    <label class="labelgoogle">
+                        <input class="form-control input" formControlName="name_category" type="text" required>
+                        <span class="label__name">
+                            {{'Category'|translate}}<span class="login-danger">*</span>
+
+                        </span>
+                    </label>
+                </div>
+
+                <div class="d-flex flex-column align-items-center gap-2 mt-3">
+
+                    <!-- CASO 1: Si es una Imagen -->
+                    <img *ngIf="!esPdf && archivoSubir" [src]="vistaPreviaTemp" class="img-thumbnail"
+                        style="width: 120px; height: 120px; object-fit: cover;" alt="Vista previa imagen">
+
+                    <!-- CASO 2: Si es un PDF (Requiere bypass de seguridad de Angular) -->
+                    <iframe *ngIf="esPdf && archivoSubir" [src]="vistaPreviaTemp | safeUrl" style="width: 120px; height: 120px; object-fit: cover;">
+                    </iframe>
+
+                    <div class="input-group">
+                        <label class="btn btn-outline-secondary w-100 rounded-pill mb-2">
+                            <i class="bi bi-camera me-2"></i> Elegir Archivo
+                            <input type="file" accept="image/*, application/pdf" (change)="cambiarImagen($event)"
+                                hidden>
+                        </label>
+
+                        <button type="button" (click)="save()"
+                            class="btn btn-success w-100 rounded-pill shadow-sm">
+                            <i class="bi bi-cloud-arrow-up me-2"></i> Confirmar Cambio
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+
+    </div>
+</div>
+<!-- modal -->
 <app-menu-footer></app-menu-footer>

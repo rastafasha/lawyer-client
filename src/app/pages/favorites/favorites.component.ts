@@ -20,7 +20,8 @@ import { ProfileService } from '../../services/profile.service';
 import { Profile, RedesSociales } from '../../models/profile.model';
 import Swal from 'sweetalert2';
 import { ToastrService } from 'ngx-toastr';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { RedessocialesComponent } from '../../shared/redessociales/redessociales.component';
 declare var bootstrap: any;
 @Component({
   selector: 'app-favorites',
@@ -35,7 +36,8 @@ declare var bootstrap: any;
     TranslateModule,
     ReactiveFormsModule,
     ImagenPipe,
-    RouterLink
+    RouterLink,
+    RedessocialesComponent
   ],
   templateUrl: './favorites.component.html',
   styleUrl: './favorites.component.scss'
@@ -67,6 +69,7 @@ export class FavoritesComponent {
   private profileService = inject(ProfileService);
   private authService = inject(AuthService);
   private toastr = inject(ToastrService);
+  private router = inject(Router);
   private fb = inject(FormBuilder);
 
   ngOnInit(): void {
@@ -202,6 +205,10 @@ export class FavoritesComponent {
     }, 2000);
   }
 
+  irAespecialista(usuario:any){
+    this.closeModal.emit();
+    this.router.navigate(['/especialista/',usuario])
+  }
 
 
 }

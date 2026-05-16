@@ -7,12 +7,11 @@ export const environment = {
   url_servicios: 'http://127.0.0.1:3000/api',
   url_frontend: 'http://localhost:4200/',
   mediaUrlRemoto: 'https://res.cloudinary.com/dmv6aukai/image/upload/v1741218430/lawyerapp',
-  
-  // remoto:
-  // url_backend: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/',
-  // url_servicios: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/public/api',
-  // url_frontend: 'https://malcolmcordova.com/lawyer-app/',
-  // url_media: 'https://malcolmcordova.com/lawyer-app/backend-api-lawyer/storage/app/public/',
+  soketServer : 'http://localhost:3000',
+  //notificaciones
+  urlBackedNotification:'https://backend-condoparquecentral-mean.onrender.com/api/notipush/save-subscription',
+  VAPI_KEY_PUBLIC: 'BNc3MfntrpdWAMI0usltUAh-w1RRvkbD_8QdjZRHPCpLVlCxIm2ZQ4N1w_iX49RUAMNR11Valdl8DlIH6PiYa9U',
+ 
   
 };
 

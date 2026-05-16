@@ -1,0 +1,20 @@
+<div class="reds">
+    <div class="cont" *ngFor="let red of redessociales">
+        <a *ngIf="red.icono === 'fa fa-whatsapp'"
+            href="`https://wa.me/`{{red.name_red}}`?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion`"
+            target="_blank" rel="noopener noreferrer">
+            <div class="option-admin">
+                <i [class]="red.icono"></i>
+                <!-- <p>{{ red.title }}</p> -->
+            </div>
+        </a>
+        <a *ngIf="red.icono !== 'fa fa-whatsapp'" href="https://{{red.name_red}}.com/{{red.usuario_red}}" target="_blank"
+            rel="noopener noreferrer">
+            <div class="option-admin">
+                <i [class]="red.icono"></i>
+                <!-- <p>{{ red.title }}</p> -->
+            </div>
+        </a>
+    </div>
+
+</div>
