@@ -19,6 +19,8 @@ import { ClientService } from '../../../services/client.service';
 import { ToastrService } from 'ngx-toastr';
 import { FileUploadService } from '../../../services/file-upload.service';
 import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
+import { ModalAgregarComponent } from './modal-agregar/modal-agregar.component';
+import { ArchivosCategoriaComponent } from './archivosCategoria/archivosCategoria.component';
 const baseUrl = environment.url_servicios;
 declare let $: any;
 @Component({
@@ -33,14 +35,13 @@ declare let $: any;
     RouterModule,
     LoadingComponent,
     TranslateModule,
-    SafeUrlPipe
+    ModalAgregarComponent,
+    ArchivosCategoriaComponent
   ],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss'
 })
 export class DocumentsComponent {
-  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
-
   pageTitle = 'Documents';
   isLoading: boolean = false;
   isRefreshing = false;
@@ -184,8 +185,6 @@ export class DocumentsComponent {
     })
   }
 
-
-
   deleteFile(FILE: any) {
     this.documentService.deleteDocument(FILE).subscribe((resp: any) => {
       this.ngOnInit();
@@ -232,10 +231,12 @@ export class DocumentsComponent {
   }
 
  
+
 closeReload() {
     this.documentForm.reset();
-    this.vistaPreviaTemp = null
-    this.closeModal.emit();
+    this.vistaPreviaTemp = null;
+    // Cierra el offcanvas (Bootstrap) y recarga la lista.
+    // El modal llama a este método directamente como callback.
     this.ngOnInit();
   }
 save() {
@@ -273,7 +274,6 @@ save() {
 
       // Éxito total: subido a Cloudinary y persistido en MongoDB
       this.toastr.success('Se guardó el recurso con éxito');
-      this.closeModal.emit();
       this.getdocumentsbyUser(); // Recarga la lista de documentos en pantalla
       
       // Limpiar formulario y variables
@@ -286,8 +286,6 @@ save() {
       this.toastr.error('Error', 'Ocurrió un error inesperado al subir el archivo');
     });
 }
-
-
   onScrollUp() {
     this.refreshData();
   }
@@ -301,15 +299,11 @@ save() {
     }, 2000);
   }
 
-  
-
-  
-
   // compartir archivo
   solicitudSelected(document: any) {
     this.document_selected = document;
-    this.user_member_id = this.user.id;
-    this.user_cliente_id = this.user.id;
+    this.user_member_id = this.user.uid;
+    this.user_cliente_id = this.user.uid;
     this.getClientesbyuser();
 
   }
