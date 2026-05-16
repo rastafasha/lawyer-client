@@ -49,7 +49,6 @@ export class ChatComponent {
   constructor(
     private chatService: ChatService,
     private activatedRoute: ActivatedRoute,
-    private userService: UserService,
     private profileService: ProfileService,
     private authService: AuthService,
     private messageService: MessageService,

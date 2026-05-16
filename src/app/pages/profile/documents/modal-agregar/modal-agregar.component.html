@@ -8,8 +8,10 @@
         <p>{{'formulario.Allowed Files'|translate}}: jpg, jpeg, gif, pdf|
             {{'formulario.Max Weight'|translate}}: 1024kb</p>
         <br>
+
         <div class="row">
-            <form [formGroup]="documentForm" *ngIf="!isLoading">
+            <div class="offcanvas-body p-4" *ngIf="!isLoadingUpload"></div>
+            <form [formGroup]="documentForm" *ngIf="!isLoadingUpload">
                 <div class="col-12 col-sm-6">
                     <label class="labelgoogle">
                         <input class="form-control input" formControlName="name_category" type="text" required>
@@ -37,7 +39,7 @@
                                 hidden>
                         </label>
 
-                        <button type="button" (click)="save()"
+                        <button type="button" (click)="enviarAlPadre()"
                             class="btn btn-success w-100 rounded-pill shadow-sm">
                             <i class="bi bi-cloud-arrow-up me-2"></i> Confirmar Cambio
                         </button>

@@ -67,16 +67,33 @@
     top:30px
 }
 
-.tab-content-set{
-    & .nav{
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        padding: 20px;
-        
-    }
-    & li {
+/* tab-conten */
 
+.tab-content-set {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    & .nav {
+        display: flex;
+        align-items: center;
+        padding: 6px;
+        gap: 15px;
+        & li {
+            display: flex;
+            padding: 5px;
+            font-size: 14px;
+            color: #333;
+            gap: 15px;
+            & a {
+                color: #333;
+                text-decoration: none;
+            }
+        }
+    }
+    & .active {
+        color: var(--vinotinto);
     }
 }
 

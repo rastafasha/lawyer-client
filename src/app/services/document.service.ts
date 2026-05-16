@@ -39,11 +39,11 @@ export class DocumentService {
     }
     
   
-    getDocument(_id: number) {
+    getDocument(_id: string) {
       const url = `${baseUrl}/documents/${_id}`;
       return this.http.get<any>(url, this.headers)
         .pipe(
-          map((resp:{ok: boolean, document: Document}) => resp.document)
+          map((resp:{ok: boolean, documento: Document}) => resp.documento)
           );
     }
 
@@ -54,6 +54,14 @@ export class DocumentService {
           map((resp:{ok: boolean, documentos: Document}) => resp.documentos)
           );
     }
+
+     getDocumentsSharedwithme(_id: string) {
+    const url = `${baseUrl}/documents/sharewithme/${_id}`;
+    return this.http.get<any>(url, this.headers)
+      .pipe(
+        map((resp: { ok: boolean, documentos: Document }) => resp.documentos)
+      );
+  }
 
     getAllClientReportByPatient(
       user_id :string,

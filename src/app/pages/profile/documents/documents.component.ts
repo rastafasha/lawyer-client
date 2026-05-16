@@ -1,26 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { MenuFooterComponent } from '../../../shared/menu-footer/menu-footer.component';
 import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
-import { LateralComponent } from '../../../components/lateral/lateral.component';
 import { DocumentService } from '../../../services/document.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import Swal from 'sweetalert2';
-import { Usuario } from '../../../models/usuario.model';
 import { AuthService } from '../../../services/auth.service';
 import { Document } from '../../../models/document.model';
 import { environment } from '../../../environments/environment';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { SolicitudesService } from '../../../services/solicitudes.service';
 import { ClientService } from '../../../services/client.service';
 import { ToastrService } from 'ngx-toastr';
 import { FileUploadService } from '../../../services/file-upload.service';
-import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
 import { ModalAgregarComponent } from './modal-agregar/modal-agregar.component';
 import { ArchivosCategoriaComponent } from './archivosCategoria/archivosCategoria.component';
+import Swal from 'sweetalert2';
 const baseUrl = environment.url_servicios;
 declare let $: any;
 @Component({
@@ -42,8 +38,12 @@ declare let $: any;
   styleUrl: './documents.component.scss'
 })
 export class DocumentsComponent {
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+
   pageTitle = 'Documents';
   isLoading: boolean = false;
+  isLoadingList: boolean = false;
+  isLoadingUpload: boolean = false;
   isRefreshing = false;
   isSearching = false;
   valid_form_success = false;
@@ -54,6 +54,7 @@ export class DocumentsComponent {
   FilesAdded: any = [];
   public file_selected: any;
   public user_files: Document[] = [];
+  public sharedFiles: Document[] = [];
   public user_filesfiltered: Document[] = [];
   public document!: Document;
   public name_category: string = '';
@@ -70,9 +71,9 @@ export class DocumentsComponent {
   documentForm!: FormGroup;
 
   document_selected: any = null;
-  public user_cliente_id!: number;
-  public cliente_id!: number;
-  public user_member_id!: number;
+  public user_cliente_id!: string;
+  public cliente_id!: string;
+  public user_member_id!: string;
   public clientes: any = [];
 
   public FILE_AVATAR: any;
@@ -85,6 +86,9 @@ export class DocumentsComponent {
   archivoSubir: File | null = null;
   vistaPreviaTemp: any = "assets/images/no-image.jpg";
   esPdf: boolean = false; // Nos dirá si el archivo es PDF o Imagen
+
+  option_selectedd: number = 1;
+    solicitud_selectedd: any = 1;
 
   constructor(
     private authService: AuthService,
@@ -106,7 +110,7 @@ export class DocumentsComponent {
     this.validarFormularioPerfil();
     this.validarFormularioDocumento();
     this.getdocumentsbyUser();
-    // this.getdocumentsbyUserFilter();
+    this.getShared();
     this.searchForm.reset();
   }
 
@@ -179,17 +183,49 @@ export class DocumentsComponent {
       })
   }
 
-  getDocumentsbyCategory(name_category: string) {
-    this.documentService.getDocumentsByUserCategory(this.user_id, name_category).subscribe((resp: any) => {
-      this.user_filesfiltered = resp;
+  getShared(){
+     this.isLoading = true;
+    this.documentService.getDocumentsSharedwithme(this.user_id).subscribe((resp:any)=>{
+      this.sharedFiles = resp;
+      this.isLoading = false;
     })
   }
 
-  deleteFile(FILE: any) {
-    this.documentService.deleteDocument(FILE).subscribe((resp: any) => {
-      this.ngOnInit();
+  getDocumentsbyCategory(name_category: string) {
+    this.isLoadingList = true;
+    this.documentService.getDocumentsByUserCategory(this.user_id, name_category).subscribe((resp: any) => {
+      this.user_filesfiltered = resp;
+      this.isLoadingList = false;
     })
-    this.FilesAdded.splice(FILE, 1);
+  }
+
+ 
+
+  deleteFile(FILE: any) {
+    Swal.fire({
+      title: 'Estas Seguro?',
+      text: "No podras recuperarlo!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Borrar!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.documentService.deleteDocument(FILE).subscribe(
+          response => {
+            this.ngOnInit();
+          }
+        )
+        this.FilesAdded.splice(FILE, 1);
+        Swal.fire(
+          'Borrado!',
+          'El Archivo fue borrado.',
+          'success'
+        )
+        this.ngOnInit();
+      }
+    });
   }
 
 
@@ -230,62 +266,57 @@ export class DocumentsComponent {
     };
   }
 
- 
 
-closeReload() {
+
+  closeReload() {
     this.documentForm.reset();
     this.vistaPreviaTemp = null;
     // Cierra el offcanvas (Bootstrap) y recarga la lista.
     // El modal llama a este método directamente como callback.
     this.ngOnInit();
   }
-save() {
-  this.text_success = '';
-  this.text_validation = '';
 
-  // 1. Extraer el valor directamente del Form外部 (Reactive Form)
-  const categoriaValor = this.documentForm.get('name_category')?.value;
+  save(eventData: { archivo: File, categoria: string }) {
+    this.text_success = '';
+    this.text_validation = '';
 
-  // 2. Validar que la categoría no esté vacía o con puros espacios
-  if (!categoriaValor || categoriaValor.trim() === '') {
-    this.toastr.warning('Es requerido ingresar un nombre de categoría');
-    return;
+    // 1. ELIMINADO: Ya no leemos 'this.documentForm' en el padre.
+    // Las validaciones de si la categoría o el archivo existen ya se hicieron en el hijo 
+    // antes de lanzar el .emit(). Solo validamos por seguridad el parámetro recibido:
+    if (!eventData.archivo) {
+      this.toastr.error('Error', 'Necesitas seleccionar un recurso');
+      return;
+    }
+
+    this.isLoadingUpload = true;
+
+    // 2. Llamar al servicio usando directamente las variables limpias que te envió el hijo (eventData)
+    this.fileUploadService
+      .actualizarFoto(eventData.archivo, 'documents', this.user.uid, eventData.categoria)
+      .then(resp => {
+        this.isLoadingUpload = false;
+
+        if (!resp) {
+          this.toastr.error('Error', 'No se pudo procesar el documento en el servidor');
+          return;
+        }
+
+        // Éxito total: subido a Cloudinary y persistido en MongoDB
+        this.toastr.success('Se guardó el recurso con éxito');
+        this.getdocumentsbyUser(); // Recarga tu lista de documentos en pantalla
+
+        // 3. Notificación de cierre:
+        // Para limpiar el formulario del hijo, lo ideal es pasarle una señal o dejar 
+        // que el hijo se limpie solo al recibir que 'isLoading' volvió a false.
+        this.closeModal.emit();
+      })
+      .catch(err => {
+        this.isLoadingUpload = false;
+        console.error(err);
+        this.toastr.error('Error', 'Ocurrió un error inesperado al subir el archivo');
+      });
   }
 
-  // 3. Validar que exista el archivo en tu arreglo/propiedad de selección
-  // (Nota: Asegúrate si usas this.FILES o this.archivoSubir de acuerdo a tu método cambiarImagen)
-  if (!this.archivoSubir) { 
-    this.toastr.error('Error', 'Necesitas seleccionar un recurso');
-    return;
-  }
-
-  this.isLoading = true;
-
-  // 4. Llamar al servicio unificado enviando el valor correcto del formulario
-  this.fileUploadService
-    .actualizarFoto(this.archivoSubir, 'documents', this.user.uid, categoriaValor)
-    .then(resp => {
-      this.isLoading = false;
-      
-      if (!resp) {
-        this.toastr.error('Error', 'No se pudo procesar el documento en el servidor');
-        return;
-      }
-
-      // Éxito total: subido a Cloudinary y persistido en MongoDB
-      this.toastr.success('Se guardó el recurso con éxito');
-      this.getdocumentsbyUser(); // Recarga la lista de documentos en pantalla
-      
-      // Limpiar formulario y variables
-      this.documentForm.reset();
-      this.archivoSubir = null;
-    })
-    .catch(err => {
-      this.isLoading = false;
-      console.error(err);
-      this.toastr.error('Error', 'Ocurrió un error inesperado al subir el archivo');
-    });
-}
   onScrollUp() {
     this.refreshData();
   }
@@ -300,33 +331,55 @@ save() {
   }
 
   // compartir archivo
-  solicitudSelected(document: any) {
-    this.document_selected = document;
-    this.user_member_id = this.user.uid;
-    this.user_cliente_id = this.user.uid;
+  solicitudSelected(documentId: any) {
+    // 1. Save the selected document ID in the parent state
+    this.document_selected = documentId;
+    console.log(this.document_selected)
+    // 2. Fetch the clients list (which populates this.clientes)
     this.getClientesbyuser();
-
   }
-
   getClientesbyuser() {
-    this.clientService.getMySpecialists(this.user_id).subscribe((resp: any) => {
+    this.clientService.getMySpecialists(this.user.uid).subscribe((resp: any) => {
       this.clientes = resp.specialists;
     })
 
   }
 
+  onShareIt(eventData: { emailACompartir: string }) {
 
-  onShareIt(document: any) {
-    this.document_selected = document;
-    const data = {
-      document_id: this.document_selected,
-      user_id: this.user.id,
-      client_id: this.share,
+    if (!eventData.emailACompartir) {
+      this.toastr.warning('Por favor, selecciona un usuario con quien compartir.');
+      return;
     }
-    this.documentService.shareDocument(data).subscribe((resp: any) => {
-      this.toastr.success('Se ha Compartido el Documento')
-    })
+
+    const data = {
+      documentId: this.document_selected,
+      usuario: this.user.uid,        // The owner of the file
+      emailACompartir: eventData.emailACompartir // The selected email payload sent by the child
+    };
+
+    this.documentService.shareDocument(data).subscribe({
+      next: (resp: any) => {
+        this.toastr.success('Se ha compartido el documento con éxito');
+        this.document_selected = null; // Clear selection to reset the UI dropdown view
+      },
+      error: (err) => {
+        console.error(err);
+        this.toastr.error('Error', 'No se pudo compartir el archivo');
+      }
+    });
   }
+
+    optionSelected(value: number) {
+      this.option_selectedd = value;
+      if (this.option_selectedd === 1) {
+  
+        // this.ngOnInit();
+      }
+      if (this.option_selectedd === 2) {
+        this.solicitud_selectedd = null;
+      }
+    }
 
 
 
