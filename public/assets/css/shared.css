@@ -1,16 +1,3 @@
-
-.listhorizontal,
-.slider-inicio,
-.wallet,
-.lawyer-profile,
-.search,
-.favorites {
-    transform: translateY(70px);
-    /* padding-bottom: 100px; */
-    padding-bottom: 200px;
-}
-
-.home .areagris,
 .user-document .areagris,
 .user .areagris,
 .wallet .areagris,
@@ -26,7 +13,6 @@
     z-index: 0;
 }
 
-.home .areablanc-interna,
 .user-document .areablanc-interna,
 .user .areablanc-interna,
 .wallet .areablanc-interna,
@@ -44,9 +30,7 @@
     top: 70px;
 }
 
-.home .post .group,
-.lawyer-profile .post .group,
-.search .post .group {
+.post .group {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     /* grid-template-columns: 80px 1fr; */
@@ -85,15 +69,11 @@
     height: 100%;
 }
 
-.favorites .post .group .foto .post-date,
-.search .post .group .foto .post-date,
-.home .post .group .foto .post-date {
+ .post .group .foto .post-date {
     margin-bottom: 0px;
 }
 
-.favorites .post .group .foto img,
-.search .post .group .foto img,
-.home .post .group .foto img {
+ .post .group .foto img {
     width: 90%;
     margin: 5px;
     border: 1px solid var(--grisclaro);

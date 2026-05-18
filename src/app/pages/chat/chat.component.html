@@ -1,71 +1,63 @@
-<app-header></app-header>
-<div class="playground">
-    <div class="card ">
-        
+<app-header></app-header> 
 
-         <div class="card-body-top">
-          <div class=" fotoperfil">
-            <img *ngIf="profile" [src]="(profile.img || '')  | imagenPipe: 'users' " alt="">
-          </div>
-          <div class="perfil">
-            <h2 class="name">{{profile?.first_name}} {{profile?.last_name}} </h2>
-            
-          </div>
+<div class="playground"> 
+  <div class="card"> 
+    
+    <!-- Profile Top Bar Header -->
+    @if (profile) {
+      <div class="card-body-top"> 
+        <div class="fotoperfil"> 
+          <img [src]="(profile.img || '') | imagenPipe: 'profiles'" alt="Perfil"> 
+        </div> 
+        <div class="perfil"> 
+          <h2 class="name">{{ profile.first_name }} {{ profile.last_name }}</h2> 
+          <h4 class="job-title">{{ profile.ciudad }}, {{ profile.pais }}</h4> 
+        </div> 
+        <div class="actions"> 
+          <app-backButtn [pageTitle]="pageTitle"></app-backButtn> 
+        </div> 
+      </div> 
+    }
+    
+    <div class="clear"></div> 
 
-          <div class="actions">
-            <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-          </div>
-          
-        </div>
+    <!-- Chat Area Section -->
+    <div style="margin-top: 120px;"> 
+      <div class="chat-container"> 
         
-         
-         <div class="clear"></div>
-         <!-- <details style="margin-top: 120px; padding: 15px;" >
-          <summary>{{'formulario.Social Networks'|translate}}</summary>
-        </details> -->
-        <div class="reds" style="margin-top: 120px; padding: 15px;" *ngIf="redessociales && redessociales.length > 0">
-          <div class="cont" *ngFor="let red of redessociales;let i = index;" >
-            
-            <a  *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.name_red" target="_blank" rel="noopener noreferrer">
-              <div class="option-admin">
-                <i [class]="red.icono"></i>
-                <!-- <p>{{ red.title }}</p> -->
-              </div>
-            </a>
-            <a *ngIf="red.icono === 'fa fa-whatsapp'" 
-                href="https://wa.me/{{red.name_red}}?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion"
-                target="_blank" rel="noopener noreferrer">
-                  <div class="option-admin">
-                    <i [class]="red.icono"></i>
-                    <!-- <p>{{ red.title }}</p> -->
-                  </div>
-                </a>
-          </div>
-        </div>
-         <!-- <div style="margin-top: 20px;" *ngIf="messages">
-          <ul *ngFor="let message of messages">
-            <li class="other" >
-                  <div class="avatar"><img [src]="'./assets/images/foto-perfil.jpg'" draggable="false"/></div>
-                <div class="msg">
-                  <p>{{message}}</p>
-                  <p>{{message.message_users.client_id}}</p>
-                  <time>{{message.created_at}}</time>
-                </div>
-              </li>
-            <li class="self" >
-              <div class="avatar"><img [src]="'./assets/images/foto-perfil2.jpg'" draggable="false"/></div>
-              <div class="msg">
-                <p>{{message}}</p>
-                <p>{{message.message_users.user_id}}</p>
-                <time>{{message.created_at}}</time>
-              </div>
-            </li>
-          </ul>
-        </div> -->
-         <form action="" class="escribir_data">
-            <input type="text" name="message" class="textinput" [(ngModel)]="message" placeholder="Escribe un mensaje...">
-            <button type="submit" class="btn btn-outline-success butonhome" (click)="sendMessage()"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i></button>
-         </form>
-       </div>
-  
-  </div>
+        <!-- Live Real-Time Message View List -->
+        <div class="messages-list"> 
+          @for (msg of messages(); track msg.id || msg.fecha) { 
+            <!-- Adjust condition logic based on your backend message schema properties -->
+            <div [ngClass]="{'mi-mensaje': msg.user_id === user.id, 'su-mensaje': msg.user_id !== user.id}"> 
+              <p>{{ msg.message || msg.texto }}</p> 
+            </div> 
+          } @empty {
+            <p class="text-center text-muted">No hay mensajes anteriores. ¡Empieza la conversación!</p>
+          }
+        </div> 
+        
+      </div> 
+    </div> 
+
+    <!-- Consolidated Unified Input Box Bar Form -->
+    <form class="escribir_data" (submit)="$event.preventDefault()"> 
+      <input 
+        type="text" 
+        name="message" 
+        class="textinput" 
+        [(ngModel)]="message" 
+        (keyup.enter)="enviarMensaje()" 
+        placeholder="Escribe un mensaje..."
+        autocomplete="off"> 
+      
+      <button 
+        type="button" 
+        class="btn btn-outline-success butonhome" 
+        (click)="enviarMensaje()">
+        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+      </button> 
+    </form> 
+
+  </div> 
+</div>

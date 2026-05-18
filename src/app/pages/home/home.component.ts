@@ -17,6 +17,9 @@ import { UserService } from '../../services/usuario.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
+import { ToastrService } from 'ngx-toastr';
+import { PushNotificationService } from '../../services/push-notification.service';
+import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +34,8 @@ import { ProfileService } from '../../services/profile.service';
     CommonModule, 
     BackButtnComponent, 
     // ListaUsuariosComponent,
-    TranslateModule
+    TranslateModule,
+    ModalInstruccionesComponent
   ],
   providers: [TranslateService],
   templateUrl: './home.component.html',
@@ -42,15 +46,26 @@ export class HomeComponent {
   user!: any;
   user_id!:string;
   profile!: Profile;
+  isLoading = false;
 
   private translate = inject(TranslateService);
+  public pushService = inject(PushNotificationService);
+  public toastr = inject(ToastrService);
+  private profileService = inject(ProfileService);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+    info = `
+  <h2>Sección: Inicio</h2>
+  <p>En este apartado podrás:</p>
+  <ul>
+    <li><strong>Encontrar Especialistas por categoria</strong></li>
+    <li><strong>Ver tus Solicitudes Recientes</strong></li>
+    <li><strong>Ver tus Pagos Recientes</strong> </li>
+  </ul>`;
+  
   
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private profileService: ProfileService,
-    
-
   ){
     this.user = this.authService.getLocalStorage();
     this.translate.use('es'); // Set default language
@@ -72,6 +87,9 @@ export class HomeComponent {
 
   searchData(){
     this.router.navigateByUrl('/search');
+  }
+   btnActivarPush() {
+    this.pushService.subscribeToNotifications();
   }
 
 }

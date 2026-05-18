@@ -1,7 +1,7 @@
 <div class="menu-footer">
     <ul>
         <li>
-            <a routerLink="/home" routerLinkActive="active">
+            <a routerLink="/home" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="fa fa-home"></i>
             </a>
         </li>
@@ -12,7 +12,7 @@
         </li>
         <li>
             <a routerLink="/profile/documents" routerLinkActive="active">
-                <i class="fa fa-file fa-search"></i>
+                <i class="fa fa-file"></i>
             </a>
         </li>
         <li>
@@ -21,7 +21,7 @@
             </a>
         </li>
         <li>
-            <a routerLink="/profile" routerLinkActive="active">
+            <a routerLink="/profile" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <i class="fa fa-user"></i>
             </a>
         </li>

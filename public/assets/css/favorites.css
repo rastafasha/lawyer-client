@@ -24,13 +24,10 @@ img {
 }
 
 .favorites .post .group {
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    grid-template-rows: 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 10px;
-    height: 120px;
 }
 
 .favorites .div1 p {

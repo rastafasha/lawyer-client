@@ -7,9 +7,10 @@ import { routes } from './app.routes';
 import { provideServiceWorker } from '@angular/service-worker';
 import { HttpRequest, HttpHandlerFn, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { HttpInterceptor } from '@angular/common/http';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
+import { authInterceptor } from './http-interceptors/auth-interceptor';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }
@@ -17,8 +18,12 @@ export function HttpLoaderFactory(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideHttpClient(
-      withInterceptors([imageInterceptor])
+     provideHttpClient(
+      withInterceptors([
+        imageInterceptor,
+        authInterceptor, // Primero maneja autenticación
+      ]),
+      
     ),
     provideRouter(routes),
     provideServiceWorker('ngsw-worker.js', {

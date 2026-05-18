@@ -1,115 +1,118 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { HeaderComponent } from '../../shared/header/header.component';
-import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ChatService } from '../../services/chat.service';
 import { UserService } from '../../services/usuario.service';
 import { ProfileService } from '../../services/profile.service';
-import { FormsModule } from '@angular/forms';
-import { Usuario } from '../../models/usuario.model';
-import { Client } from '../../models/client.model';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgClass, } from '@angular/common';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { AuthService } from '../../services/auth.service';
 import { MessageService } from '../../services/message.service';
-import { Profile, RedesSociales } from '../../models/profile.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
-import { TranslateModule } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-chat',
   imports: [
-    HeaderComponent,
-    FormsModule,
-    NgIf, NgFor,
-    BackButtnComponent,
-    ImagenPipe,
-    TranslateModule,
-    CommonModule,
-    RouterModule
+    ImagenPipe, BackButtnComponent,
+    ReactiveFormsModule, HeaderComponent,
+    NgClass, FormsModule
   ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
-export class ChatComponent {
+export class ChatComponent implements OnInit, OnDestroy {
 
+  // Propiedades de la vista
+  public pageTitle = 'Chat';
   public message: string = '';
-  public messages: any = [];
-  public user_selected!: any;
+  public tema: string = '';
 
-  pageTitle = 'Chat';
-
+  // Datos de usuario y perfiles
   public user!: any;
-  public user_id!: string;
-  public client!: Client;
-  public client_id!: string;
-  public profile!: Profile;
-  public redessociales: RedesSociales[] = [];
+  public user_selected!: any;
+  public client_id!: number;
+  public profile!: any; // Ajustado según tu getByUser
+
+  // Señal reactiva para renderizar los mensajes
+  public messages = signal<any[]>([]);
+
+  private chatSub!: Subscription;
 
   constructor(
     private chatService: ChatService,
     private activatedRoute: ActivatedRoute,
+    private userService: UserService,
     private profileService: ProfileService,
-    private authService: AuthService,
     private messageService: MessageService,
+    private authService: AuthService
   ) {
     this.user = this.authService.getLocalStorage();
   }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe(({ id }) => this.getUserProfile(id));
-    this.user_id = this.user.uid;
-  }
+    // 1. Escuchar parámetros de la URL para cargar el perfil del destinatario
+    this.activatedRoute.params.subscribe(({ id }) => {
+      this.getUserProfile(id);
+    });
 
-  public sendMessage() {
-    if (this.message.length < 0) {
-      return;
-    }
-    this.chatService.sendMessage(this.message);
-    this.enviarMensaje(this.message);
-    this.messages.push(this.message);
-    this.message = '';
+    // 2. Escuchar los mensajes en tiempo real (Sockets) una sola vez
+    this.chatSub = this.chatService.messages$.subscribe(msgs => {
+      this.messages.set(msgs);
+    });
   }
 
   getUserProfile(id: string) {
     this.profileService.getByUser(id).subscribe((resp: any) => {
       this.profile = resp.profile;
 
-      try {
-        this.redessociales = typeof resp.profile.redessociales === 'string'
-          ? JSON.parse(resp.profile.redessociales) || []
-          : resp.profile.redessociales || [];
-      } catch (error) {
-        console.error('Error parsing redessociales:', error);
-        // this.redessociales = [];
-      }
+      // Asumimos que obtienes el id del cliente desde el perfil seleccionado
+      this.client_id = resp.profile.usuario.uid || id;
+
+      // Una vez que tenemos los IDs correctos, cargamos el historial de la BD
+      this.listMessage();
     });
   }
 
-
+  // Cargar el historial de mensajes pasados desde el Backend
   public listMessage() {
     this.messageService
-      .getByClient(this.client_id, this.user_id)
+      .getByUser(this.user.uid, this.client_id)
       .subscribe((resp: any) => {
-        this.messages = resp;
-        console.log(this.messages);
+        this.messages.set(resp);
+        this.chatService.setMessages(resp); // Sincroniza el historial con el servicio de Sockets
       });
   }
 
-  enviarMensaje(data: any) {
-    const formData = new FormData();
-    formData.append('cliente_id', this.client_id);
-    formData.append('user_id', this.user_id);
-    formData.append('message', this.message);
+  // Enviar mensaje unificado (HTTP para guardar + Socket para tiempo real)
+ enviarMensaje() {
+  if (!this.message.trim()) return;
 
-    this.messageService.createMessage(formData).subscribe({
-      next: (resp: any) => {
-        this.message = resp;
-      },
-      error: (err) => {
-        console.error(err);
-      },
-    });
+  // 1. Creamos un objeto JSON común con los nombres exactos
+  const data = {
+    user_id: this.user.uid ,
+    cliente_id: this.client_id,
+    message: this.message
+  };
+
+  // 2. Enviamos el objeto directamente al servicio
+  this.messageService.createMessage(data).subscribe({
+    next: (resp: any) => {
+      this.chatService.sendMessage(this.message, this.user.uid.toString(), this.client_id.toString());
+      this.message = ''; 
+    },
+    error: (err) => {
+      console.error(err);
+    },
+  });
+}
+
+  ngOnDestroy() {
+    // Limpieza estricta de la suscripción para evitar memory leaks
+    if (this.chatSub) {
+      this.chatSub.unsubscribe();
+    }
   }
 
 }

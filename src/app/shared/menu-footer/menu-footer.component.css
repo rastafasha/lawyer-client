@@ -1,3 +1,10 @@
-.active{
-    color: red
+.menu-footer ul li a.active i {
+  color: var(--vinotinto); /* Reemplaza por tu color preferido (ej. Azul, Hexadecimal, etc.) */
+  transform: scale(1.1); /* Opcional: hace el icono un poco más grande */
+  transition: all 0.3s ease; /* Opcional: suaviza la transición de color */
+}
+
+/* Estilo base para los iconos no activos (gris por defecto) */
+.menu-footer ul li a i {
+  color: #888888; 
 }

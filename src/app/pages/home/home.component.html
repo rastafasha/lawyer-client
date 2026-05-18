@@ -1,52 +1,65 @@
 <app-header></app-header>
 
 <section class="home">
-  <div class="container-fluid">
-    <div class="container">
+  <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9">
-
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+           <!-- aviso  -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <app-aviso [profile]="profile" [user]="user"></app-aviso>
+              <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm"
+                (click)="instruccionesModal.open()" title="Ayuda de la sección">
+                <i class="fa fa-question"></i>
+              </button>
+            </div>
 
-          <div>
+
             <!-- aviso  -->
-            <app-aviso [profile]="profile" [user]="user"></app-aviso>
-            <!-- aviso  -->
+            <!-- El banner SOLO se muestra si NO está suscrito -->
+            <div *ngIf="(pushService.isSubscribed$ | async) === false && !isLoading"
+              class="banner-notificaciones animate fadeIn">
+              <div class="mensaje">
+                <strong>📢 ¡No te pierdas nada!</strong>
+                <p>Activa las notificaciones para estar al día.</p>
+              </div>
+              <button type="button" (click)="btnActivarPush()" class="btn btn-outline-info mb-3 animate fadeIn">
+                Configurar Notificaciones
+              </button>
+            </div>
+
+            <!-- Opcional: Mostrar un mensaje sutil si ya está suscrito -->
+            <p *ngIf="pushService.isSubscribed$ | async" class="text-muted p-3 animate fadeIn">
+              <i class="fas fa-check-circle text-success"></i> Notificaciones activas
+            </p>
             <!--category name-->
             <app-categoria-horizontal></app-categoria-horizontal>
             <!--category name-->
             <br />
 
-            <div class="row w-75">
-              <div class="d-flex  justify-content-center">
-                <label class="labelgoogle">
+            <div class="d-flex justify-content-between align-items-center mb-3 align-items-center">
+                <label class="labelgoogle w-75 mb-0">
                   <input class="form-control input" formControlName="name_file" type="search" placeholder=" "
                     aria-label="Search">
                   <span class="label__name">
                     {{'Search'|translate}}
                     <i class="fa fa-search" style="margin-left: 10px;"></i>
                   </span>
-                  <button type="button" class="btn btn-primary submit-list-form " (click)="searchData()">
-                    <i class="fa fa-search"></i>
-                  </button>
                 </label>
+                <button type="button" class="btn btn-primary submit-list-form w-20" (click)="searchData()">
+                  <i class="fa fa-search"></i>
+                </button>
 
               </div>
-            </div>
             <!---Slider-->
             <app-slider-horizontal></app-slider-horizontal>
             <!---Slider-->
 
             <!--Destacados-->
-
             <!-- <app-list-products-h></app-list-products-h> -->
-            <br>
             <!---Destacados-->
             <!--Recientes-->
             <app-list-products></app-list-products>
-
-          </div>
-
         </div>
         <!-- lateral -->
         <div class="col-xs-12 col-sm-3 col-md-3">
@@ -54,9 +67,8 @@
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 
-
+<app-modal-instrucciones [info]="info" sectionId="inicio" #instruccionesModal></app-modal-instrucciones>
 <app-menu-footer></app-menu-footer>

@@ -1,5 +1,5 @@
 <app-header></app-header>
-<section class="favorites " infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
+<section class="favorites home " infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
   [infiniteScrollThrottle]=" 50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
   [class.refreshing]="isRefreshing">
   <div class="pull-down-indicator" *ngIf="isRefreshing">
@@ -9,8 +9,7 @@
     </p>
   </div>
 
-  <div class="container-fluid">
-    <div class="container">
+  <div class="container">
       <div class="row">
         <div class="col-xs-12 col-sm-9 col-md-9">
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
@@ -114,8 +113,7 @@
             <div class="post navTabs" *ngIf="specialists.length > 0 else message">
               <div *ngFor="let item of specialists">
                 <div class="card border-0 shadow-sm mb-3 ">
-                  <div class="group itemFav shadow">
-
+                  <div class="group itemFav ">
                     <div class="div1pagocon ">
                       <div class="d-flex  justify-content-between">
                         <div class="inf">
@@ -148,7 +146,6 @@
         </div>
       </div>
     </div>
-  </div>
 </section>
 
 <!-- OFFCANVAS DETALLE -->

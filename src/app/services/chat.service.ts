@@ -1,52 +1,74 @@
-import { Injectable, Inject } from '@angular/core';
-// import { Socket } from 'ngx-socket-io';
-// import { SOCKET_INSTANCE } from '../app.config';
+import { Injectable, inject } from '@angular/core';
+import { io, Socket } from 'socket.io-client';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-import { io } from 'socket.io-client';
-import { map } from 'rxjs';
+import { AuthService } from './auth.service';
+const urlSocket = environment.soketServer;
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
 
-  // public socket = io(environment.soketServer);
+  private socket!: Socket;
+  // URL de tu servidor backend (cámbiala si es necesario)
+  private url = urlSocket;
 
-  // sendMessage(mensaje: string){
-  //   const payload = {
-  //     de: this.wsService.usuario?.nombre ?? 'Unknown',
-  //     cuerpo: mensaje
-  //   }
-  //   this.wsService.emit('mensaje', payload);
-  // }
+  // Guardamos el historial de mensajes del chat actual
+  private messagesSubject = new BehaviorSubject<any[]>([]);
+  public messages$: Observable<any[]> = this.messagesSubject.asObservable();
 
-  // getMessage(){
-  //   return this.wsService.listen('mensaje-nuevo');
-  // }
-
-  // getMessagePrivate(){
-  //   return this.wsService.listen('mensaje-privado');
-  // }
-  // getUsuariosActivos(){
-  //   return this.wsService.listen('usuarios-activos');
-  // }
-
-  // emitirUsuariosActivos(){
-  //   this.wsService.emit('obtener-usuarios');
-  // }
-
-  constructor(
-    // private socket : Socket,
-    // @Inject(SOCKET_INSTANCE) private socket: Socket
-  ) { }
-
-  public sendMessage(message:string){
-    // console.log('Socket instance:', this.socket);
-    // this.socket.emit('message', message);
-    console.log(message);
-    
+  constructor(private authService: AuthService) {
+    this.connectSocket();
   }
-  public listMessage(){
-    // return this.socket.fromEvent('received').pipe(map((data)=>data));
+
+ private connectSocket() {
+    // Obtenemos los datos del usuario logueado
+    const user = this.authService.getLocalStorage(); 
+    const token = localStorage.getItem('token');
+
+    this.socket = io(this.url, {
+      // 1. Enviamos el uid en la query tal como lo pide tu backend
+      query: {
+        uid: user?.uid
+      },
+      // 2. Enviamos el token en auth por seguridad estándar
+      auth: {
+        token: token
+      },
+      transports: ['polling', 'websocket'] 
+    });
+
+    // Escuchar mensajes privados entrantes del backend
+    this.socket.on('mensaje-privado', (msg: any) => {
+      const currentMessages = this.messagesSubject.value;
+      // Añadimos el mensaje recibido al flujo del chat
+      this.messagesSubject.next([...currentMessages, msg]);
+    });
+
+    this.socket.on('connect', () => console.log('Conectado al chat de sockets'));
+    this.socket.on('disconnect', () => console.log('Desconectado del chat'));
+  }
+
+  // Método para emitir el mensaje privado hacia el servidor
+  sendMessage(message: string, fromUserId: string, toUserId: string) {
+    const payload = {
+      de: fromUserId,
+      para: toUserId,
+      message: message,
+      fecha: new Date()
+    };
+    
+    // Emitimos al servidor de Node.js
+    this.socket.emit('mensaje-privado', payload);
+
+    // Añadimos nuestro mensaje a la lista local inmediatamente para verlo en pantalla
+    const currentMessages = this.messagesSubject.value;
+    this.messagesSubject.next([...currentMessages, payload]);
+  }
+
+  // Método para limpiar el chat al cambiar de usuario o cerrar pantalla
+  setMessages(messages: any[]) {
+    this.messagesSubject.next(messages);
   }
 }

@@ -23,13 +23,13 @@
           <span class="text-gray-400 fw-bolder">{{'formulario.Size'|translate}}: <a href="javascript:void(0);" onclick="return false;" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}} </a></span><br>
           <span class="text-gray-400 fw-bolder">{{'sharedWith'|translate}}: <a href="javascript:void(0);" onclick="return false;" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.sharedWith}} </a></span>
         </div>
-        <hr>
+        
         <!-- CORRECCIÓN AQUÍ: Se añade .emit() -->
         <div class="buttons" *ngIf="!document_selected">
           <button class="btn btn-danger btn-sm" (click)="onDeleteFile.emit(FILE._id)">x</button>
           <button class="btn btn-success btn-sm" (click)="onSolicitudSelected.emit(FILE._id)">Share</button>
         </div>
-
+        <hr>
         <!-- CORRECCIÓN AQUÍ: Se añade .emit() -->
         <div class="share__options" *ngIf="document_selected === FILE._id">
           <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="share">

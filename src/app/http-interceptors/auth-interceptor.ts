@@ -1,55 +1,42 @@
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-// import { AccountService } from '../services/account.service';
-import { catchError, Observable, throwError } from 'rxjs';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private _router: Router) {
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router); // Inyección funcional de Angular
+  const token = localStorage.getItem('token');
+  let authReq = req;
+
+  if (token) {
+    authReq = req.clone({
+      setHeaders: {
+        'x-token': token,
+        'Accept': 'application/json'
+      }
+    });
   }
 
-   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
-    let authReq = req;
+  return next(authReq).pipe(
+    catchError((error: HttpErrorResponse) => {
+      const serverMessage = error.error?.msg;
 
-    // 1. Si hay token, clonamos la petición UNA SOLA VEZ
-    if (token) {
-      authReq = req.clone({
-        setHeaders: {
-          'x-token': token,
-          'Accept': 'application/json'
-        }
-      });
-    }
+      if (error.status === 401 || serverMessage === 'Token no valido') {
+        localStorage.clear();
+        
+        Swal.fire({
+          title: 'Sesión expirada',
+          text: 'Por favor inicia sesión nuevamente.',
+          icon: 'warning',
+          confirmButtonText: 'Ir al Login'
+        }).then(() => {
+          router.navigate(['/login']);
+        });
+      }
 
-    // 2. Pasamos la petición clonada (authReq) directamente
-    return next.handle(authReq).pipe(
-      catchError((error: HttpErrorResponse) => {
-        // SOLO si el error es 401 (Token inválido/expirado)
-        if (error.status === 401) {
-          localStorage.clear();
-          Swal.fire({
-            title: 'Sesión expirada',
-            text: 'Por favor inicia sesión nuevamente.',
-            icon: 'warning',
-            confirmButtonText: 'Ir al Login'
-          }).then(() => {
-            this._router.navigate(['/login']);
-          });
-        }
-        // Si el error es 0, 403 o 500, el interceptor NO hace nada y deja que el componente lo maneje
-        return throwError(() => error);
-      })
-    );
-  }
-
-  errors(error: HttpErrorResponse) {
-    if (error.status === 4030 || error.status === 4040 || error.status === 4230) {
-      this._router.navigate(['/login']);
-    }
-    return throwError(error);
-  }
-}
+      return throwError(() => error);
+    })
+  );
+};
 
