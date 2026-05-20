@@ -53,10 +53,10 @@
               "outputHashing": "all",
               "serviceWorker": "ngsw-config.json"
             },
-            "laflecha-client": {
+             "laflecha-client": {
               "outputPath": "dist/laflecha-client",
               "index": {
-                "input": "src/app/env/laflecha/index.html",
+                "input": "src/app/env/laflecha-client/index.html",
                 "output": "index.html"
               },
               "fileReplacements": [
