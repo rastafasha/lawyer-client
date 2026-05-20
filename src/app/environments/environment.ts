@@ -10,7 +10,7 @@ export const environment = {
   mediaUrlRemotoPdf: 'https://res.cloudinary.com/dmv6aukai/raw/upload/v1778941520/lawyerapp',
   soketServer : 'http://localhost:3000',
   //notificaciones
-  urlBackedNotification:'https://backend-condoparquecentral-mean.onrender.com/api/notipush/save-subscription',
+  urlBackedNotification:'https://backend-laflecha-node.onrender.com/api/notipush/save-subscription',
   VAPI_KEY_PUBLIC: 'BNc3MfntrpdWAMI0usltUAh-w1RRvkbD_8QdjZRHPCpLVlCxIm2ZQ4N1w_iX49RUAMNR11Valdl8DlIH6PiYa9U',
  
   
