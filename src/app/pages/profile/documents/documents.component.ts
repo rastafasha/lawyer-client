@@ -17,6 +17,7 @@ import { FileUploadService } from '../../../services/file-upload.service';
 import { ModalAgregarComponent } from './modal-agregar/modal-agregar.component';
 import { ArchivosCategoriaComponent } from './archivosCategoria/archivosCategoria.component';
 import Swal from 'sweetalert2';
+import { ArchivosCompartidosComponent } from './archivos-compartidos/archivos-compartidos.component';
 const baseUrl = environment.url_servicios;
 declare let $: any;
 @Component({
@@ -32,7 +33,8 @@ declare let $: any;
     LoadingComponent,
     TranslateModule,
     ModalAgregarComponent,
-    ArchivosCategoriaComponent
+    ArchivosCategoriaComponent,
+    ArchivosCompartidosComponent
   ],
   templateUrl: './documents.component.html',
   styleUrl: './documents.component.scss'
@@ -114,40 +116,19 @@ export class DocumentsComponent {
     this.searchForm.reset();
   }
 
-  validarFormularioPerfil() {
-    if (!this.searchForm) {
-      this.searchForm = this.fb.group({
-        name_category: [''],
-        created_at: [''],
-        name_file: [''],
-        user_id: [this.user.id],
-      });
+    optionSelected(value: number) {
+      this.option_selectedd = value;
+      if (this.option_selectedd === 1) {
+  
+        this.getdocumentsbyUser();
+      }
+      if (this.option_selectedd === 2) {
+        this.getShared();
+      }
     }
-  }
-  validarFormularioDocumento() {
-    this.documentForm = this.fb.group({
-      name_category: [''],
-      created_at: [''],
-      name_file: [''],
-      user_id: [this.user.id],
-    });
-  }
 
 
-  searchData() {
-    const formValue = this.searchForm.value;
-    this.isSearching = true;
-    this.name_file = this.name_file.toLowerCase();
-    // this.characters = this.characters.filter((character: any) => {
-    //   return character.name.toLowerCase().includes(this.search);
-    //   });
-    this.getdocumentsbyUserFilter();
-  }
-  resetSearch(): void {
-    this.isSearching = false;
-    this.searchForm.reset();
-    this.ngOnInit();
-  }
+
 
   getdocumentsbyUserFilter() {
     this.isLoading = true;
@@ -370,18 +351,42 @@ export class DocumentsComponent {
     });
   }
 
-    optionSelected(value: number) {
-      this.option_selectedd = value;
-      if (this.option_selectedd === 1) {
-  
-        // this.ngOnInit();
-      }
-      if (this.option_selectedd === 2) {
-        this.solicitud_selectedd = null;
-      }
+
+    validarFormularioPerfil() {
+    if (!this.searchForm) {
+      this.searchForm = this.fb.group({
+        name_category: [''],
+        created_at: [''],
+        name_file: [''],
+        user_id: [this.user.id],
+      });
     }
+  }
+  validarFormularioDocumento() {
+    this.documentForm = this.fb.group({
+      name_category: [''],
+      created_at: [''],
+      name_file: [''],
+      user_id: [this.user.id],
+    });
+  }
 
 
+  searchData() {
+    const formValue = this.searchForm.value;
+    this.isSearching = true;
+    this.name_file = this.name_file.toLowerCase();
+    // this.characters = this.characters.filter((character: any) => {
+    //   return character.name.toLowerCase().includes(this.search);
+    //   });
+    this.getdocumentsbyUserFilter();
+  }
+  resetSearch(): void {
+    this.isSearching = false;
+    this.searchForm.reset();
+    this.ngOnInit();
+  }
+   
 
 
 }

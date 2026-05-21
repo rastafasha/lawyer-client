@@ -8,7 +8,7 @@ import { LoadingComponent } from '../../../../shared/loading/loading.component';
 @Component({
     selector: 'app-archivosCategoria',
     templateUrl: './archivosCategoria.component.html',
-    styleUrls: ['./archivosCategoria.component.css'],
+    styleUrls: ['./archivosCategoria.component.scss'],
     imports: [
         CommonModule,
         FormsModule,

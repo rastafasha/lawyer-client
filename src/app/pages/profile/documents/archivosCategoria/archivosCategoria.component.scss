@@ -1,0 +1,26 @@
+.itemlist {
+    display: grid;
+    grid-template-columns: 20% 80%;
+    grid-template-rows: repeat(2, 1fr);
+    grid-column-gap: 5px;
+    grid-row-gap: 5px;
+    height: 110px;
+
+    & .imagenes {
+        grid-area: 1 / 1 / 2 / 2;
+    }
+    & .info_itemlist {
+        grid-area: 1 / 2 / 2 / 3;
+        display: flex;
+        align-items: flex-start;
+        flex-direction: column;
+        width: 100%;
+        & p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+    & .buttons {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+}

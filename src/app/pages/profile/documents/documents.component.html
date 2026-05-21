@@ -152,14 +152,13 @@
                                             </div>
                                         </a>
 
-                                        <!-- modal archivos categoria-->
-                                        <app-archivosCategoria [cat]="cat" [user_filesfiltered]="user_filesfiltered"
-                                            [document_selected]="document_selected" [clientes]="clientes"
-                                            [share]="share" (onDeleteFile)="deleteFile($event)"
-                                            (onSolicitudSelected)="solicitudSelected($event)"
-                                            (onShareItEvent)="onShareIt($event)"
-                                            [isLoadingList]="isLoadingList">
-                                        </app-archivosCategoria>
+                                        <!-- modal archivos compartidos-->
+                                            <app-archivos-compartidos [cat]="cat" [sharedFiles]="sharedFiles"
+                                                [document_selected]="document_selected" [clientes]="clientes"
+                                                [share]="share" (onDeleteFile)="deleteFile($event)"
+                                                (onSolicitudSelected)="solicitudSelected($event)"
+                                                (onShareItEvent)="onShareIt($event)" [isLoadingList]="isLoadingList">
+                                            </app-archivos-compartidos>
                                         <!-- modal -->
                                     </div>
                                 </div>
