@@ -35,6 +35,7 @@ export class ArchivosCategoriaComponent {
 
     closeReload() {
         this.document_selected = null;
+        this.user_filesfiltered = [];
         this.oncloseReload.emit()
     }
 

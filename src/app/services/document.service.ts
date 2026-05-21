@@ -127,7 +127,7 @@ export class DocumentService {
     }
   
     deleteDocument(_id: string) {
-      const url = `${baseUrl}/documents/destroy/${_id}`;
+      const url = `${baseUrl}/documents/borrar/${_id}`;
       return this.http.delete(url, this.headers);
     }
     shareDocument(data:any) {

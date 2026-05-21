@@ -1,6 +1,6 @@
 import { environment } from "../environments/environment";
 import { Usuario } from "./usuario.model";
-const base_url = environment.mediaUrlRemotoPdf;
+const base_url = environment.mediaUrlRemoto;
 export class Document {
     _id?: string;
       name_file!: string;

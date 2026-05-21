@@ -4,7 +4,6 @@ export const environment = {
     url_servicios: 'https://backend-laflecha-node.onrender.com/api',
     url_frontend: 'https://client-laflecha.vercel.app/',
     mediaUrlRemoto: 'https://res.cloudinary.com/dmv6aukai/image/upload/v1741218430/lawyerapp',
-    mediaUrlRemotoPdf: 'https://res.cloudinary.com/dmv6aukai/raw/upload/v1778941520/lawyerapp',
   soketServer : 'https://backend-laflecha-node.onrender.com',
 
     //notificaciones

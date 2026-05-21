@@ -1,43 +1,56 @@
 <app-header></app-header>
 <section class="user-document home">
-  <div class="container-fluid">
-    <div class="container">
-      <div class="row">
-        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-        <app-loading *ngIf="isLoading"></app-loading>
-        <div *ngIf="!isLoading">
-          <div class="row">
-            <div class="col-xs-12 col-md-2">
-              <div class="card shadow p-2">
-                <p>{{'formulario.Name'|translate}}: {{FILE.name_file }}</p>
-                <p>{{'Category'|translate}}: {{FILE.name_category }}</p>
-                <p>{{'Tamaño'|translate}}: {{FILE.size }}</p>
-                <p>{{'Publico'|translate}}: {{FILE.isPublic }}</p>
-              </div>
-            </div>
-            <div class="col-xs-12 col-md-10" *ngIf="FILE.type !== 'pdf'">
-              <div style="height: 100vh; overflow: hidden; overflow-y: scroll;">
-                <img class="embed-responsive-item " *ngIf="FILE.type !== 'pdf'" [src]="FILE.file "
-                  style="width: 100%; height: auto;" />
-              </div>
-            </div>
-            <div class="col-xs-12 col-md-10" *ngIf="FILE.type === 'pdf'">
+  <div class="container">
+    <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+    <app-loading *ngIf="isLoading"></app-loading>
+    <div class="row" *ngIf="!isLoading">
+      <div class="col-xs-12 col-md-3">
+        <div class="card shadow p-2">
+          <p>{{'formulario.Name'|translate}}: {{FILE.name_file }}</p>
+          <p>{{'Category'|translate}}: {{FILE.name_category }}</p>
+          <p>{{'Tamaño'|translate}}: {{FILE.size }}</p>
+          <p>{{'Publico'|translate}}: {{FILE.isPublic }}</p>
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-9">
+        <div style="height: 100vh; overflow: hidden; overflow-y: scroll;" *ngIf="FILE.type !== 'application/pdf'">
+          <img class="embed-responsive-item " *ngIf="FILE.type !== 'application/pdf'" [src]="FILE.file "
+            style="width: 100%; height: auto;" />
+        </div>
 
-              <div *ngIf="FILE.type === 'pdf'">
-                <div
-                  style="width: 100%; height: 600px; overflow: hidden; border-radius: 12px; border: 1px solid #e3e3e3;">
-                  <iframe class="embed-responsive-item pdf-viewer"
-                    [src]="getPDFIframe( FILE.file | imagenPipe: 'documents' )" frameborder="0"
-                    style="width: 100%; height: 100%;" allowfullscreen>
-                  </iframe>
-                </div>
+        <div *ngIf="FILE.type === 'application/pdf'">
+          <div class="visor-layout">
+
+            <!-- Tarjeta lateral de metadatos (la que ya tienes a la izquierda) -->
+            <div class="sidebar-info">
+              <!-- Aquí va tu recuadro con NOMBRE, CATEGORÍA, TAMAÑO... -->
+            </div>
+
+            <!-- Contenedor del PDF/Imagen (Centrado y con tamaño controlado) -->
+            <div class="document-workspace">
+              <div class="pdf-card">
+
+                <!-- La etiqueta <object> carga el visor oficial del navegador del usuario -->
+                <object *ngIf="FILE.type === 'application/pdf'"
+                  [data]="getPDFIframe( FILE.file | imagenPipe: 'documents' )" type="application/pdf"
+                  class="pdf-element">
+
+                  <!-- Código de respaldo por si el navegador es muy viejo -->
+                  <p>Tu navegador no puede mostrar este PDF.
+                    <a [href]="FILE.file" target="_blank">Haz clic aquí para descargarlo</a>
+                  </p>
+
+                </object>
+
               </div>
             </div>
+
+
           </div>
+
         </div>
       </div>
     </div>
-
   </div>
 </section>
 <app-menu-footer></app-menu-footer>

@@ -6,7 +6,7 @@ import { MenuFooterComponent } from '../../../../shared/menu-footer/menu-footer.
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { DocumentService } from '../../../../services/document.service';
 import { Document } from '../../../../models/document.model';
-import { DomSanitizer } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { LoadingComponent } from '../../../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImagenPipe } from '../../../../pipes/imagen.pipe';
@@ -46,7 +46,6 @@ export class FilesComponent {
     this.isLoading = true;
     this.documentService.getDocument(id).subscribe((resp: any) => {
       this.FILE = resp;
-      console.log(resp);
       this.type = this.FILE.type;
       this.isLoading = false;
     })
@@ -65,17 +64,8 @@ export class FilesComponent {
     return this._sanitizer.bypassSecurityTrustResourceUrl(file);
   }
 
-  getPDFIframe(url: string | null) {
-  if (!url) return '';
-
-  // Aseguramos que la URL termine en .pdf para que los servidores sepan qué tipo de archivo es
-  let cleanUrl = url.endsWith('.pdf') ? url : `${url}.pdf`;
-
-  // Envolvemos el link dentro del visor universal de Google
-  const googleViewer = `https://google.com{encodeURIComponent(cleanUrl)}&embedded=true`;
-
-  // Retornamos la URL sanitizada para Angular
-  return this._sanitizer.bypassSecurityTrustResourceUrl(googleViewer);
+  getPDFIframe(url: string): SafeResourceUrl {
+  return this._sanitizer.bypassSecurityTrustResourceUrl(url);
 }
 
 }

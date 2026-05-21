@@ -7,7 +7,6 @@ export const environment = {
   url_servicios: 'http://127.0.0.1:3000/api',
   url_frontend: 'http://localhost:4200/',
   mediaUrlRemoto: 'https://res.cloudinary.com/dmv6aukai/image/upload/v1741218430/lawyerapp',
-  mediaUrlRemotoPdf: 'https://res.cloudinary.com/dmv6aukai/raw/upload/v1778941520/lawyerapp',
   soketServer : 'http://localhost:3000',
   //notificaciones
   urlBackedNotification:'https://backend-laflecha-node.onrender.com/api/notipush/save-subscription',

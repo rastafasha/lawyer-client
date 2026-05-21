@@ -1,29 +1,4 @@
-.itemlist{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #ccc;
-    box-sizing: content-box;
-    padding: 10px;
-    grid-area: 0px;
-    margin: 0;
-    align-items: stretch;
-    & .info_itemlist{
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
 
-    }
-    & .buttons{
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        align-self: flex-start;
-    }
-    & a img{
-        width: 70px;
-    }
-}
 .post{
     display: flex;
     flex-direction: column;

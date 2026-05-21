@@ -1,47 +1,57 @@
-<div class="offcanvas offcanvas-bottom rounded-top-5 h-90" tabindex="-1" [attr.id]="'view-doc-'+cat.name_category" style="height: auto; max-height: 90vh; border-radius: 25px 25px 0 0;">
+<div class="offcanvas offcanvas-bottom rounded-top-5 h-90" tabindex="-1" [attr.id]="'view-doc-'+cat.name_category"
+  style="height: auto; max-height: 90vh; border-radius: 25px 25px 0 0;">
   <div class="offcanvas-header border-bottom py-3">
-    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-folder-open"></i> {{'Category'|translate}}: {{cat.name_category}}</h5>
+    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-folder-open"></i> {{'Category'|translate}}:
+      {{cat.name_category}}</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" (click)="closeReload()"></button>
   </div>
   <app-loading *ngIf="isLoadingList"></app-loading>
   <div class="offcanvas-body p-4" *ngIf="!isLoadingList">
     <ng-container *ngFor="let FILE of user_filesfiltered;let i = index">
-      <div class="itemlist">
-        <div class="d-flex flex-stack mb-3" *ngIf="!document_selected">
-          <div class="me-3">
+      <div >
+        <div class="itemlist" *ngIf="!document_selected">
+          <div class="imagenes">
             <a [routerLink]="['/profile/documents/file', FILE._id]">
-              <img *ngIf="FILE.type ==='pdf'|| FILE.type ==='doc' || FILE.type ==='docx'" src="assets/svg/doc.svg" class="w-50px ms-n1 me-1 filesvg" alt="">
-              <img *ngIf="FILE.type ==='jpg' || FILE.type ==='jpeg'" src="assets/svg/jpg.svg" class="w-50px ms-n1 me-1 filesvg" alt="">
-              <img *ngIf="FILE.type ==='png'" src="assets/svg/png.svg" class="w-50px ms-n1 me-1 filesvg" alt="">
+              <img *ngIf="FILE.type ==='application/pdf'|| FILE.type ==='doc' || FILE.type ==='docx'"
+                src="assets/svg/doc.svg" class="ms-n1 me-1 filesvg" alt="">
+              <img *ngIf="FILE.type ==='jpg' || FILE.type ==='jpeg'" src="assets/svg/jpg.svg" class="ms-n1 me-1 filesvg"
+                alt="">
+              <img *ngIf="FILE.type ==='png'" src="assets/svg/png.svg" class="ms-n1 me-1 filesvg" alt="">
             </a>
+          </div>
+          <div class="info_itemlist" *ngIf="!document_selected">
+            <a [routerLink]="['/profile/documents/file', FILE._id]"
+              class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_file}}
+              </a>
+            <p  class="text-gray-800 fw-bolder"> {{'Category'|translate}}: {{FILE.name_category}}</p>
+            <p class="text-gray-800  fw-bolder">{{'formulario.Size'|translate}}:  {{FILE.size}} </p>
+           
+            <!-- <span class="text-gray-400 fw-bolder">{{'sharedWith'|translate}}:
+              <p class="text-gray-800  fw-bolder">{{FILE.sharedWith}}
+              </p>
+            </span> -->
+          </div>
+          <div class="buttons" *ngIf="!document_selected">
+            <button class="btn btn-outline-danger btn-sm" (click)="onDeleteFile.emit(FILE._id)"><i class="fa fa-trash"></i> Eliminar</button> &nbsp;
+            <button class="btn btn-success btn-sm" (click)="onSolicitudSelected.emit(FILE._id)"><i class="fa fa-share"></i> Compartir</button>
           </div>
         </div>
 
-        <div class="info_itemlist" *ngIf="!document_selected">
-          <a [routerLink]="['/profile/documents/file', FILE._id]" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_file | slice:0:10}}... .{{FILE.type}}</a><br>
-          <span class="text-gray-400 fw-bolder">{{'Category'|translate}}: <a href="javascript:void(0);" onclick="return false;" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.name_category}}</a></span><br>
-          <span class="text-gray-400 fw-bolder">{{'formulario.Size'|translate}}: <a href="javascript:void(0);" onclick="return false;" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.size}} </a></span><br>
-          <span class="text-gray-400 fw-bolder">{{'sharedWith'|translate}}: <a href="javascript:void(0);" onclick="return false;" class="text-gray-800 text-hover-primary fw-bolder">{{FILE.sharedWith}} </a></span>
-        </div>
-        
-        <!-- CORRECCIÓN AQUÍ: Se añade .emit() -->
-        <div class="buttons" *ngIf="!document_selected">
-          <button class="btn btn-danger btn-sm" (click)="onDeleteFile.emit(FILE._id)">x</button>
-          <button class="btn btn-success btn-sm" (click)="onSolicitudSelected.emit(FILE._id)">Share</button>
-        </div>
+
         <hr>
         <!-- CORRECCIÓN AQUÍ: Se añade .emit() -->
         <div class="share__options" *ngIf="document_selected === FILE._id">
-          <select class="form-control" [ngModelOptions]="{standalone: true}" [(ngModel)]="share">
-            <option  [value]="">
-              Seleccione
+          <select class="form-control mb-3" [ngModelOptions]="{standalone: true}" [(ngModel)]="share">
+            <option [value]="">
+              Seleccione Usuario
             </option>
             <option *ngFor="let document of clientes" [value]="document.usuario.email">
               {{document.usuario.username}}
             </option>
           </select>
-          <button class="btn btn-primary btn-sm" (click)="onShareItEvent.emit({ documentId: document_selected, emailACompartir: share })"> > Share </button>
-          <button class="btn btn-primary btn-sm" (click)="document_selected = null"> {{'Back'|translate}} </button>
+          <button class="btn btn-outline-danger btn-sm" (click)="document_selected = null"> {{'Back'|translate}} </button>&nbsp;
+          <button class="btn btn-success btn-sm"
+            (click)="onShareItEvent.emit({ documentId: document_selected, emailACompartir: share })"><i class="fa fa-share"></i> Compartir con Usuario </button>
         </div>
       </div>
     </ng-container>
