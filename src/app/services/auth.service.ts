@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, catchError, map, Observable, of, tap } from 'rxjs';
 import { RegisterForm } from '../auth/interfaces/register-form.interface';
-import { environment } from '../environments/environment';
 import { Usuario } from '../models/usuario.model';
+import { environment } from '../../environments/environment';
 
 const baseUrl = environment.url_servicios;
 

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Banner } from '../models/banner.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
 import { map } from 'rxjs';
+import { environment } from '../../environments/environment';
 const baseUrl = environment.url_servicios;
 
 @Injectable({

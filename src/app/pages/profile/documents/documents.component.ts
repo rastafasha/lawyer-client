@@ -3,12 +3,11 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { MenuFooterComponent } from '../../../shared/menu-footer/menu-footer.component';
-import { ActivatedRoute, Router, RouterLink, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { DocumentService } from '../../../services/document.service';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { Document } from '../../../models/document.model';
-import { environment } from '../../../environments/environment';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ClientService } from '../../../services/client.service';
@@ -18,7 +17,7 @@ import { ModalAgregarComponent } from './modal-agregar/modal-agregar.component';
 import { ArchivosCategoriaComponent } from './archivosCategoria/archivosCategoria.component';
 import Swal from 'sweetalert2';
 import { ArchivosCompartidosComponent } from './archivos-compartidos/archivos-compartidos.component';
-const baseUrl = environment.url_servicios;
+
 declare let $: any;
 @Component({
   selector: 'app-documents',

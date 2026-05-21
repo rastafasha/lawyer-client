@@ -1,9 +1,5 @@
 import { Profile } from "./profile.model";
-
-
 export class Usuario {
-
-  
   constructor(
     public username: string,
     public email: string,

@@ -1,4 +1,5 @@
-import { environment } from "../environments/environment";
+
+import { environment } from "../../environments/environment";
 import { Usuario } from "./usuario.model";
 
 

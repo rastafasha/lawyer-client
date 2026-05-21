@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ComentarioApp } from '../models/comentarioapp.model';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-const base_url = environment.baseUrl;
+const base_url = environment.url_servicios;
 
 @Injectable({
   providedIn: 'root'

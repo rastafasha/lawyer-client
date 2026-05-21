@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { io, Socket } from 'socket.io-client';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { environment } from '../environments/environment';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 const urlSocket = environment.soketServer;
 
 @Injectable({

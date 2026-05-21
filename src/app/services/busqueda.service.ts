@@ -1,15 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { map } from 'rxjs/operators';
 import { of } from 'rxjs';
-
 import { Payment } from '../models/payment'; // Asegúrate de tener estos modelos creados
-import { Transferencia } from '../models/transferencia';
-import { environment } from '../environments/environment';
 import { Usuario } from '../models/usuario.model';
-
-
+import { environment } from '../../environments/environment';
 
 const base_url = environment.url_servicios;
 

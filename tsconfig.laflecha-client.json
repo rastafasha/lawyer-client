@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "paths": {
+      "./src/environments/environment": ["./src/environments/environment.laflecha-client.ts"]
+    }
+  }
+}

@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable, share } from 'rxjs';
-import { environment } from '../environments/environment';
 import { Favorite } from '../models/favorite.model';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 const baseUrl = environment.url_servicios;
 

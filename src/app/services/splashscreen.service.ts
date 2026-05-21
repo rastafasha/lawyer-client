@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, Observer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ export class SplashscreenService {
   
   subject = new Subject();
 
-   subscribe(onNext): Subscription {
+   subscribe(onNext: Partial<Observer<unknown>> | ((value: unknown) => void) | undefined): Subscription {
       return this.subject.subscribe(onNext);
    }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Payment } from '../models/payment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, map, Observable } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 const baseUrl = environment.url_servicios;
 
 @Injectable({

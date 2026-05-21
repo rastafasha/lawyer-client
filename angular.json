@@ -54,17 +54,11 @@
               "serviceWorker": "ngsw-config.json"
             },
             "laflecha-client": {
-              "outputPath": "dist/laflecha-client",
+              "tsConfig": "tsconfig.laflecha-client.json",
               "index": {
                 "input": "src/env/laflecha-client/index.html",
                 "output": "index.html"
               },
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.laflecha-client.ts"
-                }
-              ],
               "assets": [
                 "src/assets",
                 {
@@ -111,6 +105,9 @@
           "configurations": {
             "production": {
               "buildTarget": "lawyer-client:build:production"
+            },
+            "laflecha-client": {
+              "buildTarget": "lawyer-client:build:laflecha-client"
             },
             "development": {
               "buildTarget": "lawyer-client:build:development"

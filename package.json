@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "start:dev": "ng serve --port 4204",
-    "start:prod": "ng build && lite-server -p 8080 --baseDir dist/browser/laflecha-client",
+    "start:prod": "ng build --configuration laflecha-client && lite-server -p 8080 --baseDir dist/lawyer-client/browser",
     "build": "ng build",
     "build:laflecha-client": "ng build --configuration laflecha-client",
     "watch": "ng build --watch --configuration development",
@@ -48,9 +48,8 @@
     "typescript": "~5.6.2"
   },
   "overrides": {
-  "rimraf": "^4.0.0",
-  "glob": "^9.0.0",
-  "inflight": "lru-cache"
-}
-  
+    "rimraf": "^4.0.0",
+    "glob": "^9.0.0",
+    "inflight": "lru-cache"
+  }
 }

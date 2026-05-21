@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Speciality } from '../models/speciality.model';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 const baseUrl = environment.url_servicios;
 

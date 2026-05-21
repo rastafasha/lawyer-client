@@ -1,4 +1,4 @@
-import { environment } from "../environments/environment";
+import { environment } from "../../environments/environment";
 import { Favorite } from "./favorite.model";
 import { Payment } from "./payment";
 import { Speciality } from "./speciality.model";
