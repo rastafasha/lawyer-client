@@ -59,6 +59,12 @@
                 "input": "src/env/laflecha-client/index.html",
                 "output": "index.html"
               },
+               "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.laflecha-client.ts"
+                }
+              ],
               "assets": [
                 "src/assets",
                 {
