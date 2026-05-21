@@ -53,19 +53,36 @@
               "outputHashing": "all",
               "serviceWorker": "ngsw-config.json"
             },
-             "laflecha-client": {
+            "laflecha-client": {
               "outputPath": "dist/laflecha-client",
               "index": {
-                "input": "src/app/env/laflecha-client/index.html",
+                "input": "src/env/laflecha-client/index.html",
                 "output": "index.html"
               },
               "fileReplacements": [
                 {
-                  "replace": "src/app/environments/environment.ts",
-                  "with": "src/app/environments/environment.laflecha-client.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.laflecha-client.ts"
                 }
               ],
-              
+              "assets": [
+                "src/assets",
+                {
+                  "glob": "**/*",
+                  "input": "public",
+                  "output": "."
+                },
+                {
+                  "glob": "_redirects",
+                  "input": "src",
+                  "output": "/"
+                },
+                {
+                  "glob": "manifest.webmanifest",
+                  "input": "src/env/laflecha-client/",
+                  "output": "/"
+                }
+              ],
               "budgets": [
                 {
                   "type": "initial",
@@ -78,7 +95,8 @@
                   "maximumError": "90kb"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "serviceWorker": "ngsw-config.json"
             },
             "development": {
               "optimization": false,
