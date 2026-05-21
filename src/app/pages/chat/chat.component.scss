@@ -168,3 +168,154 @@ input.textarea {
     }
 }
 
+
+//tipowhatsapp
+
+/* Contenedor principal del chat */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #efeae2; 
+  border-radius: 10px;
+  padding: 15px;
+  max-width: 600px; 
+  margin: 0 auto;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.messages-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px; 
+  max-height: 60vh; /* Ajuste dinámico basado en la pantalla del celular */
+  overflow-y: auto;
+  padding: 10px 10px 30px 10px; /* 30px abajo añade un espacio seguro de scroll */
+}
+.escribir_data {
+  background-color: #f0f2f5;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mi-mensaje, .su-mensaje {
+  max-width: 75%; 
+  padding: 6px 10px 6px 14px; /* Menos espacio abajo para acomodar la hora */
+  border-radius: 12px;
+  font-size: 15px;
+  line-height: 1.4;
+  word-wrap: break-word; 
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nombre del remitente en los mensajes recibidos */
+.remitente-nombre {
+  font-size: 12.5px;
+  font-weight: bold;
+  color: #06cf9c; /* Color verde/azul distintivo estilo WhatsApp */
+  margin-bottom: 2px;
+}
+
+/* Contenedor interno para alinear texto y hora juntos */
+.mensaje-contenido {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 15px; /* Espacio mínimo para que el texto no pise la hora */
+}
+
+.mensaje-contenido p {
+  margin: 0;
+  flex: 1;
+}
+
+/* Estilo de la hora en la esquina inferior derecha */
+.mensaje-hora {
+  font-size: 11px;
+  color: #667781;
+  white-space: nowrap;
+  align-self: flex-end;
+  margin-bottom: -2px; /* La baja ligeramente para pegarla al borde */
+}
+
+/* Mi Mensaje (Derecha) */
+.mi-mensaje {
+  align-self: flex-end; 
+  background-color: #d9fdd3; 
+  color: #111b21;
+  border-top-right-radius: 2px; 
+}
+
+/* Su Mensaje (Izquierda) */
+.su-mensaje {
+  align-self: flex-start; 
+  background-color: #ffffff; 
+  color: #111b21;
+  border-top-left-radius: 2px; 
+}
+
+
+
+
+
+/* Contenedor principal de la barra superior */
+.card-body-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 15px;
+  border-bottom: 1px solid #e9edef;
+}
+
+/* Alinea la foto y el texto del perfil juntos a la izquierda */
+.fotoperfil {
+  display: flex;
+  align-items: center;
+}
+
+.fotoperfil img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #d1d7db;
+}
+
+/* Bloque de texto para el nombre y el estado */
+.perfil {
+  flex: 1; /* Ocupa el espacio disponible en el centro */
+  padding-left: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.perfil .name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111b21;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* El texto que reemplaza al ID técnico */
+.user-status {
+  font-size: 12px;
+  color: #667781;
+  margin-top: 1px;
+}
+
+/* Contenedor del botón de regresar a la derecha */
+.actions {
+  display: flex;
+  align-items: center;
+}
+
+
+
