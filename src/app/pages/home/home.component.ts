@@ -20,23 +20,25 @@ import { ProfileService } from '../../services/profile.service';
 import { ToastrService } from 'ngx-toastr';
 import { PushNotificationService } from '../../services/push-notification.service';
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
+import { PwaNotifInstallerComponent } from "../../shared/pwa-notif-installer/pwa-notif-installer.component";
 
 @Component({
   selector: 'app-home',
   imports: [
-    HeaderComponent, 
+    HeaderComponent,
     MenuFooterComponent,
-    AvisoComponent, 
+    AvisoComponent,
     CategoriaHorizontalComponent,
-    SliderHorizontalComponent, 
+    SliderHorizontalComponent,
     ListProductsComponent,
     LateralComponent,
-    CommonModule, 
-    BackButtnComponent, 
+    CommonModule,
+    BackButtnComponent,
     // ListaUsuariosComponent,
     TranslateModule,
-    ModalInstruccionesComponent
-  ],
+    ModalInstruccionesComponent,
+    PwaNotifInstallerComponent
+],
   providers: [TranslateService],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
