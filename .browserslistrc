@@ -15,3 +15,13 @@ last 3 Safari major versions
 last 3 iOS major versions
 Firefox ESR
 
+# Define los navegadores que queremos soportar
+>= 0.5%
+last 2 versions
+Firefox ESR
+not dead
+
+# Forzar explícitamente la compatibilidad con el procesador de iOS 15 (iPhone 6s)
+iOS >= 15
+Safari >= 15
+
