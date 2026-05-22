@@ -9,12 +9,13 @@ import { HeaderComponent } from '../../../shared/header/header.component';
 import { MenuFooterComponent } from '../../../shared/menu-footer/menu-footer.component';
 import { BusquedasService } from '../../../services/busqueda.service';
 import { PaymentService } from '../../../services/payment.service';
+import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 
 declare var bootstrap: any;
 @Component({
   selector: 'app-mis-pagos',
   imports: [CommonModule, HeaderComponent, MenuFooterComponent, InfiniteScrollModule,
-    FormsModule, ModalInstruccionesComponent,ImagenPipe
+    FormsModule, ModalInstruccionesComponent,ImagenPipe, BackButtnComponent
   ],
   templateUrl: './mis-pagos.component.html',
   styleUrl: './mis-pagos.component.scss'
