@@ -13,70 +13,14 @@
                 <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
                 <app-loading *ngIf="isLoading"></app-loading>
                 <!-- filtro buscador -->
-                <details class="shadowSearch cuadrosearch ">
-                    <summary class="">{{'Search'|translate}}</summary>
-                    <form [formGroup]="searchForm">
-                        <div class="row ">
-                            <div class="col-12 col-md-3">
-                                <label class="labelgoogle">
-                                    <input class="form-control input" formControlName="name_file" type="search"
-                                        placeholder=" " aria-label="Search">
-                                    <span class="label__name">
-                                        {{'Search'|translate}}
-                                        <i class="fa fa-search" style="margin-left: 10px;"></i>
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <label class="labelgoogle">
-                                    <input class="form-control datetimepicker input" formControlName="created_at"
-                                        type="date" />
-                                    <span class="label__name">
-                                        {{'From'|translate}}
-
-                                    </span>
-                                </label>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <div class="input-group">
-                                    <!-- <label>{{'Category'|translate}}  </label> -->
-                                    <span class="input-group-text " id="basic-addon1">
-                                        <i class="fa fa-folder" aria-hidden="true"></i>
-                                    </span>
-                                    <select class="form-control" formControlName="name_category">
-                                        <option *ngFor="let data of user_files" [value]="data.name_category">
-                                            {{data.name_category}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-2 col-md-1 mt-3">
-                                <div class="doctor-submit">
-                                    <button type="button" class="btn btn-primary submit-list-form "
-                                        (click)="searchData()">
-                                        <!-- {{'Search'|translate}} -->
-                                        <i class="fa fa-search"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="col-10 col-md-1 mt-3">
-                                <div class="doctor-submit d-flex  ">
-                                    <button type="button" class="btn btn-outline-primary submit-list-form "
-                                        (click)="resetSearch()">
-                                        <i class="fa fa-refresh"></i>
-                                    </button>
-
-
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </details>
+                
                 <button type="button" class="btn btn-outline-primary submit-list-form " data-bs-target="#add_publicidad"
                     data-bs-toggle="offcanvas">
                     <i class="fa fa-upload"></i> Subir Documento
                 </button>
+                <button type="button" class="btn btn-outline-success submit-list-form " routerLink="/presupuestos">
+                        <i class="fas fa-file-alt"></i> Presupuestos
+                    </button>
                 <div class="clear"></div>
                 <br>
 
@@ -84,7 +28,7 @@
                     <!-- carpetas -->
                     <div class="row">
                         <div class="container">
-                            <div class=" col-xs-12" *ngIf="!isSearching">
+                            <div class=" col-xs-12">
 
                                 <div class="tab-content-set">
                                     <ul class="nav">
@@ -169,7 +113,7 @@
                         </div>
 
                         <!-- lista de todos los archivos -->
-                        <div class="col-xs-12 " *ngIf="isSearching ">
+                        <!-- <div class="col-xs-12 " *ngIf="isSearching ">
                             <div class="row align-items-center">
                                 <div class="card card-flush">
                                     <div class="card-header pt-7">
@@ -224,7 +168,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
 
                 </div>

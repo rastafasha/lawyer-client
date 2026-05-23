@@ -12,6 +12,7 @@ import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TranslateModule } from '@ngx-translate/core';
+import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
 
 @Component({
   selector: 'app-categoria',
@@ -26,7 +27,8 @@ import { TranslateModule } from '@ngx-translate/core';
     ImagenPipe,
     LoadingComponent,
     InfiniteScrollDirective,
-    TranslateModule
+    TranslateModule,
+    RatingStarComponent
   ],
   templateUrl: './categoria.component.html',
   styleUrl: './categoria.component.scss'

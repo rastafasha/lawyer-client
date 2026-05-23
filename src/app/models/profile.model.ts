@@ -13,6 +13,7 @@ export class Profile {
     public first_name: string,
     public last_name: string,
     public n_doc: string,
+    public num_inpre: string,
     public gender: number,
     public pais: string,
     public ciudad: string,
@@ -21,7 +22,8 @@ export class Profile {
     public telmovil: string,
     public direccion: string,
     public shortdescription: string,
-    public redssociales: string,
+    public redssociales: RedesSociales,
+    public precios: Precios,
     public plan: string,
     public fechaReinicio: Date,
     public paypalSubscriptionId: string,
@@ -46,7 +48,7 @@ export class Profile {
   get imagenUrl(){
 
     if(!this.img){
-      return `assets/images/no-image.jpg`;
+      return `assets/img/no-image.jpg`;
     } else if(this.img.includes('https')){
       return this.img;
     } else if(this.img){

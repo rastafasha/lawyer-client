@@ -18,6 +18,7 @@ import { ChatComponent } from './pages/chat/chat.component';
 import { ReportarPagoComponent } from './pages/wallet/reportar-pago/reportar-pago.component';
 import { MisNotificacionesComponent } from './pages/mis-notificaciones/mis-notificaciones.component';
 import { MisPagosComponent } from './pages/profile/mis-pagos/mis-pagos.component';
+import { PresupuestoListComponent } from './pages/profile/presupuesto-list/presupuesto-list.component';
 
 export const routes: Routes = [
     {path: 'home', canActivate: [AuthGuard], component: HomeComponent},
@@ -38,6 +39,7 @@ export const routes: Routes = [
     {path: 'profile/edit/:id', component: EditComponent},
     {path: 'profile/documents', component: DocumentsComponent},
     {path: 'profile/documents/file/:id', component: FilesComponent},
+    {path: 'presupuestos', component: PresupuestoListComponent},
     
     
     {path: 'admin/banners', component: BannerComponent},

@@ -1,13 +1,53 @@
-.group{
+.group {
     height: 200px;
 }
 
 .ratio {
     height: 140px !important;
 }
+
+.post {
+    margin: 0;
+    padding: 0;
+    min-height: 250px;
+    & .group {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        /* grid-template-columns: 80px 1fr; */
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        padding: 10px;
+        height: 90px;
+        & .info {
+            & h2 {
+                font-size: 1rem;
+            }
+            & h3 {
+                font-size: 1rem;
+            }
+        }
+        & .foto {
+            & img {
+                width: 70%;
+                height: max-content;
+                margin: 5px;
+                border: 1px solid var(--grisclaro);
+            }
+            & .post-date {
+                margin-bottom: 0px;
+            }
+        }
+    }
+}
+
 @media (max-width: 768px) {
-    .post .group .foto {
-        margin-bottom: 20px;
-        height: 110px;
+    .post {
+        & .group {
+            & .foto {
+                margin-bottom: 20px;
+                height: 110px;
+            }
+        }
     }
 }

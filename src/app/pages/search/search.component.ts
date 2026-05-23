@@ -14,6 +14,10 @@ import { Speciality } from '../../models/speciality.model';
 import { SpecialitiesService } from '../../services/specialities.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PlacesService } from '../../services/places.service';
+import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
+import { RouterLink } from '@angular/router';
+import { ImagenPipe } from '../../pipes/imagen.pipe';
+import { UserService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-search',
@@ -21,10 +25,10 @@ import { PlacesService } from '../../services/places.service';
     LateralComponent, BackButtnComponent,
     InfiniteScrollDirective,
     LoadingComponent,NgFor,NgIf, TranslateModule,
-    ReactiveFormsModule, FormsModule
+    ReactiveFormsModule, FormsModule, RatingStarComponent, RouterLink, ImagenPipe
   ],
   templateUrl: './search.component.html',
-  styleUrl: './search.component.css'
+  styleUrl: './search.component.scss'
 })
 export class SearchComponent {
   pageTitle= 'Directory';
@@ -49,8 +53,8 @@ export class SearchComponent {
   private favoriteService = inject(FavoritoService);
   private paisService = inject(PaisService);
   private specialityService = inject(SpecialitiesService);
+  private ususarioService = inject(UserService);
   private fb = inject(FormBuilder);
-  private placesServices = inject(PlacesService);
 
   // searchForm: FormGroup = new FormGroup({
   //   pais: new FormControl('', ),
@@ -129,11 +133,17 @@ export class SearchComponent {
 
   getCharactrs(){
     this.isLoading = true;
-    this.favoriteService.getCharacters().subscribe(
-      (response: any) => {
-        this.characters = response.results;
-        this.nextUrl = response.info.next;
-        this.isLoading = false;
+    // this.favoriteService.getCharacters().subscribe(
+    //   (response: any) => {
+    //     this.characters = response.results;
+    //     this.nextUrl = response.info.next;
+    //     this.isLoading = false;
+    // })
+
+    this.ususarioService.listUsersMember().subscribe((resp: any) => {
+      this.characters = resp.usuarios;
+      this.nextUrl = resp.next_page_url;
+      this.isLoading = false;
     })
   }
 

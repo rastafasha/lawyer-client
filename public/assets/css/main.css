@@ -218,30 +218,6 @@ img {
 
 
 
-.stars {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    padding-right: 13px;
-
-}
-.stars ul {
-    display: inline-flex;
-
-}
-.stars ul li {
-    list-style: none;
-    color: var(--grisfondo)
-}
-
-.stars .fa {
-    font-size: 1vw;
-}
-
-
-.stars ul li.active {
-    color: gold;
-}
 
 .cuadrosearch{
     color: #ccc;

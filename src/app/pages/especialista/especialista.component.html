@@ -16,74 +16,35 @@
                 </div>
                 <div class="foto_info" *ngIf="profile">
                   <div class="fi_foto">
-                    <img *ngIf="profile" [src]="(profile.img ||'' ) | imagenPipe: 'profiles' " alt="">
+                    <img [src]="(profile?.img ||'' ) | imagenPipe: 'profiles' " alt="">
+
+                    <div class="options">
+                      <button type="button" (click)="addToFavorites()" class="btn btn-outline-danger">
+                        <i class="fa fa-heart text-danger"></i>
+                      </button>
+                    </div>
                   </div>
                   <div class="info_info">
                     <h3>{{ profile.first_name }} {{ profile.last_name }}</h3>
-                    <p *ngIf="speciality">{{ speciality.nombre }}</p>
-                    <!-- <h4>{{ user.email }}</h4> -->
-                    <span class="badge  bg-primary" *ngIf="profile.status === 'PENDING'"> {{'Pending'|translate}} </span>
-                    <span class="badge bg-success" *ngIf="profile.status === 'VERIFIED'">{{'Verified'|translate}} </span> 
-                    <span class="badge bg-danger" *ngIf="profile.status === 'REVIEW'">{{'For Review'|translate}} </span>
-                    <div class="stars">
-
-                      <ul class="star-rating" *ngIf="rating === 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 4 && rating < 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 3 && rating < 4">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 2 && rating < 3">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 1 && rating < 2">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 0 && rating < 1">
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
+                    <p *ngIf="speciality">{{ speciality}}</p>
+                    <div class="status_verif">
+                      <div *ngIf="profile.status === 'VERIFIED'" style="color: gold">
+                        <i class="fas fa-trophy"></i>
+                      </div>
+                      <span class="badge  bg-primary" *ngIf="profile.status === 'PENDING'"> {{'Pending'|translate}}
+                      </span>
+                      <span class="badge bg-success" *ngIf="profile.status === 'VERIFIED'">{{'Verified'|translate}}
+                      </span>
+                      <span class="badge bg-danger" *ngIf="profile.status === 'REVIEW'">{{'For Review'|translate}}
+                      </span>
                     </div>
+                    <app-ratingStar></app-ratingStar>
                   </div>
-                 
-                  <div class="options">
-                    <div *ngIf=""></div>
-                    <button type="button" (click)="addToFavorites()" class="btn btn-outline-danger">
-                      <i class="fa fa-heart text-danger"></i>
-                    </button>
-                    <!-- <button type="button" [routerLink]="['/chat/', profile.client_id]" class="btn btn-primary">
-                      Chat
-                    </button> -->
-                  </div>
+
+
                 </div>
                 <div class="descp">
-                  <p>{{ profile.shortdescription }}</p>
+                  <p>Descripción Corta: {{ profile.shortdescription }}</p>
                 </div>
                 <!-- <div class="div1" >
                   
@@ -126,6 +87,7 @@
                   </div>
                 </ng-container>
 
+
               </div>
               <div class="card mb-3 shadow p-2">
                 <h5 class="text-center">Productos y/o Servicios</h5>
@@ -135,7 +97,7 @@
 
                     <div class="info_tarifa">
                       <p>{{ precio.item_tarifa }}</p>
-                    <h5>{{ precio.precio | currency }}</h5>
+                      <h5>{{ precio.precio | currency }}</h5>
                     </div>
                     <button class="btn btn-outline-success" (click)="solicitarItem(precio)">
                       Solicitar
@@ -153,7 +115,7 @@
                     </div>
                     <div class="cu_info">
                       <h4>Nombre usuario</h4>
-                    <h5>fecha</h5>
+                      <h5>fecha</h5>
                     </div>
                   </div>
                   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.</p>
@@ -165,21 +127,21 @@
                       <li class="active"><i class="fa fa-star "></i></li>
                       <li><i class="fa fa-star "></i></li>
                     </ul>
+                  </div>
                 </div>
-              </div>
-  
+
               </div>
 
             </div>
 
 
-             <!--banner publicidad-->
-          <div class="banner-rectangular mt-3 col-xs-12 col-sm-6">
-            <img src="https://picsum.photos/seed/1920/120" alt="" />
+            <!--banner publicidad-->
+            <div class="banner-rectangular mt-3 col-xs-12 col-sm-6">
+              <img src="https://picsum.photos/seed/1920/120" alt="" />
+            </div>
+            <!--banner publicidad-->
           </div>
-          <!--banner publicidad-->
-          </div>
-         
+
         </div>
 
         <!-- lateral -->

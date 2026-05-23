@@ -14,13 +14,13 @@ import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.compon
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SolicitudesService } from '../../services/solicitudes.service';
 import { Solicitud } from '../../models/solicitud.model';
-import Swal from 'sweetalert2';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentmethodService } from '../../services/paymentmethod.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { ToastrService } from 'ngx-toastr';
+import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
 
 @Component({
   selector: 'app-especialista',
@@ -36,7 +36,8 @@ import { ToastrService } from 'ngx-toastr';
     ImagenPipe,
     LoadingComponent,
     TranslateModule,
-    RouterModule
+    RouterModule,
+    RatingStarComponent
   ],
   templateUrl: './especialista.component.html',
   styleUrl: './especialista.component.scss'
@@ -52,13 +53,14 @@ export class EspecialistaComponent {
   public redessociales!: RedesSociales[];
   public precios!: Precios[];
   public speciality_profile!: Speciality;
-  public speciality!: Speciality;
+  public speciality!: any;
   public solicitud!: Solicitud;
   status!: Profile;
   role!: Profile;
   solicitudes_selected: any[] = [];
   user_id!: any;
-  client_id!: any;
+  client_id!: string;
+  imagen!: any;
   profile_id?: string;
   rating!: number;
   tiposdePagoUser: any[] = [];
@@ -83,18 +85,16 @@ export class EspecialistaComponent {
     private activatedRoute: ActivatedRoute,
     private paymentService: PaymentmethodService,
     private toastr: ToastrService,
-    private fb: FormBuilder,
-    private favoriteService: FavoritesService,
   ) {
     this.user = this.authService.getLocalStorage();
   }
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
+    this.client_id = this.user.uid;
     this.activatedRoute.params.subscribe(({ id }) => {
       this.getProfile(id);
     });
-    this.client_id = this.user.uid;
   }
 
   getProfile(id: number) {
@@ -108,6 +108,8 @@ export class EspecialistaComponent {
       this.profile = resp.profile || [];
       this.profile_id = this.profile._id;
       this.user_id = this.profile.usuario?.uid;
+      this.speciality = this.profile.especialidad?.nombre;
+      this.imagen = this.profile.img;
       this.rating = resp.profile.rating || 0;
       if (this.profile) {
 
@@ -122,17 +124,12 @@ export class EspecialistaComponent {
         this.speciality_profile = resp.profile.especialidad;
 
         this.isLoading = false;
-        this.getSpeciality();
         this.getPaymentMethods();
       }
     })
   }
 
-  getSpeciality() {
-    this.specialityService.getSpeciality(this.speciality_profile).subscribe((resp: any) => {
-      this.speciality = resp;
-    })
-  }
+  
 
   getPaymentMethods() {
     this.paymentService.getByUser(this.user_id).subscribe((resp: any) => {

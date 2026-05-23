@@ -9,12 +9,12 @@ import { InfiniteScrollDirective } from 'ngx-infinite-scroll';
 import { TranslateModule } from '@ngx-translate/core';
 import { UserService } from '../../services/usuario.service';
 import { Usuario } from '../../models/usuario.model';
+import { RatingStarComponent } from "../ratingStar/ratingStar.component";
 @Component({
   selector: 'app-list-products',
   imports: [CommonModule, NgFor, RouterModule,
     ImagenPipe, LoadingComponent,
-    InfiniteScrollDirective, TranslateModule, 
-  ],
+    InfiniteScrollDirective, TranslateModule, RatingStarComponent],
   templateUrl: './list-products.component.html',
   styleUrl: './list-products.component.scss'
 })
