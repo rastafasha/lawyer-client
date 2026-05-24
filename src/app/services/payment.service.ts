@@ -34,14 +34,14 @@ export class PaymentService {
   }
 
   getPayments() {
-    const url = `${baseUrl}/payments`;
+    const url = `${baseUrl}/pagos`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, payments: Payment }) => resp.payments)
       )
   }
   getMontlyReport( month?: number, year?: number) {
-    let url = `${baseUrl}/payments/monthlyreport`;
+    let url = `${baseUrl}/pagos/monthlyreport`;
     if (month !== undefined) {
       url += `?month=${month.toString().padStart(2, '0')}`;
     }
@@ -53,7 +53,7 @@ export class PaymentService {
   }
 
   getPayment(_id: string) {
-    const url = `${baseUrl}/payments/${_id}`;
+    const url = `${baseUrl}/pagos/${_id}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, payment: Payment }) => resp.payment)
@@ -62,19 +62,19 @@ export class PaymentService {
 
  getByUser(usuario: any, page: number = 1, limit: number = 6,) {
   // Construimos la URL con parámetros de paginación
-  const url = `${baseUrl}/payments/user/${usuario}?page=${page}&limit=${limit}`;
+  const url = `${baseUrl}/pagos/cliente/${usuario}?page=${page}&limit=${limit}`;
   
   return this.http.get<any>(url, this.headers)
     .pipe(
       // Importante: Si la API devuelve un array, asegúrate que el tipado sea Payment[]
-      map((resp: { ok: boolean, payments: any[] }) => resp.payments)
+      map((resp: { ok: boolean, pagos: any[] }) => resp.pagos)
     );
 
     
 }
 
   getByStatus(status: string) {
-    const url = `${baseUrl}/payments/status/${status}`;
+    const url = `${baseUrl}/pagos/status/${status}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
         map((resp: { ok: boolean, payments: Payment[] }) => resp.payments)
@@ -90,28 +90,28 @@ export class PaymentService {
     // ¡OJO! No pongas Content-Type aquí
   });
 
-  return this.http.post(`${baseUrl}/payments/store`, data, { headers });
+  return this.http.post(`${baseUrl}/pagos/crear`, data, { headers });
 }
 
 
   
   validarPagoAdmin(payment: any) {
-    const url = `${baseUrl}/payments/validarpago/${payment._id}`;
+    const url = `${baseUrl}/pagos/validarpago/${payment._id}`;
     return this.http.post(url, payment, this.headers);
   }
 
   updatePaymentStatus(payment: Payment,) {
-    const url = `${baseUrl}/payments/updatestatus/${payment._id}`;
+    const url = `${baseUrl}/pagos/updatestatus/${payment._id}`;
     return this.http.put(url, payment, this.headers);
   }
 
   updatePayment(id: string, data: any) {
-    const url = `${baseUrl}/payments/update/${id}`;
+    const url = `${baseUrl}/pagos/update/${id}`;
     return this.http.put(url, data, this.headers);
 }
 
   deletePayment(_id: any) {
-    const url = `${baseUrl}/payments/delete/${_id}`;
+    const url = `${baseUrl}/pagos/delete/${_id}`;
     return this.http.delete(url, this.headers);
   }
 }

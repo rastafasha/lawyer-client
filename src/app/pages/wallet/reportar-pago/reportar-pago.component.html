@@ -147,8 +147,9 @@
 
       <!-- Botón Enviar -->
       <div class="d-grid mt-5">
+        <!-- paymentForm.invalid || -->
         <button type="button" class="btn btn-primary btn-lg rounded-pill py-3 fw-bold shadow-sm"
-          [disabled]="paymentForm.invalid || loading()" (click)="enviarPago()">
+          [disabled]=" loading()" (click)="enviarPago()">
           @if (loading()) {
           <span class="spinner-border spinner-border-sm me-2"></span> Procesando...
           } @else {

@@ -10,6 +10,7 @@ import { MenuFooterComponent } from '../../../shared/menu-footer/menu-footer.com
 import { BusquedasService } from '../../../services/busqueda.service';
 import { PaymentService } from '../../../services/payment.service';
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
+import { AuthService } from '../../../services/auth.service';
 
 declare var bootstrap: any;
 @Component({
@@ -33,6 +34,7 @@ export class MisPagosComponent implements OnInit {
   page = 1;
   userId!: string;
   query: string = '';
+  user: any;
   status!: string;
   statusPago: string = '';
 
@@ -51,12 +53,13 @@ export class MisPagosComponent implements OnInit {
   private paymentService = inject(PaymentService);
   private router = inject(Router);
   private busquedasService = inject(BusquedasService);
+  private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
 
   ngOnInit() {
     window.scrollTo(0, 0);
-    const USER = localStorage.getItem("user");
-    this.userId = JSON.parse(USER || '{}').uid;
+    this.user = this.authService.getLocalStorage();
+    this.userId = this.user.uid;
 
     this.getPagosUsuario();
 

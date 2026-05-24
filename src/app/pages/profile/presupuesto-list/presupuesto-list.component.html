@@ -59,11 +59,11 @@
         </div>
       </div>
     </div>
-    
+
     @if (loading()) {
-      <app-loading ></app-loading>
-  }
-  @if (!loading()) {
+    <app-loading></app-loading>
+    }
+    @if (!loading()) {
     @for (presupuesto of presupuestos(); track presupuesto._id) {
     <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
            'border-success': presupuesto.status === 'APROVED',
@@ -108,7 +108,7 @@
         <div class="d-flex justify-content-end  border-top border-light">
           <button class="btn btn-sm btn-outline-primary rounded-pill px-4 fw-bold" style="font-size: 0.8rem;"
             (click)="verDetallePago(presupuesto)">
-            <i class="fa fa-eye me-1"></i> Ver 
+            <i class="fa fa-eye me-1"></i> Ver
           </button>
         </div>
       </div>
@@ -117,9 +117,9 @@
     } @empty {
     <p class="text-center text-muted">No hay Presupuestos registrados.</p>
     }
-  }
+    }
 
-    
+
 
     <!-- Spinner estilo Instagram usando la señal loading -->
     @if (!loading()) {
@@ -200,43 +200,37 @@
       <h2 class="display-6 fw-bold mb-0">${{ presupuestoSeleccionado().amount | number:'1.2-2' }}</h2>
       <p class="text-muted small">Titulo: {{ presupuestoSeleccionado().title }}</p>
       <p class="text-muted small">Especialista: {{ presupuestoSeleccionado().usuario.username }}</p>
-      <select class="form-select fw-bolder" 
-        [value]="presupuestoSeleccionado().status"
-        (change)="cambiarStatus($event, presupuestoSeleccionado())" 
-        [ngClass]="{
+      <select class="form-select fw-bolder" [value]="presupuestoSeleccionado().status"
+        (change)="cambiarStatus($event, presupuestoSeleccionado())" [ngClass]="{
             'border-success text-success': presupuestoSeleccionado().status === 'APROVED',
             'border-warning text-warning': presupuestoSeleccionado().status === 'PENDING',
             'border-danger text-danger': presupuestoSeleccionado().status === 'REFUSED'
         }">
-    <option value="PENDING">Pendiente</option>
-    <option value="APROVED">Aprobado</option>
-    <option value="REFUSED">Rechazado</option>
-</select>
-<!-- 2. NUEVO BLOQUE: Formulario para escribir el motivo de rechazo (Se activa con la propiedad mostrarMotivo) -->
-@if (mostrarMotivo) {
-  <div class="mt-3 p-3 border rounded bg-light text-start">
-    <label for="motivo" class="form-label fw-bold text-danger">Especificar motivo del rechazo:</label>
-    <textarea 
-      id="motivo"
-      class="form-control" 
-      rows="2" 
-      placeholder="Ej: Captura borrosa, monto incompleto..."
-      [(ngModel)]="motivoRechazo">
+        <option value="PENDING">Pendiente</option>
+        <option value="APROVED">Aprobado</option>
+        <option value="REFUSED">Rechazado</option>
+      </select>
+      <!-- 2. NUEVO BLOQUE: Formulario para escribir el motivo de rechazo (Se activa con la propiedad mostrarMotivo) -->
+      @if (mostrarMotivo) {
+      <div class="mt-3 p-3 border rounded bg-light text-start">
+        <label for="motivo" class="form-label fw-bold text-danger">Especificar motivo del rechazo:</label>
+        <textarea id="motivo" class="form-control" rows="2" placeholder="Ej: Captura borrosa, monto incompleto..."
+          [(ngModel)]="motivoRechazo">
     </textarea>
-    <div class="mt-2 d-flex gap-2">
-      <button type="button" class="btn btn-danger btn-sm" (click)="confirmarRechazo()">
-        Confirmar Rechazo
-      </button>
-      <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarRechazo()">
-        Cancelar
-      </button>
-    </div>
-  </div>
-}
-     <!-- 3. MUESTRA LAS OBSERVACIONES YA EXISTENTES EN LA BASE DE DATOS (Solo si no estamos editando) -->
-@if (presupuestoSeleccionado().status === 'REFUSED' && !mostrarMotivo) {
-  <p class="mt-2 text-danger"><strong>Motivo registrado:</strong> {{presupuestoSeleccionado().observaciones}}</p>
-}
+        <div class="mt-2 d-flex gap-2">
+          <button type="button" class="btn btn-danger btn-sm" (click)="confirmarRechazo()">
+            Confirmar Rechazo
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" (click)="cancelarRechazo()">
+            Cancelar
+          </button>
+        </div>
+      </div>
+      }
+      <!-- 3. MUESTRA LAS OBSERVACIONES YA EXISTENTES EN LA BASE DE DATOS (Solo si no estamos editando) -->
+      @if (presupuestoSeleccionado().status === 'REFUSED' && !mostrarMotivo) {
+      <p class="mt-2 text-danger"><strong>Motivo registrado:</strong> {{presupuestoSeleccionado().observaciones}}</p>
+      }
     </div>
 
     <!-- Datos-->

@@ -25,16 +25,11 @@ import { Solicitud } from '../../../models/solicitud.model';
   styleUrl: './reportar-pago.component.scss'
 })
 export class ReportarPagoComponent {
-  isLoading: boolean = false;
   title = 'Volver';
-
-  // Signals
-  solicitud = signal<any>(null); // Viene de la pantalla anterior
+  isLoading = false;
   // tasa = signal(0);
   tasa = 508;
-  loading = signal(false);
   imagePreview = signal<string | null>(null);
-  selectedFile: File | null = null;
   userId!: string;
   paymentSelected!: any;
   paymentMethods: PaymentMethod[] = [];
@@ -42,6 +37,14 @@ export class ReportarPagoComponent {
   // solicitud!:Solicitud;
   usuario_id!: any;
   amount!: number;
+
+  // Uso nativo de Signals modernos de Angular 19
+  public solicitud = signal<any>(null);
+  public loading = signal<boolean>(false);
+  
+  public paymentForm!: FormGroup;
+  public selectedFile: File | null = null;
+  
 
   info = `
   <h2>Sección: Reportar Pago</h2>
@@ -55,74 +58,148 @@ export class ReportarPagoComponent {
     <li><strong>Comprobante Digital (Obligatorio):</strong> Es indispensable adjuntar la imagen o captura de pantalla de tu pago. Esto nos permite validar tu reporte de manera mucho más eficiente.</li>
   </ul>`;
 
-  private fb = inject(FormBuilder);
-  private paymentService = inject(PaymentService);
-  private paymenttiposService = inject(PaymentmethodService);
+ private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
-  private activatedRoute = inject(ActivatedRoute);
-  public toastr = inject(ToastrService);
-  private fileUploadService = inject(FileUploadService);
+  private fb = inject(FormBuilder);
+  private toastr = inject(ToastrService);
+  
+  // Servicios de tu ecosistema
   private authService = inject(AuthService);
   private solicitudService = inject(SolicitudesService);
+  private paymentService = inject(PaymentService);
+  private paymenttiposService = inject(PaymentmethodService);
+  private fileUploadService = inject(FileUploadService);
 
-  paymentForm: FormGroup = this.fb.group({
-    metodo_pago: ['', Validators.required],
-    bank_destino: ['', Validators.required],
-    referencia: ['', [Validators.required, Validators.minLength(4)]],
-    amount: [0, [Validators.required, Validators.min(0.01)]],
-    img: [null, Validators.required],
-
-  });
-
+  
 
 
   ngOnInit() {
-    window.scrollTo(0, 0);
+   window.scrollTo(0, 0);
     this.user = this.authService.getLocalStorage();
+    this.inicializarFormulario();
     this.getTasadelDia();
-    // this.getPaymentsMethods();
-    // 1. Obtenemos el ID de la URL
+
     const id = this.activatedRoute.snapshot.paramMap.get('id');
-    // 2. Obtenemos los datos extendidos (monto, nroFactura) del historial
     const state = window.history.state;
+
     if (id === 'deuda-total') {
-      // Caso: Viene del Home con el monto acumulado
       if (state && state.solicitud) {
         this.solicitud.set(state.solicitud);
-        this.paymentForm.patchValue({ amount: state.solicitud.pedido[0].precio });
+        this.procesarMontoYReceptor(state.solicitud);
       }
     } else if (id && id !== 'nuevo') {
-      // Caso: Viene de una solicitud específica
       if (state && state.solicitud) {
         this.solicitud.set(state.solicitud);
-        this.paymentForm.patchValue({ amount: state.solicitud.pedido[0].precio });
+        this.procesarMontoYReceptor(state.solicitud);
       } else {
-        // Solo llamamos a la API si NO es 'deuda-total'
+        // Petición de respaldo a la API si el usuario refrescó la página flotante
         this.solicitudService.getSolicitud(id).subscribe((resp: any) => {
-          // 1. Guardas la respuesta completa en el Signal
-          this.solicitud.set(resp);
-
-          // 2. Extraes el precio desde el Signal recién actualizado
-          const precioPedido = this.solicitud()?.pedido?.[0]?.precio;
-          // 3. Rellenas el formulario con el monto (Solución al problema)
-          if (precioPedido) {
-            this.paymentForm.patchValue({ amount: precioPedido });
-          }
-          // 2. Lees el Signal ejecutándolo como función () y accedes a .cliente.uid
-          this.usuario_id = this.solicitud()?.usuario?.uid;
+          // Si tu API responde con { ok: true, solicitud: {...} }, usa resp.solicitud
+          const datosSolicitud = resp.solicitud || resp;
+          this.userId = datosSolicitud.usuario.uid;
+          this.solicitud.set(datosSolicitud);
+          this.procesarMontoYReceptor(datosSolicitud);
           this.getPaymentsMethods();
-        })
+        });
       }
     }
   }
 
-
-
-  getPaymentsMethods() {
+   getPaymentsMethods() {
     this.paymenttiposService.getByUser(this.usuario_id).subscribe((resp: any) => {
       this.paymentMethods = resp;
     })
   }
+
+  private inicializarFormulario() {
+    this.paymentForm = this.fb.group({
+      amount: [0, [Validators.required, Validators.min(1)]],
+      referencia: ['', [Validators.required, Validators.minLength(4)]],
+      bank_destino: ['', [Validators.required]],
+      metodo_pago: ['', [Validators.required]]
+    });
+  }
+
+  /**
+   * Helper privado para extraer de forma segura el monto acumulado del pedido y el ID del abogado
+   */
+  private procesarMontoYReceptor(solicitudData: any) {
+    if (!solicitudData) return;
+
+    // Sumamos los precios de todos los items en el arreglo 'pedido' de forma segura
+    let montoCalculado = 0;
+    if (Array.isArray(solicitudData.pedido)) {
+      montoCalculado = solicitudData.pedido.reduce((acc: number, item: any) => acc + (Number(item.precio) || 0), 0);
+    }
+
+    // Rellenamos el control del formulario reactivo
+    this.paymentForm.patchValue({ amount: montoCalculado });
+
+    // Extraemos de forma estricta el ID del abogado de tu JSON (vienen en .uid o en ._id según el populate)
+    if (solicitudData.usuario) {
+      this.usuario_id = solicitudData.usuario.uid || solicitudData.usuario._id || solicitudData.usuario;
+    }
+  }
+
+enviarPago() {
+    const solicitudData = this.solicitud();
+    if (!solicitudData || this.loading()) return;
+    if (this.paymentForm.invalid) {
+      this.toastr.error('Por favor complete todos los campos obligatorios del formulario');
+      return;
+    }
+
+    this.loading.set(true);
+    const solicitudId = solicitudData._id;
+
+    // 💡 SOLUCIÓN SUBIDA DE IMAGEN: Usamos el ID del cliente logueado temporalmente para asegurar un archivo único,
+    // o el ID de la solicitud si tu fileUploadService está ruteado estrictamente de esa manera.
+    this.fileUploadService
+      .actualizarFoto(this.selectedFile!, 'pagos', solicitudId)
+      .then(imgUrl => {
+        
+        // CONSTRUCCIÓN DEL PAYLOAD FIEL A TU ESQUEMA REAL DE MONGO
+        const payload = {
+          referencia: this.paymentForm.get('referencia')?.value,
+          amount: this.paymentForm.get('amount')?.value,
+          img: imgUrl,
+          
+          // 🟢 CRÍTICO: El receptor del dinero exigido por tu PagoSchema (El abogado)
+          usuario: this.usuario_id, 
+          
+          // El emisor del dinero (El cliente logueado)
+          cliente: this.user.uid,
+          
+          // Relaciones adicionales del documento
+          solicitud: solicitudId === 'DEUDA_TOTAL' ? null : solicitudId,
+          
+          // Campos de auditoría heredados de tu pasarela de Parque Central
+          tasaBCV: this.tasa,
+          metodo_pago: this.paymentSelected?.tipo,
+          bank_destino: this.paymentForm.get('bank_destino')?.value,
+          esPagoTotal: solicitudId === 'DEUDA_TOTAL'
+        };
+
+        this.paymentService.createPayment(payload).subscribe({
+          next: () => {
+            this.toastr.success('¡Pago reportado con éxito! El profesional ha sido notificado.');
+            this.router.navigate(['/mis-pagos']);
+          },
+          error: (err) => {
+            this.loading.set(false);
+            this.toastr.error('Error al registrar la transacción en el servidor');
+          }
+        });
+      })
+      .catch(err => {
+        this.loading.set(false);
+        this.toastr.error('Error al procesar la carga del comprobante adjunto');
+      });
+  }
+
+
+
+ 
 
   // metodo para el cambio del select 'tipo de transferencia'
 
@@ -155,48 +232,6 @@ export class ReportarPagoComponent {
       reader.onload = () => this.imagePreview.set(reader.result as string);
       reader.readAsDataURL(file);
     }
-  }
-
-  enviarPago() {
-    debugger
-    const solicitudData = this.solicitud();
-    if (!solicitudData || this.loading()) return;
-
-    // Si es un pago de deuda total, el ID será 'DEUDA_TOTAL' o null según prefiera tu backend
-    const solicitudId = solicitudData._id;
-
-    this.loading.set(true);
-
-    this.fileUploadService
-      .actualizarFoto(this.selectedFile!, 'pagos', solicitudData._id)
-      .then(imgUrl => {
-        const payload = {
-          solicitud: solicitudId === 'DEUDA_TOTAL' ? null : solicitudId, // Enviamos null si es abono general
-          esPagoTotal: solicitudId === 'DEUDA_TOTAL', // Flag útil para el backend
-          cliente: this.userId,
-          amount: this.paymentForm.get('amount')?.value,
-          tasaBCV: this.tasa,
-          referencia: this.paymentForm.get('referencia')?.value,
-          metodo_pago: this.paymentSelected?.tipo,
-          bank_destino: this.paymentForm.get('bank_destino')?.value,
-          img: imgUrl
-        };
-
-        this.paymentService.createPayment(payload).subscribe({
-          next: () => {
-            this.toastr.success('¡Pago reportado con éxito!');
-            this.router.navigate(['/mis-pagos']);
-          },
-          error: () => {
-            this.loading.set(false);
-            this.toastr.error('Error al registrar el pago');
-          }
-        });
-      })
-      .catch(err => {
-        this.loading.set(false);
-        this.toastr.error('Error al subir el comprobante');
-      });
   }
 
 

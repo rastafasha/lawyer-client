@@ -12,6 +12,7 @@ import { BusquedasService } from '../../../services/busqueda.service';
 import { BackButtnComponent } from '../../../shared/backButtn/backButtn.component';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import Swal from 'sweetalert2';
+import { ToastrService } from 'ngx-toastr';
 declare var bootstrap: any;
 
 @Component({
@@ -45,6 +46,10 @@ export class PresupuestoListComponent {
   status!: string;
   presupuestoSeleccionado = signal<any>(null);
 
+  mostrarMotivo: boolean = false;
+motivoRechazo: string = '';
+presupuestoTemporal: any = null;
+
   info = `
   <h2>Sección: Mis Presupuestos</h2>
   <p>En este apartado podrás:</p>
@@ -60,6 +65,7 @@ export class PresupuestoListComponent {
     public presupuestoService: PresupuestoService,
     public authService: AuthService,
     public busquedasService: BusquedasService,
+    public toastr: ToastrService,
   ) { }
 
   ngOnInit() {
@@ -185,9 +191,7 @@ export class PresupuestoListComponent {
     this.presupuestoSeleccionado.set(presupuesto);
 
   }
-  mostrarMotivo: boolean = false;
-motivoRechazo: string = '';
-presupuestoTemporal: any = null;
+  
 
   cambiarStatus(event: any, presupuesto: any) {
   const nuevoEstado = event.target.value; // Captura lo que seleccionó el usuario
@@ -250,7 +254,7 @@ cancelarRechazo() {
         this.ngOnInit();
       },
       error: (err) => {
-        Swal.fire('Error', 'No se pudo actualizar el pago', 'error');
+        this.toastr.error('Error', 'No se pudo actualizar el presupuesto')
         this.ngOnInit();
       }
     });

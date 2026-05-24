@@ -73,7 +73,7 @@
       <div class="d-flex justify-content-between align-items-start mb-2">
         <div>
           <h6 class="mb-0 fw-bold text-secondary text-uppercase" style="font-size: 0.75rem;">
-            {{payment.fecha_pago | date:'dd/MM/yyyy'}}
+            {{payment.createdAt | date:'dd/MM/yyyy'}}
           </h6>
         </div>
         <!-- Badge más estilizado -->
@@ -104,7 +104,7 @@
       <div class="d-flex justify-content-end  border-top border-light">
         <button class="btn btn-sm btn-outline-primary rounded-pill px-4 fw-bold" style="font-size: 0.8rem;"
           (click)="verDetallePago(payment)">
-          <i class="fas fa-receipt me-1"></i> Ver Ticket
+          <i class="fas fa-receipt me-1"></i> Ver Pago
         </button>
       </div>
     </div>
@@ -192,7 +192,7 @@
       </div>
       <div class="d-flex justify-content-between mb-3 border-bottom pb-2">
         <span class="text-muted small">Fecha</span>
-        <span class="fw-bold small">{{ pagoSeleccionado().fecha_pago | date:'dd/MM/yyyy' }}</span>
+        <span class="fw-bold small">{{ pagoSeleccionado().createdAt | date:'dd/MM/yyyy' }}</span>
       </div>
       <div class="d-flex justify-content-between">
         <span class="text-muted small">Tasa Aplicada</span>
