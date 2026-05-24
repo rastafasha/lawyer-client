@@ -7,6 +7,8 @@ import { Profile } from '../../models/profile.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { Observable } from 'rxjs';
+import { NotificacionService } from '../../services/notificacion.service';
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -20,14 +22,15 @@ export class HeaderComponent {
   public profile!: Profile;
   langs: string[] = [];
   public activeLang = 'es';
-  notificacionesPendientes!:number;
+ public unreadCount$!: Observable<number>;
 
   flag = false;
 
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private notifService: NotificacionService
   ) {
     this.usuario = this.authService.getLocalStorage();
 
@@ -45,6 +48,9 @@ export class HeaderComponent {
 
   ngOnInit(): void {
     this.authService.getLocalDarkMode();
+    // 2. Vinculamos el flujo del servicio y disparamos la petición
+    this.unreadCount$ = this.notifService.unreadCount$;
+    this.notifService.cargarContador();
     
     this.getProfile();
     const lang = localStorage.getItem('lang');

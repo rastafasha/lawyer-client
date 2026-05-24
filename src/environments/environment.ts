@@ -10,7 +10,7 @@ export const environment = {
   soketServer : 'http://localhost:3000',
   //notificaciones
   urlBackedNotification:'https://backend-laflecha-node.onrender.com/api/notipush/save-subscription',
-  VAPI_KEY_PUBLIC: 'BNc3MfntrpdWAMI0usltUAh-w1RRvkbD_8QdjZRHPCpLVlCxIm2ZQ4N1w_iX49RUAMNR11Valdl8DlIH6PiYa9U',
+  VAPI_KEY_PUBLIC: 'BGSLlteaTokH1hXHAFxsZEwLIe2UQ0KyBsdKKgNCxbTs2WCLIIQSV7-4UI-Y5flfyR0cmanyav0Jie1c2Tr23Rk',
  
   
 };
