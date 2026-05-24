@@ -1,7 +1,7 @@
 <app-header></app-header>
-<section class="wallet home" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
-  [infiniteScrollThrottle]=" 50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
-  [class.refreshing]="isRefreshing">
+<section class=" home" >
+  <div class="container mt-4 animate fadeIn" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="400"
+    (scrolled)="onScroll()">
   <div class="pull-down-indicator" *ngIf="isRefreshing">
     <app-loading></app-loading>
     <p class="text-center">
@@ -10,12 +10,11 @@
   </div>
 
   <app-loading *ngIf="isLoading"></app-loading>
-  <div class="container" *ngIf="!isLoading">
+  <div  *ngIf="!isLoading">
     <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
     <!-- solicitudes -->
-    <div *ngFor="let item of solicitudes; let i = index">
-
-      <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
+     @for (item of solicitudes(); track item._id) {
+        <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
         'border-primary': item.status === 'PENDING',
            'border-success': item.status === 'VERIFIED',
            'border-warning': item.status === 'REVIEW',
@@ -68,8 +67,39 @@
           </div>
         </div>
       </div>
-    </div>
+      }
 
+      
+
+  </div>
+   <!-- Spinner estilo Instagram usando la señal loading -->
+    @if (!loading()) {
+
+    <!-- Caso A: Se terminó el scroll normal -->
+    @if (!hasMore()  && solicitudes().length > 0) {
+    <div class="text-center my-4 animate fadeIn">
+      <p class="text-muted small">
+        <i class="fas fa-check-circle me-1"></i> Has llegado al final del historial
+      </p>
+    </div>
+    }
+
+    <!-- Mensaje de Fin de Resultados con el botón de Reset -->
+    <!-- Solo mostrar el spinner si NO hay filtros activos -->
+    @if (loading() && !status) {
+    <div class="d-flex justify-content-center my-4">
+      <div class="spinner-border text-primary" role="status"></div>
+    </div>
+    }
+
+    <!-- Mostrar mensaje de fin de resultados si estamos filtrando -->
+    @if ((status) && !loading()) {
+    <div class="text-center my-4 text-muted small animate fadeIn">
+      <i class="fas fa-info-circle me-1"></i> Fin de resultados filtrados
+    </div>
+    }
+
+    }
   </div>
 </section>
 

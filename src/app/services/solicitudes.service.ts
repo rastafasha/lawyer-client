@@ -46,12 +46,15 @@ export class SolicitudesService {
         );
   }
 
-  getByUser(usuario:any) {
-    const url = `${baseUrl}/solicitudes/cliente/${usuario}`;
-    return this.http.get<any>(url,this.headers)
+   getByUser(usuario: any, page: number = 1, limit: number = 6,) {
+    // Construimos la URL con parámetros de paginación
+    const url = `${baseUrl}/solicitudes/cliente/${usuario}?page=${page}&limit=${limit}`;
+    
+    return this.http.get<any>(url, this.headers)
       .pipe(
-        map((resp:{ok: boolean, solicitudes: Solicitud}) => resp.solicitudes)
-      )
+        // Importante: Si la API devuelve un array, asegúrate que el tipado sea Payment[]
+        map((resp: { ok: boolean, solicitudes: any[] }) => resp.solicitudes)
+      ); 
   }
   
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
@@ -47,7 +47,6 @@ export class WalletComponent {
   public user!: any;
   public client!: Usuario;
   public rol?: string;
-  public solicitudes: Solicitud[] = [];
   public solicitud_users: SolicitudesUsers[] = [];
   public user_client_id!: string;
   public user_member_id!: string;
@@ -68,6 +67,11 @@ export class WalletComponent {
 
   public redessociales!: RedesSociales[];
 
+  public solicitudes = signal<any[]>([]);
+  loading = signal<boolean>(false);
+  hasMore = signal<boolean>(true);
+  page = 1;
+
   private solicitudService = inject(SolicitudesService);
   private clientService = inject(ClientService);
   private authService = inject(AuthService);
@@ -84,14 +88,69 @@ export class WalletComponent {
     this.getSolicitudesbyClient();
   }
 
-  getSolicitudesbyClient() {
-    this.isLoading = true;
-    this.solicitudService.getByUser(this.user.uid).subscribe((resp: any) => {
-      this.solicitudes = resp;
-      this.isLoading = false;
-    })
+
+  onScroll(): void {
+    if (this.loading() || !this.hasMore()) return;
+
+    // Si hay búsqueda por TEXTO (query), normalmente el backend devuelve todo de golpe.
+    // Pero si es por ESTATUS, queremos seguir bajando:
+    this.page++;
+    this.getSolicitudesbyClient();
   }
 
+  getSolicitudesbyClient() {
+    // 1. CORRECCIÓN CRÍTICA: Si ya no hay más páginas, apagamos los loaders ANTES de salir
+    if (!this.hasMore()) {
+      this.isLoading = false;
+      this.loading.set(false);
+      return;
+    }
+
+    // Unificamos el estado de carga en tus dos variables
+    this.isLoading = true;
+    this.loading.set(true);
+
+    this.solicitudService.getByUser(this.user.uid, this.page).subscribe({
+      next: (newData: any[]) => {
+        // Si el backend devuelve un objeto envoltorio tipo { ok: true, solicitudes: [...] },
+        // asegúrate de extraerlo correctamente aquí, por ejemplo: const data = newData.solicitudes || newData;
+
+        if (!newData || newData.length === 0) {
+          this.hasMore.set(false);
+          this.isLoading = false;
+          this.loading.set(false);
+        } else {
+          // 2. Filtrado local por estatus
+          let filteredData = newData;
+          if (this.status) {
+            filteredData = newData.filter(p => p.status === this.status);
+          }
+
+          // 3. CORRECCIÓN: Guardar los datos en el Signal de solicitudes del padre (Faltaba este bloque)
+          this.solicitudes.update(current => {
+            const ids = new Set(current.map(s => s._id));
+            const unique = filteredData.filter(s => !ids.has(s._id));
+            return [...current, ...unique];
+          });
+
+          // 4. Lógica recursiva controlada para filtros con pocos resultados
+          if (this.status && filteredData.length < 5 && newData.length > 0) {
+            this.page++;
+            this.getSolicitudesbyClient();
+          } else {
+            // Si ya completamos la cuota visual, apagamos de forma segura los loaders
+            this.isLoading = false;
+            this.loading.set(false);
+          }
+        }
+      },
+      error: () => {
+        // Control de errores obligatorio para evitar que el esqueleto de carga quede infinito si la API falla
+        this.isLoading = false;
+        this.loading.set(false);
+      }
+    });
+  }
 
   closeReload() {
     this.pedido_selected = null;
@@ -133,31 +192,6 @@ export class WalletComponent {
   }
 
 
-
-
-
-  onScrollDown() {
-    // if (!this.nextUrl || this.isLoading) return;
-    // this.favoriteService.getCharacters(this.nextUrl).subscribe({
-    //   next: (resp: any) => {
-    //     if (resp.info.next) {
-    //       this.nextUrl = resp.info.next;
-    //       this.characters = [...this.characters, ...resp.results];
-    //     } else {
-    //       this.isEdnOfList = true;
-    //       this.loadingTitle = 'No hay más personajes para mostrar';
-    //       alert('ultima pagina');
-    //     }
-    //   },
-    //   error: () => {
-    //     this.isLoading = false;
-    //   }
-    // });
-  }
-
-  onScrollUp() {
-    this.refreshData();
-  }
 
 
 
@@ -205,7 +239,7 @@ export class WalletComponent {
     });
   }
 
- deleteContact(client_id: any) {
+  deleteContact(client_id: any) {
     Swal.fire({
       title: 'Estas Seguro?',
       text: "No podras recuperarlo!",
@@ -232,6 +266,6 @@ export class WalletComponent {
   }
 
 
-  
+
 
 }
