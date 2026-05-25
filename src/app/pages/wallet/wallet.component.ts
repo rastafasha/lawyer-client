@@ -26,7 +26,7 @@ declare var bootstrap: any;
     HeaderComponent,
     CommonModule,
     BackButtnComponent,
-    NgFor, TranslateModule,
+    TranslateModule,
     InfiniteScrollDirective,
     LoadingComponent, NgIf,
     FormsModule,

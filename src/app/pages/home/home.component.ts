@@ -6,7 +6,6 @@ import { AvisoComponent } from '../../components/aviso/aviso.component';
 import { CategoriaHorizontalComponent } from '../../components/categoria-horizontal/categoria-horizontal.component';
 import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
 import { ListProductsComponent } from '../../components/list-products/list-products.component';
-import { LateralComponent } from '../../components/lateral/lateral.component';
 import { CommonModule } from '@angular/common';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { AuthService } from '../../services/auth.service';
@@ -17,7 +16,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PushNotificationService } from '../../services/push-notification.service';
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 import { PwaNotifInstallerComponent } from "../../shared/pwa-notif-installer/pwa-notif-installer.component";
-import { PublicidadComponent } from '../../components/publicidad/publicidad.component';
+
 
 @Component({
   selector: 'app-home',
@@ -28,10 +27,8 @@ import { PublicidadComponent } from '../../components/publicidad/publicidad.comp
     CategoriaHorizontalComponent,
     SliderHorizontalComponent,
     ListProductsComponent,
-    PublicidadComponent,
     CommonModule,
     BackButtnComponent,
-    // ListaUsuariosComponent,
     TranslateModule,
     ModalInstruccionesComponent,
     PwaNotifInstallerComponent

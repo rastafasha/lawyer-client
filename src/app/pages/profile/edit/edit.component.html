@@ -1,7 +1,6 @@
 <app-header></app-header>
-<section class="user">
-    <div class="container-fluid">
-        <div class="container">
+<section class="home">
+    <div class="container">
             <div class="row">
                 <div class="col-xs-12 ">
 
@@ -385,7 +384,7 @@
                                         <tbody>
                                             <tr *ngFor="let item of redssociales ; let i=index">
                                                 <td>
-                                                    <i [class]="'fa' +' '+ item.icono" aria-hidden="true"></i>
+                                                    <i [class]="'fab' +' '+ item.icono" aria-hidden="true"></i>
 
                                                 </td>
                                                 <td>
@@ -408,81 +407,8 @@
 
                         </div>
                         <!-- redes sociales -->
-                        <br>
-                        <!-- Tarifas -->
-                        <div class="row " *ngIf="user.role==='MEMBER' ">
-                            <details class="shadowSearch cuadrosearch">
-                                <summary>{{'formulario.Price Sale'|translate}}</summary>
-                                <div class="row">
 
-                                    <div class="col-12 col-sm-10">
-                                        <label class="labelgoogle">
-                                            <input class="form-control input" name="item_tarifa" placeholder=" "
-                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="item_tarifa"
-                                                type="text" required>
-                                            <span class="label__name">
-                                                Item<span class="login-danger">*</span>
-                                            </span>
-                                        </label>
-                                        <div class="form-group ">
-
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-sm-2">
-                                        <label class="labelgoogle">
-                                            <input class="form-control input" name="precio" placeholder=" "
-                                                [ngModelOptions]="{standalone: true}" [(ngModel)]="precio"
-                                                type="number">
-                                            <span class="label__name">
-                                                {{'formulario.Price'|translate}}<span class="login-danger">*</span>
-                                            </span>
-                                        </label>
-                                    </div>
-                                    <div class="col-12 mb-3">
-                                        <button class="btn btn-primary btn-sm text-end " (click)="addTarifa()">+
-                                            {{'formulario.Add'|translate}}</button>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <div class="row align-items-center">
-
-                                <div class="col-xs-12 ">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>{{'formulario.Description'|translate}}</th>
-                                                    <th>{{'formulario.Price'|translate}}</th>
-                                                    <th>{{'formulario.Action'|translate}}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of tarifas ; let i=index">
-                                                    <td>
-                                                        {{item.item_tarifa}}
-
-                                                    </td>
-                                                    <td>
-                                                        {{item.precio | currency }}
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-danger btn-sm text-end"
-                                                            (click)="deleteTarifa(i)">x</button>
-                                                    </td>
-                                                </tr>
-
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <!-- Tarifas -->
-
-                        <div class="row align-items-center">
+                        <div class="row align-items-center mb-5  mt-3">
                             <div class="col-12">
                                 <div class="doctor-submit text-end">
                                     <button type="button" class="btn btn-primary submit-form me-2"
@@ -501,7 +427,5 @@
                 </div> -->
             </div>
         </div>
-
-    </div>
 </section>
 <app-menu-footer></app-menu-footer>
