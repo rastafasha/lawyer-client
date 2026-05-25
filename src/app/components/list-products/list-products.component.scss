@@ -11,27 +11,24 @@
     padding: 0;
     min-height: 250px;
     & .group {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        /* grid-template-columns: 80px 1fr; */
-        grid-template-rows: 1fr;
-        grid-column-gap: 0px;
-        grid-row-gap: 0px;
+        display: flex;
         padding: 10px;
         height: 90px;
         & .div-group {
             display: flex;
             flex-direction: column;
             padding: 10px;
+            height: fit-content;
+            align-items: center;
             & .foto {
                 display: flex;
                 overflow: hidden;
                 border-radius: 100px;
-                width: 70%;
-                
-                align-self: anchor-center;
+                width: 100px;
+                height: 100px;
                 & a img {
                     display: flex;
+                    width: 100px;
                     height: 100px;
                     border: 1px solid var(--grisclaro);
                 }

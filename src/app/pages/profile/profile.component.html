@@ -5,7 +5,7 @@
         <div class="col-xs-12 col-sm-9 col-md-9">
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
           <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
-          <div class=" itemFav shadow" *ngIf="!isLoading">
+          <div class=" itemFav shadow animated fadeInUp" *ngIf="!isLoading">
             <div class="fototext">
               <img [src]="(profile.img || '')  | imagenPipe: 'profiles' " alt="">
               <div class="div1">
@@ -23,32 +23,27 @@
            
             <div class="admin-services">
               <a [routerLink]="['/profile/edit', user.uid]">
-                <div class="option-admin">
+                <div class="option-admin shadow-sm">
                   <i class="fa fa-user"></i>
                   <p>{{'Edit Profile'|translate}}</p>
                 </div>
               </a>
               
-              <a routerLink="/profile/documents" >
-                <div class="option-admin">
-                  <i class="fa fa-briefcase"></i>
-                  <p>{{'Documents'|translate}}</p>
-                </div>
-              </a>
               <a routerLink="/mis-pagos" >
-              <div class="option-admin">
+              <div class="option-admin shadow-sm">
                 <i class="fa fa-money"></i>
                 <p>Mis Pagos</p>
               </div>
               </a>
-              <a routerLink="/notificaciones" >
-                <div class="option-admin">
+              <!-- <a routerLink="/notificaciones" >
+                <div class="option-admin shadow-sm">
                   <i class="fa fa-bell"></i>
-                  <p>Notifications</p>
+                  <p>Notificaciones</p>
                 </div>
 
-              </a>
+              </a> -->
             </div>
+            <br>
             <div class="opciones">
             <!-- configurar notificaciones push -->
             <div class="setting-row" *ngIf="!isLoading && profile" [class.loading]="pushService.isProcessing$ | async">
@@ -81,28 +76,11 @@
                     <strong>Cerrar Sesión</strong>
                   </div>
                 </div>
-
               </a>
-
-
             </div>
           </div>
           </div>
-          
-  
-          <!--banner publicidad-->
-          <div class="banner-rectangular">
-            <img src="https://picsum.photos/seed/1920/120" alt="" />
-          </div>
-          <!--banner publicidad-->
         </div>
-  
-        <!-- lateral -->
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <app-lateral></app-lateral>
-  
-      </div>
-        <!-- lateral -->
       </div>
     </div>
 </section>

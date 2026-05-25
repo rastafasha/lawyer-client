@@ -1,12 +1,11 @@
 <div class="container mt-3 animate fadeIn">
     <!-- <app-back-button [title]="title"></app-back-button> -->
-        <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="mb-0">🔔&nbsp; Mis Notificaciones</h4>
-    <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm" 
-            (click)="instruccionesModal.open()" 
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <app-backButtn [pageTitle]='"🔔&nbsp; Mis Notificaciones"'></app-backButtn>
+        <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm" (click)="instruccionesModal.open()"
             title="Ayuda de la sección">
-        <i class="fa fa-question"></i>
-    </button>
+            <i class="fa fa-question"></i>
+        </button>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-4">
@@ -20,7 +19,7 @@
 
 
         <!-- Lista de Notificaciones -->
-        <div *ngIf="notificaciones().length > 0">
+        <div class="animated fadeInUp" *ngIf="notificaciones().length > 0">
             @for (n of notificaciones(); track n._id) {
             <div (click)="abrirDetalle(n)" class="card mb-2 shadow-sm border-start border-4" [ngClass]="{
                 'border-success': n.tipo === 'PAGO_APROBADO',
@@ -71,7 +70,7 @@
 
 <!-- OFFCANVAS DETALLE -->
 <div class="offcanvas offcanvas-bottom rounded-top-5 h-75" tabindex="-1" id="offcanvasNotif"
-style="height: auto; max-height: 85vh; border-radius: 25px 25px 0 0;">
+    style="height: auto; max-height: 85vh; border-radius: 25px 25px 0 0;">
     <div class="offcanvas-header border-bottom py-3">
         <h5 class="offcanvas-title fw-bold text-primary">Detalle de Notificación</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
@@ -79,8 +78,7 @@ style="height: auto; max-height: 85vh; border-radius: 25px 25px 0 0;">
 
     <div class="offcanvas-body p-4" *ngIf="notifSeleccionada">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-column">
-            <span class="badge rounded-pill px-3 py-2" 
-            [ngClass]="{'bg-success-soft text-success': notifSeleccionada.tipo === 'PAGO_APROBADO', 
+            <span class="badge rounded-pill px-3 py-2" [ngClass]="{'bg-success-soft text-success': notifSeleccionada.tipo === 'PAGO_APROBADO', 
                           'bg-danger-soft text-danger': notifSeleccionada.tipo === 'PAGO_RECHAZADO',
                           'bg-warning-soft text-warning': notifSeleccionada.tipo === 'COMUNICADO_ADMIN',
                           'bg-info-soft text-info': notifSeleccionada.tipo === 'NUEVA_FACTURA',
@@ -109,7 +107,7 @@ style="height: auto; max-height: 85vh; border-radius: 25px 25px 0 0;">
             </button>
         </div>
     </div>
-    
+
 </div>
 <app-menu-footer></app-menu-footer>
 <app-modal-instrucciones [info]="info" sectionId="misnotificaciones" #instruccionesModal></app-modal-instrucciones>

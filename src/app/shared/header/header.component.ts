@@ -9,10 +9,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { NotificacionService } from '../../services/notificacion.service';
+import { ModalCondicionesComponent } from '../../components/modal-condiciones/modal-condiciones.component';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterLink, CommonModule, ImagenPipe, TranslateModule],
+  imports: [
+    RouterLink, 
+    CommonModule, 
+    ImagenPipe, 
+    TranslateModule,
+    ModalCondicionesComponent
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })

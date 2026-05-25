@@ -42,6 +42,11 @@ export class UserService {
     const URL = `${url_servicios}/usuarios/member`;
     return this.http.get(URL, this.headers);
   }
+  listUsersMemberRecent(){
+    const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
+    const URL = `${url_servicios}/usuarios/memberrecents`;
+    return this.http.get(URL, this.headers);
+  }
   listUsersPaginados(page: number = 1, perPage: number = 10){
     const headers = new HttpHeaders({'Authorization': 'Bearer'+this.authService.token});
     const URL = `${url_servicios}/usuarios/paginados?page=${page}&per_page=${perPage}`;

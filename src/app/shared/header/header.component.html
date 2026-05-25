@@ -35,11 +35,12 @@
             <ul>
                 <li><a routerLink="/">{{'Home'|translate}}</a></li>
                 <li><a routerLink="/profile">{{'Profile'|translate}}</a></li>
-                <li><a href="firms.html">{{'menu.Firms'|translate}}</a></li>
+                <!-- <li><a href="firms.html">{{'menu.Firms'|translate}}</a></li>
                 <li><a href="slider.html">{{'menu.How to?'|translate}}</a></li>
                 <li><a href="settings.html">{{'menu.Settings'|translate}}</a></li>
-                <li><a href="about-us.html">{{'menu.About Us'|translate}}</a></li>
-                <li><a href="terms.html">{{'menu.Terms & Cond'|translate}}</a></li>
+                <li><a href="about-us.html">{{'menu.About Us'|translate}}</a></li> -->
+                <li><a href="javascript:void(0);" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal">{{'menu.Terms & Cond'|translate}}</a></li>
                 <li><a href="#" (click)="logout()">{{'auth.Logout'|translate}}</a></li>
             </ul>
         </nav>
@@ -110,3 +111,5 @@
 
     </div>
 </header>
+
+<app-modal-condiciones></app-modal-condiciones>

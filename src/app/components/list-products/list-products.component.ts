@@ -41,7 +41,7 @@ export class ListProductsComponent {
   getUsers() {
     this.isLoading = true;
     this.loadingTitle = 'Cargando Perfiles';
-    this.ususarioService.listUsersMember().subscribe((resp: any) => {
+    this.ususarioService.listUsersMemberRecent().subscribe((resp: any) => {
       this.usuarios = resp.usuarios;
       this.nextUrl = resp.next_page_url;
       this.isLoading = false;

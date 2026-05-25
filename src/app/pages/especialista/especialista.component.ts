@@ -18,7 +18,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { PaymentmethodService } from '../../services/paymentmethod.service';
 import { ToastrService } from 'ngx-toastr';
 import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
-import { PublicidadComponent } from '../../components/publicidad/publicidad.component';
+import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
 
 @Component({
   selector: 'app-especialista',
@@ -26,7 +26,7 @@ import { PublicidadComponent } from '../../components/publicidad/publicidad.comp
     CommonModule,
     HeaderComponent,
     MenuFooterComponent,
-    PublicidadComponent,
+    SliderHorizontalComponent,
     BackButtnComponent,
     NgFor,
     FormsModule,

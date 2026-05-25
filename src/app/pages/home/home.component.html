@@ -1,41 +1,45 @@
 <app-header></app-header>
 
-<section class="home">
+<section class="home" style="padding-bottom: 110px;">
   <div class="container">
-       <div class="col-xs-12 col-sm-9 col-md-9">
-          <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-           <!-- aviso  -->
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <app-aviso [profile]="profile" [user]="user"></app-aviso>
-              <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm"
-                (click)="instruccionesModal.open()" title="Ayuda de la sección">
-                <i class="fa fa-question"></i>
-              </button>
-            </div>
-            <!-- aviso  -->
+    <div class="col-xs-12 col-sm-9 col-md-9">
+      <div class="back">
+        <h1 style="padding-left: 10px;">Inicio</h1>
+      </div>
+      <div class="clear"></div>
 
-            <!-- El banner SOLO se muestra si NO está suscrito -->
-            <div *ngIf="(pushService.isSubscribed$ | async) === false && !isLoading"
-              class="banner-notificaciones animate fadeIn">
-              <div class="mensaje">
-                <strong>📢 ¡No te pierdas nada!</strong>
-                <p>Activa las notificaciones para estar al día.</p>
-              </div>
-              <button type="button" (click)="btnActivarPush()" class="btn btn-outline-info mb-3 animate fadeIn">
-                Configurar Notificaciones
-              </button>
-            </div>
+      <!-- aviso  -->
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <app-aviso [profile]="profile" [user]="user"></app-aviso>
+        <button class="btn btn-outline-primary btn-sm rounded-circle shadow-sm" (click)="instruccionesModal.open()"
+          title="Ayuda de la sección">
+          <i class="fa fa-question"></i>
+        </button>
+      </div>
+      <!-- aviso  -->
 
-            <!-- Opcional: Mostrar un mensaje sutil si ya está suscrito -->
-            <p *ngIf="pushService.isSubscribed$ | async" class="text-muted p-3 animate fadeIn">
-              <i class="fas fa-check-circle text-success"></i> Notificaciones activas
-            </p>
-            <!--category name-->
-            <app-categoria-horizontal></app-categoria-horizontal>
-            <!--category name-->
-            <br />
+      <!-- El banner SOLO se muestra si NO está suscrito -->
+      <div *ngIf="(pushService.isSubscribed$ | async) === false && !isLoading"
+        class="banner-notificaciones animate fadeIn">
+        <div class="mensaje">
+          <strong>📢 ¡No te pierdas nada!</strong>
+          <p>Activa las notificaciones para estar al día.</p>
+        </div>
+        <button type="button" (click)="btnActivarPush()" class="btn btn-outline-info mb-3 animate fadeIn">
+          Configurar Notificaciones
+        </button>
+      </div>
 
-            <!-- <div class="d-flex justify-content-between align-items-center mb-3 align-items-center">
+      <!-- Opcional: Mostrar un mensaje sutil si ya está suscrito -->
+      <p *ngIf="pushService.isSubscribed$ | async" class="text-muted p-3 animate fadeIn">
+        <i class="fas fa-check-circle text-success"></i> Notificaciones activas
+      </p>
+      <!--category name-->
+      <app-categoria-horizontal></app-categoria-horizontal>
+      <!--category name-->
+      <br />
+
+      <!-- <div class="d-flex justify-content-between align-items-center mb-3 align-items-center">
                 <label class="labelgoogle w-75 mb-0">
                   <input class="form-control input" formControlName="name_file" type="search" placeholder=" "
                     aria-label="Search">
@@ -49,21 +53,21 @@
                 </button>
 
               </div> -->
-            <!---Slider-->
-            <app-slider-horizontal></app-slider-horizontal>
-            <!---Slider-->
+      <!---Slider-->
+      <app-slider-horizontal></app-slider-horizontal>
+      <!---Slider-->
 
-            <!--Destacados-->
-            <!-- <app-list-products-h></app-list-products-h> -->
-            <!---Destacados-->
-            <!--Recientes-->
-            <app-list-products></app-list-products>
-        </div>
-        <!-- lateral -->
-        <!-- <div class="col-xs-12 col-sm-3 col-md-3">
+      <!--Destacados-->
+      <!-- <app-list-products-h></app-list-products-h> -->
+      <!---Destacados-->
+      <!--Recientes-->
+      <app-list-products></app-list-products>
+    </div>
+    <!-- lateral -->
+    <!-- <div class="col-xs-12 col-sm-3 col-md-3">
           <app-publicidad></app-publicidad>
         </div> -->
-    </div>
+  </div>
 </section>
 
 

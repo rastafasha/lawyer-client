@@ -1,11 +1,7 @@
 
-.post {
-    margin: 0;
-    padding: 0;
-    min-height: 250px;
-    & .group {
+.ficha {
         display: grid;
-        grid-template-columns: 30% 70%;
+        grid-template-columns: 30% 40% 30%;
         /* grid-template-columns: 80px 1fr; */
         grid-template-rows: 1fr;
         grid-column-gap: 0px;
@@ -34,4 +30,3 @@
             }
         }
     }
-}

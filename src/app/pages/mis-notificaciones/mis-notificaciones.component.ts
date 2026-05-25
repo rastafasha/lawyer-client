@@ -6,25 +6,32 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { ToastrService } from 'ngx-toastr';
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
+import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-mis-notificaciones',
-  imports: [CommonModule,  InfiniteScrollModule, ModalInstruccionesComponent, MenuFooterComponent],
+  imports: [
+    CommonModule,
+    InfiniteScrollModule,
+    ModalInstruccionesComponent,
+    MenuFooterComponent,
+    BackButtnComponent
+  ],
   templateUrl: './mis-notificaciones.component.html',
   styleUrl: './mis-notificaciones.component.scss'
 })
 export class MisNotificacionesComponent implements OnInit {
 
- public notificaciones = signal<any[]>([]);
-public loading = signal(false);
-public hasMoreNotif = signal(true);
-public pageNotif = 1;
+  public notificaciones = signal<any[]>([]);
+  public loading = signal(false);
+  public hasMoreNotif = signal(true);
+  public pageNotif = 1;
 
   public cargando: boolean = true;
-  title ='Notificaciones';
+  title = 'Notificaciones';
   public notifSeleccionada: any;
 
   info = `
@@ -50,10 +57,10 @@ public pageNotif = 1;
 
   onScroll(): void {
     if (this.loading() || !this.hasMoreNotif()) return;
-    
+
     this.pageNotif++;
     this.getNotificaciones();
-}
+  }
 
   getNotificaciones() {
     if (!this.hasMoreNotif()) return;
@@ -86,30 +93,30 @@ public pageNotif = 1;
       },
       error: () => this.loading.set(false)
     });
-}
+  }
 
 
- limpiarCampana() {
-  this.notificacionService.marcarComoLeidas().subscribe({
-    next: (res: any) => {
-      
-      // 1. Usamos .update() para modificar el contenido de la Signal
-      this.notificaciones.update(current => {
-        // Modificamos cada notificación en el array actual
-        current.forEach(n => n.leido = true);
-        
-        // 2. Retornamos una copia del array para que Angular detecte el cambio
-        return [...current]; 
-      });
+  limpiarCampana() {
+    this.notificacionService.marcarComoLeidas().subscribe({
+      next: (res: any) => {
 
-      this.toastr.success('Historial actualizado');
-    },
-    error: (err) => console.error('Error al marcar como leídas', err)
-  });
-}
+        // 1. Usamos .update() para modificar el contenido de la Signal
+        this.notificaciones.update(current => {
+          // Modificamos cada notificación en el array actual
+          current.forEach(n => n.leido = true);
+
+          // 2. Retornamos una copia del array para que Angular detecte el cambio
+          return [...current];
+        });
+
+        this.toastr.success('Historial actualizado');
+      },
+      error: (err) => console.error('Error al marcar como leídas', err)
+    });
+  }
 
 
- abrirDetalle(notificacion: any) {
+  abrirDetalle(notificacion: any) {
     this.notifSeleccionada = notificacion;
 
     // 1. Abrir Offcanvas
@@ -127,7 +134,7 @@ public pageNotif = 1;
     }
   }
 
-  
+
 
   irAPagos(tipo: string) {
     if (tipo === 'PAGO_RECHAZADO') {
@@ -137,7 +144,7 @@ public pageNotif = 1;
     }
   }
 
-  irAFacturas(tipo: string){
+  irAFacturas(tipo: string) {
     if (tipo === 'NUEVA_FACTURA') {
       this.router.navigate(['/mis-facturas'], {
         queryParams: { estado: 'PENDIENTE' }
@@ -145,6 +152,6 @@ public pageNotif = 1;
     }
   }
 
-  
+
 
 }

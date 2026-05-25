@@ -5,14 +5,64 @@
     flex-direction: column;
     cursor: pointer;
 }
- .user .itemFav img {
-    width: 40%;
+
+.fototext {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 15px;
+    & p {
+        font-size: 0.7rem;
+        padding: 0;
+        margin: 0;
+    }
+    & img {
+    width: 120px;
     height: 120px;
     padding: 5px;
     border: 1px solid rgb(231, 231, 231);
     background-color: #fafafa;
     border-radius: 13px;
     box-shadow: 0px 7px 10px #e3e2e2;
+}
+}
+
+.admin-services {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+
+    & a,
+    p,
+    i {
+        color: var(--grisfondo);
+    }
+}
+
+.option-admin {
+    display: grid;
+    justify-items: center;
+    height: 88px;
+    & i,
+    p {
+        text-align: center;
+        display: flex;
+        align-items: center;
+        align-self: center;
+        flex-direction: column;
+    }
+    & i {
+        font-size: 1.6em;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        padding: 5px;
+        justify-content: center;
+    }
+    & p {
+        font-size: 0.8em;
+    }
 }
 
 
