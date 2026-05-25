@@ -124,11 +124,6 @@ export class DocumentsComponent {
       }
     }
 
-
-
-
- 
-
   getdocumentsbyUser() {
     this.isLoading = true;
     this.currentPage;

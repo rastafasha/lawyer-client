@@ -14,13 +14,15 @@
                 <app-loading *ngIf="isLoading"></app-loading>
                 <!-- filtro buscador -->
                 
-                <button type="button" class="btn btn-outline-primary submit-list-form " data-bs-target="#add_publicidad"
+                <div class="d-flex justify-content-between align-content-center">
+                    <button type="button" class="btn btn-outline-primary submit-list-form " data-bs-target="#add_publicidad"
                     data-bs-toggle="offcanvas">
                     <i class="fa fa-upload"></i> Subir Documento
                 </button>
                 <button type="button" class="btn btn-outline-success submit-list-form " routerLink="/presupuestos">
                         <i class="fas fa-file-alt"></i> Presupuestos
                     </button>
+                </div>
                 <div class="clear"></div>
                 <br>
 

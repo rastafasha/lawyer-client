@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { Payment } from '../models/payment'; // Asegúrate de tener estos modelos creados
 import { Usuario } from '../models/usuario.model';
 import { environment } from '../../environments/environment';
+import { Presupuesto } from '../models/presupuesto';
 
 const base_url = environment.url_servicios;
 
@@ -51,10 +52,15 @@ export class BusquedasService {
   return resultados; 
 }
 
+  private trasnformarPresupuestos(resultados: any[]): Presupuesto[] {
+  // Aquí podrías agregar lógica de fechas si tu modelo Facturacion la requiere
+  return resultados; 
+}
+
   
 
  buscar(
-    tipo: 'usuarios' | 'payments' , 
+    tipo: 'usuarios' | 'payments' | 'presupuestos' , 
     termino: string = ''
   ) {
     // Si el término está vacío, podrías retornar un array vacío o manejarlo según tu UX
@@ -71,6 +77,8 @@ export class BusquedasService {
             return this.trasnformarUsuarios(resp.resultados);
           case 'payments':
             return this.trasnformarPayments(resp.resultados);
+          case 'presupuestos':
+            return this.trasnformarPresupuestos(resp.resultados);
           default:
             return [];
         }

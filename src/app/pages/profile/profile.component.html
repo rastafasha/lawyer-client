@@ -48,35 +48,45 @@
                 </div>
 
               </a>
-              <a (click)="logout()">
-                <div class="option-admin">
-                  <i class="fa fa-power-off"></i>
-                  <p>{{'Logout'|translate}}</p>
-                </div>
-              </a>
             </div>
-             <!-- configurar notificaciones push -->
+            <div class="opciones">
+            <!-- configurar notificaciones push -->
             <div class="setting-row" *ngIf="!isLoading && profile" [class.loading]="pushService.isProcessing$ | async">
-                <div class="setting-info">
-                    <i class="fa fa-bell"></i>
-                    <div class="text-container">
-                        <strong>Notificaciones Push</strong>
-                        <span>Avisos importantes</span>
-                    </div>
+              <div class="setting-info">
+                <i class="fa fa-bell"></i>
+                <div class="text-container">
+                  <strong>Notificaciones Push</strong>
+                  <span>Avisos importantes</span>
                 </div>
+              </div>
 
-                <div class="switch-wrapper">
-                    <!-- Spinner pequeño que solo aparece al cargar -->
-                    <div *ngIf="pushService.isProcessing$ | async" class="mini-spinner"></div>
+              <div class="switch-wrapper">
+                <!-- Spinner pequeño que solo aparece al cargar -->
+                <div *ngIf="pushService.isProcessing$ | async" class="mini-spinner"></div>
 
-                    <label class="switch">
-                        <input type="checkbox" [disabled]="pushService.isProcessing$ | async"
-                            [checked]="pushService.isSubscribed$ | async" (change)="togglePush()">
-                        <span class="slider round"></span>
-                    </label>
-                </div>
+                <label class="switch">
+                  <input type="checkbox" [disabled]="pushService.isProcessing$ | async"
+                    [checked]="pushService.isSubscribed$ | async" (change)="togglePush()">
+                  <span class="slider round"></span>
+                </label>
+              </div>
             </div>
             <!-- configurar notificaciones push -->
+
+            <div class="setting-row">
+              <a (click)="logout()">
+                <div class="setting-info">
+                  <i class="fa fa-power-off"></i>
+                  <div class="text-container">
+                    <strong>Cerrar Sesión</strong>
+                  </div>
+                </div>
+
+              </a>
+
+
+            </div>
+          </div>
           </div>
           
   

@@ -6,7 +6,7 @@
     height: 140px !important;
 }
 
-.post {
+.listaespecialista {
     margin: 0;
     padding: 0;
     min-height: 250px;
@@ -19,23 +19,42 @@
         grid-row-gap: 0px;
         padding: 10px;
         height: 90px;
-        & .info {
-            & h2 {
-                font-size: 1rem;
-            }
-            & h3 {
-                font-size: 1rem;
-            }
-        }
-        & .foto {
-            & img {
+        & .div-group {
+            display: flex;
+            flex-direction: column;
+            padding: 10px;
+            & .foto {
+                display: flex;
+                overflow: hidden;
+                border-radius: 100px;
                 width: 70%;
-                height: max-content;
-                margin: 5px;
-                border: 1px solid var(--grisclaro);
+                
+                align-self: anchor-center;
+                & a img {
+                    display: flex;
+                    height: max-content;
+                    border: 1px solid var(--grisclaro);
+                }
             }
-            & .post-date {
-                margin-bottom: 0px;
+            & .info {
+                display: flex;
+                flex-direction: row;
+                padding: 5px;
+                justify-content: space-between;
+                & .data {
+                    display: flex;
+                    flex-direction: column;
+                    & h2 {
+                        font-size: 1rem;
+                    }
+                    & h3 {
+                        font-size: 1rem;
+                    }
+                }
+                & .verif {
+                    display: flex;
+                    align-items: end;
+                }
             }
         }
     }

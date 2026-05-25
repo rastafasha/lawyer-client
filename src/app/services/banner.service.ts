@@ -35,7 +35,7 @@ export class BannerService {
     const url = `${baseUrl}/sideadvices?page=${page}&per_page=${perPage}`;
     return this.http.get<any>(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, pubs: Banner[] }) => resp.pubs)
+        map((resp: { ok: boolean, sideadvices: Banner[] }) => resp.sideadvices)
       )
   }
 
@@ -52,31 +52,10 @@ export class BannerService {
     const url = `${baseUrl}/sideadvices/activos`;
     return this.http.get<any>(url, this.headers)
       .pipe(
-        map((resp: { ok: boolean, pubs: Banner[] }) => resp.pubs)
+        map((resp: { ok: boolean, sideadvices: Banner[] }) => resp.sideadvices)
       )
   }
 
-
-  createBanner(data: any) {
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token });
-    const URL = baseUrl + '/sideadvices/crear';
-    return this.http.post(URL, data, { headers: headers });
-  }
-  updateBanner(data: any, banner_id: any,) {
-    const headers = new HttpHeaders({ 'Authorization': 'Bearer' + this.authService.token })
-    const URL = baseUrl + '/sideadvices/editar/' + banner_id;
-    return this.http.post(URL, data, { headers: headers });
-  }
-  updateStatus(data: any, banner_id: number) {
-
-    const url = `${baseUrl}/sideadvices/update/status/${banner_id}`;
-    return this.http.put(url, data, this.headers);
-  }
-
-  deleteBanner(_id: string) {
-    const url = `${baseUrl}/sideadvices/destroy/${_id}`;
-    return this.http.delete(url, this.headers);
-  }
 
 
 }

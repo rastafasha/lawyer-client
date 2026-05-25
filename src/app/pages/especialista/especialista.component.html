@@ -6,7 +6,7 @@
         <div class="col-xs-12 col-sm-12 col-md-9">
           <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
           <div class="row">
-            <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
+            <app-loading *ngIf="isLoading" ></app-loading>
 
             <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
               <!-- cuadro perfil -->
@@ -46,66 +46,68 @@
                 <div class="descp">
                   <p>Descripción Corta: {{ profile.shortdescription }}</p>
                 </div>
-                <!-- <div class="div1" >
-                  
-                  <div class="reds">
-                    <div class="cont" *ngFor="let red of redessociales">
-                      <a *ngIf="red.icono === 'fa fa-whatsapp'"
-                        href="`https://wa.me/`{{red.url}}`?text=Estoy%20interesado%20en%20el%20producto%20en%20la%20flechaapp,%20favor%20ampliar%20informacion`"
-                        target="_blank" rel="noopener noreferrer">
-                        <div class="option-admin">
-                          <i [class]="red.icono"></i>
-                        </div>
-                      </a>
-                      <a *ngIf="red.icono !== 'fa fa-whatsapp'" [href]="red.url" target="_blank"
-                        rel="noopener noreferrer">
-                        <div class="option-admin">
-                          <i [class]="red.icono"></i>
-                        </div>
-                      </a>
-                    </div>
 
-                  </div>
-                </div> -->
               </div>
 
             </div>
-            <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
+            <div class="tab-content-set" *ngIf="!isLoading">
+              <ul class="nav">
+                <li>
+                  <a href="#" onclick="return false;" [ngClass]="{'active': option_selectedd == 1}"
+                    (click)="optionSelected(1)">
+                    <h3 class="btn btn-outline-info"> {{'Servicios'}}</h3>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onclick="return false;" [ngClass]="{'active': option_selectedd == 2}"
+                    (click)="optionSelected(2)">
+                    <h3 class="btn btn-outline-info">{{'Comentarios'}}</h3>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div *ngIf="option_selectedd == 1">
+              <div class="col-xs-12 col-sm-6" *ngIf="!isLoading">
 
-              <div class="card mb-3 shadow p-2">
-                <h5 class="text-center">Metodos de Pago</h5>
-                <ng-container *ngFor="let tipop of tiposdePagoUser">
+                <div class="card mb-3 shadow p-3">
+                  <h5 class="text-center">Metodos de Pago</h5>
+                  <ng-container *ngFor="let tipop of tiposdePagoUser">
 
-                  <div class="tarifa">
-                    <ul>
-                      <li>{{ tipop.tipo }}</li>
-                      <li>{{ tipop.bankName }}</li>
-                      <li>{{ tipop.bankAccount }}</li>
-                      <li>{{ tipop.ciorif }}</li>
-                      <li>{{ tipop.bankAccountType }}</li>
-                    </ul>
-                  </div>
-                </ng-container>
+                    <details>
+                      <summary class="">{{ tipop.tipo }}</summary>
+                      <div class="features small mb-auto">
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ tipop.tipo }}
+                        </p>
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ tipop.bankName }}</p>
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ tipop.bankAccount }}</p>
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ tipop.ciorif }}</p>
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ tipop.bankAccountType }}</p>
+                      </div>
+                    </details>
+
+                  </ng-container>
 
 
+                </div>
+                <div class="card mb-3 shadow p-3">
+                  <h5 class="text-center">Productos y/o Servicios</h5>
+                  <ng-container *ngFor="let precio of precios">
+
+                    <details>
+                      <summary class="">{{ precio.item_tarifa }}</summary>
+                      <div class="features small mb-auto">
+                        <p class="mb-2"><i class="fa fa-check text-success me-2"></i>{{ precio.precio | currency }}
+                        </p>
+                        <button class="btn btn-outline-success" (click)="solicitarItem(precio)">
+                        Solicitar
+                      </button>
+                      </div>
+                    </details>
+                  </ng-container>
+                </div>
               </div>
-              <div class="card mb-3 shadow p-2">
-                <h5 class="text-center">Productos y/o Servicios</h5>
-                <ng-container *ngFor="let precio of precios">
-
-                  <div class="tarifa">
-
-                    <div class="info_tarifa">
-                      <p>{{ precio.item_tarifa }}</p>
-                      <h5>{{ precio.precio | currency }}</h5>
-                    </div>
-                    <button class="btn btn-outline-success" (click)="solicitarItem(precio)">
-                      Solicitar
-                    </button>
-                  </div>
-                </ng-container>
-
-              </div>
+            </div>
+            <div *ngIf="option_selectedd == 2">
               <div class="card  shadow p-2">
                 <h5 class="text-center">Comentarios</h5>
                 <div class="card-body">
@@ -131,14 +133,13 @@
                 </div>
 
               </div>
-
             </div>
+
 
 
             <!--banner publicidad-->
-            <div class="banner-rectangular mt-3 col-xs-12 col-sm-6">
-              <img src="https://picsum.photos/seed/1920/120" alt="" />
-            </div>
+            <app-publicidad></app-publicidad>
+            
             <!--banner publicidad-->
           </div>
 
@@ -146,7 +147,7 @@
 
         <!-- lateral -->
         <div class="col-xs-12 col-sm-3 col-md-3">
-          <app-lateral></app-lateral>
+          <app-publicidad></app-publicidad>
 
         </div>
       </div>

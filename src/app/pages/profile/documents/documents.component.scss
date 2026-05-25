@@ -72,6 +72,26 @@
     }
 }
 
+// Estilo base para todas las pestañas cuando NO están seleccionadas
+.nav li a h3.btn {
+  border: 1px solid var(--vinotinto); // El color info de Bootstrap
+  color: var(--vinotinto);
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+// Estilo automático cuando el enlace 'a' recibe la clase .active
+.nav li a.active h3.btn {
+  background-color: var(--vinotinto) !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 6px rgba(65, 65, 65, 0.2);
+}
+
+// Efecto visual al pasar el mouse por encima (opcional)
+.nav li a:hover h3.btn {
+  background-color: rgba(23, 162, 184, 0.1);
+}
+
 
 @media (max-width: 768px) {
     .columnadoble{

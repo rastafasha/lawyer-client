@@ -132,7 +132,7 @@ presupuestoTemporal: any = null;
       this.isFiltering.set(true);
       this.loading.set(true);
 
-      this.busquedasService.buscar('payments', this.query).subscribe({
+      this.busquedasService.buscar('presupuestos', this.query).subscribe({
         next: (resultados: any[]) => {
           let filtered = resultados;
           // Si además de texto seleccionó un estatus, filtramos el array

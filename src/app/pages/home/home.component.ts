@@ -1,4 +1,4 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
@@ -7,13 +7,9 @@ import { CategoriaHorizontalComponent } from '../../components/categoria-horizon
 import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
 import { ListProductsComponent } from '../../components/list-products/list-products.component';
 import { LateralComponent } from '../../components/lateral/lateral.component';
-import { ListProductsHComponent } from '../../components/list-products-h/list-products-h.component';
 import { CommonModule } from '@angular/common';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
-import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
-import { ListaUsuariosComponent } from '../../components/ListaUsuarios/ListaUsuarios.component';
-import { UserService } from '../../services/usuario.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../services/profile.service';
@@ -21,6 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 import { PushNotificationService } from '../../services/push-notification.service';
 import { ModalInstruccionesComponent } from '../../components/modal-instrucciones/modal-instrucciones.component';
 import { PwaNotifInstallerComponent } from "../../shared/pwa-notif-installer/pwa-notif-installer.component";
+import { PublicidadComponent } from '../../components/publicidad/publicidad.component';
 
 @Component({
   selector: 'app-home',
@@ -31,7 +28,7 @@ import { PwaNotifInstallerComponent } from "../../shared/pwa-notif-installer/pwa
     CategoriaHorizontalComponent,
     SliderHorizontalComponent,
     ListProductsComponent,
-    LateralComponent,
+    PublicidadComponent,
     CommonModule,
     BackButtnComponent,
     // ListaUsuariosComponent,

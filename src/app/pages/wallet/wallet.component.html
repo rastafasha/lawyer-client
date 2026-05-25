@@ -124,8 +124,15 @@
       <span class="badge bg-success" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finished'|translate}}
       </span>
       <p> {{'Description'|translate}}: {{solicitud_selected.pedido[0].item_tarifa}}</p>
+      
       <h4>{{'Price'|translate}}: {{solicitud_selected.pedido[0].precio|currency}}</h4>
-      <small class="text-muted">{{ solicitud_selected.created_at | date:'medium' }}</small>
+      @if (solicitud_selected.status === 'VERIFIED' && solicitud_selected.pago.status ==='APROVED') {
+            <span
+              class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">Pagado</span>
+            }
+
+      <small class="mt-2">Fecha Solicitud: {{ solicitud_selected.createdAt | date:'medium' }}</small>
+      <small>Fecha Aceptada: {{ solicitud_selected.updatedAt | date:'medium' }}</small>
     </div>
     <p>{{'Username'|translate}}: {{solicitud_selected.usuario.username}}</p>
     <div class="tc_actions" *ngIf="solicitud_selected.status === 'VERIFIED'">
@@ -145,12 +152,15 @@
     </div>
     
      <!-- Botón tipo Binance -->
-      <div class="tc_actions mt-3" *ngIf="solicitud_selected.status === 'VERIFIED'">
+      <div class="tc_actions mt-3" *ngIf="solicitud_selected.status === 'VERIFIED' && solicitud_selected.pago.status ==='PENDING' || solicitud_selected.pago.status ==='REFUSED'" >
         <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-2"
       (click)="reportarPago(solicitud_selected._id)">
       PAGAR AHORA
     </button>
       </div>
+      
+
+       
 
   </div>
 

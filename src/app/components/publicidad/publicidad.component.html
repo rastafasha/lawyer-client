@@ -1,0 +1,25 @@
+<app-skeleton-loader *ngIf="cargando" [rows]="1" [columns]="2"></app-skeleton-loader>
+<section *ngIf="!cargando" class="container animated fadeInUp mt-3">
+    <h4>Publicidad</h4>
+    <div class="overflow">
+        <div class=" publicidad_home" >
+            <ng-container *ngFor="let item of pubs | slice:0:5">
+                <div class="publicidad_home_item">
+                    <img [src]="item.img" alt="">
+                </div>
+            </ng-container>
+            
+            <!-- <div class="publicidad_home_item">
+                <a href="mercados.html">
+                    <img src="./assets/images/food/breads.jpeg" alt="">
+                </a>
+            </div>
+            <div class="publicidad_home_item">
+                <a href="mercados.html">
+                    <img src="./assets/images/food/sushi-casero.jpeg" alt="">
+                </a>
+            </div> -->
+        </div>
+    </div>
+
+</section>

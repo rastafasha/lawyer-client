@@ -5,7 +5,7 @@
     min-height: 250px;
     & .group {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: 30% 70%;
         /* grid-template-columns: 80px 1fr; */
         grid-template-rows: 1fr;
         grid-column-gap: 0px;
@@ -13,6 +13,7 @@
         padding: 10px;
         height: 90px;
         margin-bottom: 35px;
+        border-radius: 8px;
         & .info {
             & h2 {
                 font-size: 1rem;

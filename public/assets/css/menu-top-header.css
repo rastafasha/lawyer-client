@@ -1,9 +1,9 @@
 .menu-top {
     height: auto;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 1fr;
-    grid-column-gap: 20px;
+    grid-column-gap: 0px;
     grid-row-gap: 0px;
     position: fixed;
     top: 5px;
@@ -14,9 +14,10 @@
     display: flex;
     height: 36px;
     width: 36px;
-    border-radius: 4px;
+    border-radius: 100px;
     background-color: var(--red);
     flex-direction: column;
+    overflow: hidden;
 }
 
 .menu-top .circulo {
@@ -46,14 +47,14 @@
 }
 
 .isqmenu2 {
-    grid-area: 1 / 3 / 2 / 3;
+    grid-area: 1 / 1 / 2 / 2;
+    padding-left: 35px;
 }
 
 .isqmenu3 {
     grid-area: 1 / 5 / 2 / 5;
-    grid-area: 1 / 5 / 2 / 5;
     justify-items: end;
-    padding-right: 15px;
+    padding-right: 10px;
     align-content: end;
 }
 
@@ -123,13 +124,12 @@
 .header .menu a:hover {
     color: deepskyblue;
 }
-
 .header .sidemenu-toggler {
     position: absolute;
     width: 40px;
     padding: 6px;
-    top: 10px;
-    left: 20px;
+    top: 5px;
+    left: 5px;
     z-index: 999;
 }
 

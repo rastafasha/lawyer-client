@@ -13,7 +13,6 @@ import { LoginComponent } from './auth/login/login.component';
 import { CategoriaComponent } from './pages/categoria/categoria.component';
 import { EspecialistaComponent } from './pages/especialista/especialista.component';
 import { AuthGuard } from './guards/auth.guard';
-import { BannerComponent } from './pages/admin/banner/banner.component';
 import { ChatComponent } from './pages/chat/chat.component';
 import { ReportarPagoComponent } from './pages/wallet/reportar-pago/reportar-pago.component';
 import { MisNotificacionesComponent } from './pages/mis-notificaciones/mis-notificaciones.component';
@@ -41,8 +40,6 @@ export const routes: Routes = [
     {path: 'profile/documents/file/:id', component: FilesComponent},
     {path: 'presupuestos', component: PresupuestoListComponent},
     
-    
-    {path: 'admin/banners', component: BannerComponent},
     
     //wallet
     {path: 'notificaciones', canActivate: [AuthGuard], component: MisNotificacionesComponent},

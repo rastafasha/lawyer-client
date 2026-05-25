@@ -1,33 +1,34 @@
 <app-loading *ngIf="isLoading" [loadingTitle]="loadingTitle"></app-loading>
- <ul class="post" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
+ <div class="listaespecialista" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollUpDistance]="2"
     [infiniteScrollThrottle]="50" (scrolled)="onScrollDown()" (scrolledUp)="onScrollUp()"
     [class.refreshing]="isRefreshing">
     <div class="pull-down-indicator" *ngIf="isRefreshing">
       <app-loading></app-loading>
       <p class="text-center">refrescando ...</p>
     </div>
-    <li class="group" *ngIf="!isLoading">
+
+    <div class="group" *ngIf="!isLoading">
       <h3>{{'Especialistas'|translate}}</h3>
       <br>
-      <div class="div-group" *ngFor="let item of usuarios">
+      <div class="div-group card shadow-sm" *ngFor="let item of usuarios">
         <div class="foto">
-          <div class="post-date">
-            <a [routerLink]="['/especialista/', item.uid]">
-              <img [src]="(item.profile?.img|| '') | imagenPipe : 'profiles'" alt="" />
-            </a>
-          </div>
+          <a [routerLink]="['/especialista/', item.uid]">
+            <img [src]="(item.profile?.img|| '') | imagenPipe : 'profiles'" alt="" />
+          </a>
         </div>
         <div class="info">
-          <h2>{{ item.username }}</h2>
+          <div class="data">
+            <h2>{{ item.username }}</h2>
           <h3>{{ item.profile?.especialidad?.nombre }}</h3>
-          <div class="div1-home">
+          </div>
+          <div class="verif">
             <div *ngIf="item.profile?.status === 'VERIFIED'" style="color: gold">
                         <i class="fas fa-trophy"></i>
                       </div>
-            <app-ratingStar></app-ratingStar>
+            <!-- <app-ratingStar></app-ratingStar> -->
           </div>
         </div>
       </div>
-    </li>
+    </div>
 
-  </ul>
+  </div>

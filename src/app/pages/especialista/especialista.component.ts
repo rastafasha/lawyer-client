@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
 import { Precios, Profile, RedesSociales } from '../../models/profile.model';
 import { Speciality } from '../../models/speciality.model';
-import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { ProfileService } from '../../services/profile.service';
 import { SpecialitiesService } from '../../services/specialities.service';
 import { CommonModule, NgFor } from '@angular/common';
 import { ActivatedRoute, RouterLink, RouterModule } from '@angular/router';
-import { LateralComponent } from '../../components/lateral/lateral.component';
 import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SolicitudesService } from '../../services/solicitudes.service';
 import { Solicitud } from '../../models/solicitud.model';
 import { ImagenPipe } from '../../pipes/imagen.pipe';
 import { LoadingComponent } from '../../shared/loading/loading.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { PaymentmethodService } from '../../services/paymentmethod.service';
-import { FavoritesService } from '../../services/favorites.service';
 import { ToastrService } from 'ngx-toastr';
 import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
+import { PublicidadComponent } from '../../components/publicidad/publicidad.component';
 
 @Component({
   selector: 'app-especialista',
@@ -28,7 +26,7 @@ import { RatingStarComponent } from '../../components/ratingStar/ratingStar.comp
     CommonModule,
     HeaderComponent,
     MenuFooterComponent,
-    LateralComponent,
+    PublicidadComponent,
     BackButtnComponent,
     NgFor,
     FormsModule,
@@ -64,6 +62,8 @@ export class EspecialistaComponent {
   profile_id?: string;
   rating!: number;
   tiposdePagoUser: any[] = [];
+   option_selectedd: number = 1;
+    solicitud_selectedd: any = 1;
 
   userForm: FormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
@@ -96,6 +96,18 @@ export class EspecialistaComponent {
       this.getProfile(id);
     });
   }
+
+  optionSelected(value: number) {
+      this.option_selectedd = value;
+      if (this.option_selectedd === 1) {
+  
+        // this.getdocumentsbyUser();
+      }
+      if (this.option_selectedd === 2) {
+        // this.getShared();
+      }
+    }
+
 
   getProfile(id: number) {
     this.isLoading = true;
