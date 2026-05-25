@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { MenuFooterComponent } from '../../shared/menu-footer/menu-footer.component';
@@ -6,8 +7,6 @@ import { AvisoComponent } from '../../components/aviso/aviso.component';
 import { CategoriaHorizontalComponent } from '../../components/categoria-horizontal/categoria-horizontal.component';
 import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
 import { ListProductsComponent } from '../../components/list-products/list-products.component';
-import { CommonModule } from '@angular/common';
-import { BackButtnComponent } from '../../shared/backButtn/backButtn.component';
 import { AuthService } from '../../services/auth.service';
 import { Profile } from '../../models/profile.model';
 import { Router } from '@angular/router';
@@ -28,7 +27,6 @@ import { PwaNotifInstallerComponent } from "../../shared/pwa-notif-installer/pwa
     SliderHorizontalComponent,
     ListProductsComponent,
     CommonModule,
-    BackButtnComponent,
     TranslateModule,
     ModalInstruccionesComponent,
     PwaNotifInstallerComponent

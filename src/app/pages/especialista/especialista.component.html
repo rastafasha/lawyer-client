@@ -38,7 +38,7 @@
                       <span class="badge bg-danger" *ngIf="profile.status === 'REVIEW'">{{'For Review'|translate}}
                       </span>
                     </div>
-                    <app-ratingStar></app-ratingStar>
+                    <app-ratingStar [profile]="profile"></app-ratingStar>
                   </div>
 
 
@@ -50,6 +50,10 @@
               </div>
 
             </div>
+            <!--banner publicidad-->
+            <app-slider-horizontal></app-slider-horizontal>
+
+            <!--banner publicidad-->
             <div class="tab-content-set" *ngIf="!isLoading">
               <ul class="nav">
                 <li>
@@ -123,39 +127,12 @@
               </div>
             </div>
             <div *ngIf="option_selectedd == 2">
-              <div class="card  shadow p-2">
-                <h5 class="text-center">Comentarios</h5>
-                <div class="card-body">
-                  <div class="coment_user">
-                    <div class="cu_image">
-                      <img src="https://picsum.photos/seed/1920/120" alt="" />
-                    </div>
-                    <div class="cu_info">
-                      <h4>Nombre usuario</h4>
-                      <h5>fecha</h5>
-                    </div>
-                  </div>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatibus.</p>
-                  <div class="stars">
-                    <ul class="star-rating">
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li class="active"><i class="fa fa-star "></i></li>
-                      <li><i class="fa fa-star "></i></li>
-                    </ul>
-                  </div>
-                </div>
-
-              </div>
+              <app-comentarios [user_id]="user_id"></app-comentarios>
             </div>
 
 
 
-            <!--banner publicidad-->
-            <app-slider-horizontal></app-slider-horizontal>
-
-            <!--banner publicidad-->
+            
           </div>
 
         </div>

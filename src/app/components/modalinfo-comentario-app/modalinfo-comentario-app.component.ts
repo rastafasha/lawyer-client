@@ -6,6 +6,7 @@ import { ComentarioappService } from '../../services/comentarioapp.service';
 import { Usuario } from '../../models/usuario.model';
 import { AuthService } from '../../services/auth.service';
 import { Solicitud } from '../../models/solicitud.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-modalinfo-comentario-app',
@@ -15,7 +16,7 @@ import { Solicitud } from '../../models/solicitud.model';
 })
 export class ModalinfoComentarioAppComponent implements AfterViewInit{
   
-  @Input() solicitud_selected!:Solicitud;
+  @Input() solicitud_selected!:any;
   isLogued: boolean = false;
 
   public comentarios :any=[];
@@ -56,10 +57,10 @@ export class ModalinfoComentarioAppComponent implements AfterViewInit{
   private router = inject(Router);
   private _comentarioService = inject(ComentarioappService);
   private authService = inject(AuthService);
+  private toastr = inject(ToastrService);
 
   ngAfterViewInit() {
     this.user = this.authService.getLocalStorage();
-
     // Check if dismissed
     if (localStorage.getItem('modalComentariosDismissed')) {
       return;
@@ -96,7 +97,7 @@ saveComent(reviewForm: { valid: any; value: { review_comentario: any; review_pro
       pros: reviewForm.value.review_pros,
       cons: reviewForm.value.review_cons,
       estrellas: reviewForm.value.review_estrellas,
-      usuario: this.solicitud_selected.usuario.uid,
+      usuario: this.solicitud_selected.usuario._id,
       cliente: this.user.uid,
       solicitud: this.solicitud_selected._id,
     }
@@ -107,6 +108,7 @@ saveComent(reviewForm: { valid: any; value: { review_comentario: any; review_pro
         this.review_pros='';
         this.review_cons='';
         this.review_estrellas='';
+        this.toastr.success('Gracias!, Se ha enviado tus comentarios');
       },
       error=>{
         this.msm_error_review = error.error.message;
@@ -114,6 +116,7 @@ saveComent(reviewForm: { valid: any; value: { review_comentario: any; review_pro
         this.review_pros='';
         this.review_cons='';
         this.review_estrellas='';
+        this.toastr.error('Error, Hubo un error enviando la información')
       }
     );
     this.onNoShowMore();

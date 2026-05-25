@@ -13,6 +13,7 @@ import { Client } from '../../models/client.model';
     styleUrls: ['./ratingStar.component.scss']
 })
 export class RatingStarComponent {
+    @Input() stars!: any;
     @Input() profile!: Profile;
     @Input() client!: Client ;
     @Output() ratingChanged: EventEmitter<number> = new EventEmitter<number>();

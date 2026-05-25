@@ -1,0 +1,66 @@
+@for (coment of comentarios(); track coment._id) {
+
+<div class="card shadow-sm p-2">
+    <div class="card-body">
+        <div class="coment_user">
+            <div class="cu_info">
+                <h4>Usuario: {{coment.cliente.username}}</h4>
+                <small>Creado: {{coment.createdAt| date:'dd/MM/yyyy'}}</small>
+            </div>
+            <div class="stars">
+                <ul class="star-rating" *ngIf="coment.estrellas === 5">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="coment.estrellas >= 4 && coment.estrellas < 5">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="coment.estrellas >= 3 && coment.estrellas < 4">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="coment.estrellas >= 2 && coment.estrellas < 3">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="coment.estrellas >= 1 && coment.estrellas < 2">
+                    <li class="active"><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                </ul>
+                <ul class="star-rating" *ngIf="coment.estrellas >= 0 && coment.estrellas < 1">
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                    <li><i class="fa fa-star "></i></li>
+                </ul>
+            </div>
+        </div>
+        <div class="infocommet bg-light rounded-4 p-3 mb-4">
+            <p>Solicitud: {{coment.solicitud.pedido[0].item_tarifa}}</p>
+            <p>Comentario: {{coment.comentario}}</p>
+            <p>Pros: {{coment.pros}}</p>
+            <p>Contra: {{coment.cons}}</p>
+        </div>
+
+
+    </div>
+
+</div>
+}

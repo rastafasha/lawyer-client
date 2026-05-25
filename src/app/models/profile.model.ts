@@ -1,4 +1,5 @@
 import { environment } from "../../environments/environment";
+import { ComentarioApp } from "./comentarioapp.model";
 import { Favorite } from "./favorite.model";
 import { Payment } from "./payment";
 import { Speciality } from "./speciality.model";
@@ -30,7 +31,7 @@ export class Profile {
     // public subcription: subcriptionPaypal[] = [],
     public createdAt: Date,
     public updatedAt: Date,
-    public rating?:number,
+    public rating?:ComentarioApp,
     public status?: 'PENDING' | 'REVIEW' | 'VERIFIED',
     public articulosVistos?: number,
     public usuario?: Usuario,

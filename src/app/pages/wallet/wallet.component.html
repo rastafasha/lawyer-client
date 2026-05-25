@@ -17,8 +17,8 @@
       <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
         'border-primary': item.status === 'PENDING',
            'border-success': item.status === 'VERIFIED',
-           'border-warning': item.status === 'REVIEW',
-           'border-danger': item.status === 'FINISHED'
+           'border-danger': item.status === 'REVIEW',
+           'border-warning': item.status === 'FINISHED'
          }">
         <div class="card-body p-3">
           <!-- Fila Superior: Fecha y Estatus -->
@@ -39,12 +39,12 @@
             }
             @if (item.status === 'REVIEW') {
             <span
-              class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle px-3">Rechazado</span>
+              class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">Revisión</span>
 
             }
             @if (item.status === 'FINISHED') {
             <span
-              class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">Finalizado</span>
+              class="badge rounded-pill bg-warning-subtle text-warning border border-warning-subtle px-3">Finalizado</span>
 
             }
 
@@ -118,10 +118,10 @@
       </span>
       <span class="badge bg-success" *ngIf="solicitud_selected.status === 'VERIFIED'">{{'Verified'|translate}}
       </span>
-      <span class="badge bg-warning" *ngIf="solicitud_selected.status === 'REVIEW'">
+      <span class="badge bg-danger" *ngIf="solicitud_selected.status === 'REVIEW'">
         {{'For Review'|translate}}
       </span>
-      <span class="badge bg-success" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finalizado'|translate}}
+      <span class="badge bg-warning" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finalizado'|translate}}
       </span>
       <p> {{'Description'|translate}}: {{solicitud_selected.pedido[0].item_tarifa}}</p>
 

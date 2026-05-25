@@ -1,4 +1,5 @@
-import { Tienda } from "./tienda.model";
+
+import { Solicitud } from "./solicitud.model";
 import { Usuario } from "./usuario.model";
 
 export class ComentarioApp{
@@ -8,8 +9,9 @@ export class ComentarioApp{
         public pros: string,
         public cons: number,
         public estrellas: string,
-        public user: Usuario,
-        public tienda: Tienda,
+        public usuario: Usuario,
+        public cliente: Usuario,
+        public solicitud: Solicitud,
         public createdAt: Date,
         public updatedAt: Date,
     ){

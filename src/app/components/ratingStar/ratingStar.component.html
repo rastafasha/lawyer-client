@@ -1,56 +1,53 @@
 <div class="stars">
   <ul class="star-rating">
-    <li *ngFor="let star of [1,2,3,4,5]" 
-        (mouseenter)="onMouseEnter(star)" 
-        (mouseleave)="onMouseLeave()" 
-        (click)="onClick(star)" 
-        [class.active]="(hoverRating ? star <= hoverRating : star <= rating)">
+    <li *ngFor="let star of [1,2,3,4,5]" (mouseenter)="onMouseEnter(star)" (mouseleave)="onMouseLeave()"
+      (click)="onClick(star)" [class.active]="(hoverRating ? star <= hoverRating : star <= rating)">
       <i class="fa fa-star"></i>
     </li>
   </ul>
 </div>
-  <!-- <div class="stars">
+<!-- <div class="stars">
 
-                      <ul class="star-rating" *ngIf="rating === 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 4 && rating < 5">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 3 && rating < 4">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 2 && rating < 3">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 1 && rating < 2">
-                        <li class="active"><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                      <ul class="star-rating" *ngIf="rating >= 0 && rating < 1">
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                        <li><i class="fa fa-star "></i></li>
-                      </ul>
-                    </div> -->
+  <ul class="star-rating" *ngIf="profile.rating.estrellas === 5">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating.e >= 4 && profile.rating < 5">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 3 && profile.rating < 4">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 2 && profile.rating < 3">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 1 && profile.rating < 2">
+    <li class="active"><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+  <ul class="star-rating" *ngIf="profile.rating >= 0 && profile.rating < 1">
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+    <li><i class="fa fa-star "></i></li>
+  </ul>
+</div> -->

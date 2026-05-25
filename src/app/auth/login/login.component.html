@@ -2,6 +2,7 @@
   <div class="forms-container">
     <div class="signin-signup">
       <!-- login -->
+       <!-- <app-loading *ngIf="isLoading" ></app-loading> -->
       <form action="#" class="sign-in-form" [formGroup]="loginForm" (ngSubmit)="login()">
         <h2 class="title">{{'auth.login'|translate}}</h2>
         <div class="input-field">
@@ -70,7 +71,8 @@
         </div>
       </form>
       <!-- registro -->
-      <form action="#" class="sign-up-form" [formGroup]="registerForm" (ngSubmit)="crearUsuario()">
+       <!-- <app-loading *ngIf="isLoadingRegistro" ></app-loading> -->
+      <form   action="#" class="sign-up-form" [formGroup]="registerForm" (ngSubmit)="crearUsuario()">
         <h2 class="title">{{'auth.signup'|translate}}</h2>
         <div class="input-field">
           <i class="fa fa-user"></i>

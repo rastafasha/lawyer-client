@@ -19,6 +19,7 @@ import { PaymentmethodService } from '../../services/paymentmethod.service';
 import { ToastrService } from 'ngx-toastr';
 import { RatingStarComponent } from '../../components/ratingStar/ratingStar.component';
 import { SliderHorizontalComponent } from '../../components/slider-horizontal/slider-horizontal.component';
+import { ComentariosComponent } from './comentarios/comentarios.component';
 
 @Component({
   selector: 'app-especialista',
@@ -35,7 +36,8 @@ import { SliderHorizontalComponent } from '../../components/slider-horizontal/sl
     LoadingComponent,
     TranslateModule,
     RouterModule,
-    RatingStarComponent
+    RatingStarComponent,
+    ComentariosComponent
   ],
   templateUrl: './especialista.component.html',
   styleUrl: './especialista.component.scss'
@@ -62,8 +64,8 @@ export class EspecialistaComponent {
   profile_id?: string;
   rating!: number;
   tiposdePagoUser: any[] = [];
-   option_selectedd: number = 1;
-    solicitud_selectedd: any = 1;
+  option_selectedd: number = 1;
+  solicitud_selectedd: any = 1;
 
   userForm: FormGroup = new FormGroup({
     firstName: new FormControl('', [Validators.required]),
@@ -80,7 +82,6 @@ export class EspecialistaComponent {
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private specialityService: SpecialitiesService,
     private solicitudService: SolicitudesService,
     private activatedRoute: ActivatedRoute,
     private paymentService: PaymentmethodService,
@@ -98,15 +99,15 @@ export class EspecialistaComponent {
   }
 
   optionSelected(value: number) {
-      this.option_selectedd = value;
-      if (this.option_selectedd === 1) {
-  
-        // this.getdocumentsbyUser();
-      }
-      if (this.option_selectedd === 2) {
-        // this.getShared();
-      }
+    this.option_selectedd = value;
+    if (this.option_selectedd === 1) {
+
+      // this.getdocumentsbyUser();
     }
+    if (this.option_selectedd === 2) {
+      // this.getShared();
+    }
+  }
 
 
   getProfile(id: number) {
@@ -141,7 +142,7 @@ export class EspecialistaComponent {
     })
   }
 
-  
+
 
   getPaymentMethods() {
     this.paymentService.getByUser(this.user_id).subscribe((resp: any) => {

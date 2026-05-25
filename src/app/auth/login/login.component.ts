@@ -8,7 +8,7 @@ import { ModalCondicionesComponent } from '../../components/modal-condiciones/mo
 import { NgIf } from '@angular/common';
 import { PwaNotifInstallerComponent } from '../../shared/pwa-notif-installer/pwa-notif-installer.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PlacesService } from '../../services/places.service';
+import { LoadingComponent } from '../../shared/loading/loading.component';
 declare const gapi: any;
 
 
@@ -16,7 +16,8 @@ declare const gapi: any;
   selector: 'app-login',
   imports: [ReactiveFormsModule, ModalCondicionesComponent,
     NgIf, TranslateModule,
-    PwaNotifInstallerComponent
+    PwaNotifInstallerComponent,
+    LoadingComponent
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
@@ -34,6 +35,7 @@ export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
   submitted = false;
+  isLoadingRegistro = false;
   loginError!: string;
   error = null;
   public auth2: any;
@@ -104,7 +106,7 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    this.isLoading = true;
+    // this.isLoading = true;
     this.authService.login(this.loginForm.value).subscribe(
       resp => {
         localStorage.setItem('estaAutenticado', 'true');
@@ -115,9 +117,10 @@ export class LoginComponent implements OnInit {
         } else {
           localStorage.removeItem('email');
         }
-
+        // this.isLoading = false;
         this.router.navigateByUrl('/home');
       }, (err) => {
+        // this.isLoading = false;
         Swal.fire('Error', err.error.msg, 'error');
       }
     )
@@ -143,6 +146,7 @@ nextStep() {
 
   // Registro
   crearUsuario() {
+    // this.isLoadingRegistro = true;
     this.formSumitted = true;
     if (this.registerForm.invalid) return;
 
@@ -157,7 +161,7 @@ nextStep() {
 
         // 2. Ahora sí actualizamos el estado del servicio
         this.authService.getLocalStorage();
-
+        // this.isLoadingRegistro = false;
         // 3. Mostramos el Swal y redirigimos
         Swal.fire({
           title: '¡Gracias por Registrarte!',
@@ -171,6 +175,7 @@ nextStep() {
         });
       },
       error: (err) => {
+        // this.isLoadingRegistro = false;
         Swal.fire('Error', err.error.msg || 'No se pudo completar el registro', 'error');
       }
     });

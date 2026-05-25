@@ -23,7 +23,10 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       const serverMessage = error.error?.msg;
 
       if (error.status === 401 || serverMessage === 'Token no valido') {
-        localStorage.clear();
+        // localStorage.clear();
+        localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('estaAutenticado');
         
         Swal.fire({
           title: 'Sesión expirada',

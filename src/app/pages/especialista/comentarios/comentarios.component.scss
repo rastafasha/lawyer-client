@@ -1,0 +1,35 @@
+.stars {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-right: 13px;
+    & ul {
+        display: inline-flex;
+        margin: 0;
+        padding: 0;
+        & li {
+            list-style: none;
+            color: var(--grisfondo);
+        }
+    }
+    & .fa {
+        font-size: 14px;
+    }
+}
+.active .fa{
+    color: gold;
+}
+.coment_user{
+    display: flex;
+    justify-content: space-between;
+    gap:15px;
+    margin-bottom: 15px;
+}
+.cu_info h4{
+    margin: 0;
+    padding: 0;
+}
+.infocommet p{
+    margin: 0;
+    padding: 0;
+}
