@@ -4,6 +4,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ComentarioappService } from '../../services/comentarioapp.service';
 import { Usuario } from '../../models/usuario.model';
+import { AuthService } from '../../services/auth.service';
+import { Solicitud } from '../../models/solicitud.model';
 
 @Component({
   selector: 'app-modalinfo-comentario-app',
@@ -12,8 +14,8 @@ import { Usuario } from '../../models/usuario.model';
   styleUrl: './modalinfo-comentario-app.component.scss'
 })
 export class ModalinfoComentarioAppComponent implements AfterViewInit{
-  @Input() nombreSelected!:string;
-  @Input() localId!:string;
+  
+  @Input() solicitud_selected!:Solicitud;
   isLogued: boolean = false;
 
   public comentarios :any=[];
@@ -49,23 +51,22 @@ export class ModalinfoComentarioAppComponent implements AfterViewInit{
   public msm_success_fav = false;
   public msm_success = false;
   public identity!:Usuario;
+  user:any;
 
   private router = inject(Router);
   private _comentarioService = inject(ComentarioappService);
+  private authService = inject(AuthService);
 
   ngAfterViewInit() {
-    const USER = localStorage.getItem("user");
-    this.isLogued = USER ? true : false;
-    if(USER){
-      this.identity = JSON.parse(USER);
-    }
+    this.user = this.authService.getLocalStorage();
+
     // Check if dismissed
-    if (localStorage.getItem('modalInicialDismissed')) {
+    if (localStorage.getItem('modalComentariosDismissed')) {
       return;
     }
     // Auto open modal after DOM ready
     setTimeout(() => {
-      const modalElement = document.getElementById('exampleModal');
+      const modalElement = document.getElementById('modalComentarios');
       if (modalElement) {
         const modal = new (window as any).bootstrap.Modal(modalElement);
         modal.show();
@@ -74,8 +75,8 @@ export class ModalinfoComentarioAppComponent implements AfterViewInit{
   }
 
   onNoShowMore() {
-    localStorage.setItem('modalInicialDismissed', 'true');
-    const modalElement = document.getElementById('exampleModal');
+    localStorage.setItem('modalComentariosDismissed', 'true');
+    const modalElement = document.getElementById('modalComentarios');
     if (modalElement) {
       const modal = (window as any).bootstrap.Modal.getInstance(modalElement);
       if (modal) {
@@ -95,8 +96,9 @@ saveComent(reviewForm: { valid: any; value: { review_comentario: any; review_pro
       pros: reviewForm.value.review_pros,
       cons: reviewForm.value.review_cons,
       estrellas: reviewForm.value.review_estrellas,
-      user: this.identity.uid,
-      tienda: this.localId,
+      usuario: this.solicitud_selected.usuario.uid,
+      cliente: this.user.uid,
+      solicitud: this.solicitud_selected._id,
     }
     this._comentarioService.create(data).subscribe(
       (response:any) =>{

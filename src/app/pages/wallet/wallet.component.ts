@@ -17,6 +17,7 @@ import { Profile, RedesSociales } from '../../models/profile.model';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ModalinfoComentarioAppComponent } from '../../components/modalinfo-comentario-app/modalinfo-comentario-app.component';
 
 declare var bootstrap: any;
 @Component({
@@ -31,7 +32,8 @@ declare var bootstrap: any;
     LoadingComponent, NgIf,
     FormsModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    ModalinfoComentarioAppComponent
   ],
   templateUrl: './wallet.component.html',
   styleUrl: './wallet.component.scss'

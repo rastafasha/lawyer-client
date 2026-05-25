@@ -1,20 +1,20 @@
 <app-header></app-header>
-<section class=" home" >
+<section class=" home">
   <div class="container mt-4 animate fadeIn" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="400"
     (scrolled)="onScroll()">
-  <div class="pull-down-indicator" *ngIf="isRefreshing">
-    <app-loading></app-loading>
-    <p class="text-center">
-      {{'Refreshing'|translate}} ...
-    </p>
-  </div>
+    <div class="pull-down-indicator" *ngIf="isRefreshing">
+      <app-loading></app-loading>
+      <p class="text-center">
+        {{'Refreshing'|translate}} ...
+      </p>
+    </div>
 
-  <app-loading *ngIf="isLoading"></app-loading>
-  <div  *ngIf="!isLoading">
-    <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
-    <!-- solicitudes -->
-     @for (item of solicitudes(); track item._id) {
-        <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
+    <app-loading *ngIf="isLoading"></app-loading>
+    <div *ngIf="!isLoading">
+      <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+      <!-- solicitudes -->
+      @for (item of solicitudes(); track item._id) {
+      <div class="card border-0 shadow-sm mb-3 border-start border-4" [ngClass]="{
         'border-primary': item.status === 'PENDING',
            'border-success': item.status === 'VERIFIED',
            'border-warning': item.status === 'REVIEW',
@@ -44,7 +44,7 @@
             }
             @if (item.status === 'FINISHED') {
             <span
-              class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">Rechazado</span>
+              class="badge rounded-pill bg-danger-subtle text-danger border border-danger-subtle px-3">Finalizado</span>
 
             }
 
@@ -69,14 +69,14 @@
       </div>
       }
 
-      
 
-  </div>
-   <!-- Spinner estilo Instagram usando la señal loading -->
+
+    </div>
+    <!-- Spinner estilo Instagram usando la señal loading -->
     @if (!loading()) {
 
     <!-- Caso A: Se terminó el scroll normal -->
-    @if (!hasMore()  && solicitudes().length > 0) {
+    @if (!hasMore() && solicitudes().length > 0) {
     <div class="text-center my-4 animate fadeIn">
       <p class="text-muted small">
         <i class="fas fa-check-circle me-1"></i> Has llegado al final del historial
@@ -121,15 +121,17 @@
       <span class="badge bg-warning" *ngIf="solicitud_selected.status === 'REVIEW'">
         {{'For Review'|translate}}
       </span>
-      <span class="badge bg-success" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finished'|translate}}
+      <span class="badge bg-success" *ngIf="solicitud_selected.status === 'FINISHED'">{{'Finalizado'|translate}}
       </span>
       <p> {{'Description'|translate}}: {{solicitud_selected.pedido[0].item_tarifa}}</p>
-      
+
       <h4>{{'Price'|translate}}: {{solicitud_selected.pedido[0].precio|currency}}</h4>
       @if (solicitud_selected.status === 'VERIFIED' && solicitud_selected.pago?.status ==='APROVED') {
-            <span
-              class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">Pagado</span>
-            }
+      <span class="badge rounded-pill bg-success-subtle text-success border border-success-subtle px-3">Pagado</span>
+      }
+      @if (solicitud_selected.status === 'FINISHED' && solicitud_selected.pago?.status ==='APROVED') {
+      <app-modalinfo-comentario-app [solicitud_selected]="solicitud_selected"></app-modalinfo-comentario-app>
+      }
 
       <small class="mt-2">Fecha Solicitud: {{ solicitud_selected.createdAt | date:'medium' }}</small>
       <small>Fecha Aceptada: {{ solicitud_selected.updatedAt | date:'medium' }}</small>
@@ -150,17 +152,18 @@
 
       </div>
     </div>
-    
-     <!-- Botón tipo Binance -->
-      <div class="tc_actions mt-3" *ngIf="solicitud_selected.status === 'VERIFIED' && solicitud_selected.pago?.status ==='PENDING' || solicitud_selected.pago?.status ==='REFUSED'" >
-        <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-2"
-      (click)="reportarPago(solicitud_selected._id)">
-      PAGAR AHORA
-    </button>
-      </div>
-      
 
-       
+    <!-- Botón tipo Binance -->
+    <div class="tc_actions mt-3"
+      *ngIf="solicitud_selected.status === 'VERIFIED' && solicitud_selected.pago?.status ==='PENDING' || solicitud_selected.pago?.status ==='REFUSED'">
+      <button class="btn btn-primary w-100 py-3 rounded-pill fw-bold shadow-sm mb-2"
+        (click)="reportarPago(solicitud_selected._id)">
+        PAGAR AHORA
+      </button>
+    </div>
+
+
+
 
   </div>
 

@@ -1,15 +1,19 @@
 <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalComentarios" tabindex="-1" aria-labelledby="comentariosModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header">
+          <h5 class="modal-title" id="terminosModalLabel">Comentarios</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
             <div class="modal-body">
 
                 <div class="row pb-3">
                     
-                    <div class="col-md-12 mt-2 pt-4 mt-md-0 pt-md-0">
+                    <div class="col-md-12  mt-md-0 pt-md-0">
                         <div class="bg-secondary py-grid-gutter px-grid-gutter rounded-lg"
                             style="background: white !important;">
-                            <p >Gracias por usar nuestra aplicación, para finalizar, cómo ha sido tu experiencia con esta aplicacion?, solo lo haremos una vez.</p>
+                            <p >Cómo ha sido tu experiencia?.</p>
                             <!-- <p class="h4 pb-2">¿Qué te ha parecido la integración de esta aplicación al negocio?</p> -->
                             <form #reviewForm="ngForm" (ngSubmit)="saveComent(reviewForm)">
                                 <div class="form-group" *ngIf="msm_error_review">
@@ -50,7 +54,7 @@
                                     <textarea class="form-control" rows="2" placeholder="Lo malo" name="review_cons"
                                         [(ngModel)]="review_cons"></textarea>
                                 </div>
-                                <ng-container *ngIf="identity">
+                                <ng-container>
                                     <button type="button" class="btn btn-outline-primary btn-shadow" data-bs-dismiss="modal">Opinaré luego</button>
                                     &nbsp;
                                     <button class="btn btn-outline-success btn-shadow btn-block" type="submit">Enviar

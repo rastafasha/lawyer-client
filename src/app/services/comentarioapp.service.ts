@@ -26,7 +26,7 @@ export class ComentarioappService {
   }
   
     create(data: any){
-      const url = `${base_url}/comentariosapp/store`;
+      const url = `${base_url}/comentarios/store`;
       return this.http.post(url, data, this.headers);
     }
 
