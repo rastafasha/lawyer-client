@@ -8,7 +8,6 @@ import { SettingsComponent } from './pages/profile/settings/settings.component';
 import { EditComponent } from './pages/profile/edit/edit.component';
 import { DocumentsComponent } from './pages/profile/documents/documents.component';
 import { FilesComponent } from './pages/profile/documents/files/files.component';
-import { OrderComponent } from './pages/wallet/order/order.component';
 import { LoginComponent } from './auth/login/login.component';
 import { CategoriaComponent } from './pages/categoria/categoria.component';
 import { EspecialistaComponent } from './pages/especialista/especialista.component';
@@ -44,7 +43,6 @@ export const routes: Routes = [
     //wallet
     {path: 'notificaciones', canActivate: [AuthGuard], component: MisNotificacionesComponent},
     {path: 'solicitudes', canActivate: [AuthGuard], component: WalletComponent},
-    {path: 'orders', component: OrderComponent},
     {path: 'reportar-pago/:id', component: ReportarPagoComponent},
     {path: 'mis-pagos', component: MisPagosComponent},
     
