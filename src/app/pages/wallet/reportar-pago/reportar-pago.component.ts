@@ -14,6 +14,7 @@ import { AuthService } from '../../../services/auth.service';
 import { PaymentService } from '../../../services/payment.service';
 import { SolicitudesService } from '../../../services/solicitudes.service';
 import { Solicitud } from '../../../models/solicitud.model';
+import { TasabcvService } from '../../../services/tasabcv.service';
 
 
 @Component({
@@ -27,8 +28,7 @@ import { Solicitud } from '../../../models/solicitud.model';
 export class ReportarPagoComponent {
   title = 'Volver';
   isLoading = false;
-  // tasa = signal(0);
-  tasa = 508;
+  tasa = signal(0);
   imagePreview = signal<string | null>(null);
   userId!: string;
   paymentSelected!: any;
@@ -69,6 +69,7 @@ export class ReportarPagoComponent {
   private paymentService = inject(PaymentService);
   private paymenttiposService = inject(PaymentmethodService);
   private fileUploadService = inject(FileUploadService);
+  private tasabcvService = inject(TasabcvService);
 
   
 
@@ -174,7 +175,7 @@ enviarPago() {
           solicitud: solicitudId === 'DEUDA_TOTAL' ? null : solicitudId,
           
           // Campos de auditoría heredados de tu pasarela de Parque Central
-          tasaBCV: this.tasa,
+          tasaBCV: this.tasa(),
           metodo_pago: this.paymentSelected?.tipo,
           bank_destino: this.paymentForm.get('bank_destino')?.value,
           esPagoTotal: solicitudId === 'DEUDA_TOTAL'
@@ -219,9 +220,9 @@ enviarPago() {
   }
 
   getTasadelDia() {
-    // this.tasaBcvService.getUltimaTasa().subscribe((resp: any) => {
-    //   this.tasa.set(resp.precio_dia);
-    // })
+    this.tasabcvService.getUltimaTasa().subscribe((resp: any) => {
+      this.tasa.set(resp.precio_dia);
+    })
   }
 
   onFileSelected(event: any) {

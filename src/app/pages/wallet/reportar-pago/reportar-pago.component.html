@@ -28,9 +28,9 @@
         <div class="text-end">
           <!-- Cálculo en tiempo real según la tasa del servicio -->
           <h5 class="mb-0 fw-bold text-primary">
-            {{ (paymentForm.get('amount')?.value * tasa) | currency:'Bs. ':'symbol':'1.2-2' }}
+            {{ (paymentForm.get('amount')?.value * tasa()) | currency:'Bs. ':'symbol':'1.2-2' }}
           </h5>
-          <small class="text-primary opacity-75">Tasa BCV: {{ tasa }} Bs.</small>
+          <small class="text-primary opacity-75">Tasa BCV: {{ tasa() }} Bs.</small>
         </div>
       </div>
     </div>
@@ -120,7 +120,7 @@
             <label class="form-label text-muted small fw-bold">EQUIVALENTE BS.</label>
             <div
               class="py-3 px-2 bg-success-subtle text-success fw-bold rounded-3 text-center border border-success border-opacity-10">
-              {{ (paymentForm.get('amount')?.value * tasa) | number:'1.2-2' }}
+              {{ (paymentForm.get('amount')?.value * tasa()) | number:'1.2-2' }}
             </div>
           </div>
         </div>
