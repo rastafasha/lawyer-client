@@ -43,7 +43,7 @@ declare var bootstrap: any;
   styleUrl: './favorites.component.scss'
 })
 export class FavoritesComponent {
-   @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
+  @Output() closeModal: EventEmitter<void> = new EventEmitter<void>();
 
   pageTitle = 'Favorites';
   loadingTitle!: string;
@@ -58,9 +58,9 @@ export class FavoritesComponent {
   characters: Array<any> = [];
   favorites: Array<Favorite> = [];
   nextUrl: string = '';
-  specialists!:Client[]
-  usuario_selected:any;
-  client:any;
+  specialists!: Client[]
+  usuario_selected: any;
+  client: any;
   profile!: Profile;
   public redessociales!: RedesSociales[];
 
@@ -78,13 +78,11 @@ export class FavoritesComponent {
     this.favoritesByUser();
     this.validarFormularioPerfil();
     this.searchForm.reset();
-    
+
     this.rol = this.user.role;
     // this.getCharactrs();
   }
 
-  
- 
 
   favoritesByUser() {
     this.clientService.getMySpecialists(this.user.uid).subscribe((resp: any) => {
@@ -93,10 +91,10 @@ export class FavoritesComponent {
     })
   }
 
-   abrirDetalle(usuario: any) {
+  abrirDetalle(usuario: any) {
     this.usuario_selected = usuario;
     // 1. Abrir Offcanvas
-    const el = document.getElementById('offcanvasNotif');
+    const el = document.getElementById('offcanvasFav');
     const bsOffcanvas = new bootstrap.Offcanvas(el);
     bsOffcanvas.show();
     this.getClienteContact();
@@ -106,13 +104,13 @@ export class FavoritesComponent {
     this.isLoadingFicha = true;
     this.profileService.getByUser(this.usuario_selected).subscribe((resp: any) => {
       this.profile = resp;
-      
+
       // this.client_id = this.client.uid;
       this.profile = resp.profile;
       this.redessociales = typeof resp.profile.redssociales === 'string'
         ? JSON.parse(resp[0].profile.redssociales) || []
         : resp.profile.redssociales || [];
-        this.isLoadingFicha = false;
+      this.isLoadingFicha = false;
     })
   }
 
@@ -132,7 +130,7 @@ export class FavoritesComponent {
       if (result.isConfirmed) {
         this.clientService.removeClient(cliente_selected).subscribe(
           response => {
-            this.closeModal.emit();
+            this.onClose();
             this.ngOnInit();
           }
         )
@@ -141,7 +139,7 @@ export class FavoritesComponent {
           'El Archivo fue borrado.',
           'success'
         )
-        this.closeModal.emit();
+        this.onClose();
         this.ngOnInit();
       }
     });
@@ -158,7 +156,7 @@ export class FavoritesComponent {
   }
 
 
-   getCharactrs() {
+  getCharactrs() {
     this.isLoading = true;
     this.favoriteService.getCharacters().subscribe(
       (response: any) => {
@@ -205,10 +203,26 @@ export class FavoritesComponent {
     }, 2000);
   }
 
-  irAespecialista(usuario:any){
-    this.closeModal.emit();
-    this.router.navigate(['/especialista/',usuario])
+  irAespecialista(usuario: any) {
+    this.onClose();
+    this.router.navigate(['/especialista/', usuario])
   }
+
+  onClose() {
+    // this.perfilForm.reset();
+
+    // Dispara el cierre nativo de Bootstrap simulando un click
+    const element = document.getElementById('offcanvasFav');
+
+    if (element) {
+      // Recupera o crea la instancia de Bootstrap y ejecuta la acción de ocultar
+      const bsOffcanvas = bootstrap.Offcanvas.getInstance(element) || new bootstrap.Offcanvas(element);
+      bsOffcanvas.hide(); // 👈 Cierra el panel de forma animada y remueve el backdrop
+    }
+
+    this.closeModal.emit();
+  }
+
 
 
 }

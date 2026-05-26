@@ -58,8 +58,6 @@ export class EditComponent {
   // public redessociales: RedesSociales[] = []; // Initialize as an empty array
   public precios!: Precios;
   // public listIcons: Icons[] = [];
-  public speciality!: Speciality;
-  public specialities: Speciality[] = [];
 
   public perfilForm!: FormGroup;
   public profileSeleccionado!: Profile;
@@ -132,8 +130,6 @@ export class EditComponent {
     // this.closeMenu();
     this.user_id = this.user.uid;
     this.validarFormularioPerfil();
-
-    this.getSpecialitys();
     this.getPaisesList();
     this.activatedRoute.params.subscribe(({ id }) => this.iniciarFormularioPerfil(id));
     this.Title = this.user.username;
@@ -148,26 +144,21 @@ export class EditComponent {
     );
   }
 
-  getSpecialitys() {
-    this.specialityService.getSpecialitys().subscribe((resp: Speciality[]) => {
-      this.specialities = resp;
-    });
-  }
+  
 
   validarFormularioPerfil() {
     this.perfilForm = this.fb.group({
       first_name: ['', Validators.required],
       last_name: ['', Validators.required],
-      pais: [''],
-      lang: [''],
-      n_doc: [''],
+      pais: ['',Validators.required],
+      lang: ['',Validators.required],
+      n_doc: ['',Validators.required],
       gender: [''],
-      estado: [''],
       ciudad: [''],
       direccion: [''],
-      telhome: ['', Validators.required],
+      telhome: ['', ],
       telmovil: ['', Validators.required],
-      shortdescription: ['', Validators.required],
+      shortdescription: [''],
       redssociales: [''],
       especialidad: [''],
       precios: [''],
@@ -186,7 +177,7 @@ export class EditComponent {
             first_name: res.profile.first_name,
             last_name: res.profile.last_name,
             direccion: res.profile.direccion,
-            pais: res.profile.code,
+            pais: res.profile.pais._id,
             lang: res.profile.lang,
             n_doc: res.profile.n_doc,
             gender: res.profile.gender,
@@ -195,13 +186,16 @@ export class EditComponent {
             telhome: res.profile.telhome,
             telmovil: res.profile.telmovil,
             shortdescription: res.profile.shortdescription,
-            redssociales: res.profile.redssociales,
             especialidad: res.profile.especialidad,
-            precios: res.profile.precios,
             usuario: this.user.uid,
             img: res.profile.img
           });
           this.profileSeleccionado = res.profile;
+          if (typeof this.profileSeleccionado.redssociales === 'string') {
+            this.redssociales = JSON.parse(this.profileSeleccionado.redssociales);
+          } else {
+            this.redssociales = this.profileSeleccionado.redssociales || [];
+          }
         }
 
       );
@@ -269,20 +263,22 @@ export class EditComponent {
 
 
 
-  cambiarImagen(event: any): void {
-    const file: File = event.target.files[0];
-    this.imagenSubir = file;
-
-    if (!file) {
-      this.imgTemp = null;
+   cambiarImagen(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) {
+      return;
     }
+
+    const file = input.files[0];
+    this.imagenSubir = file;
+    this.FILE_AVATAR = input;
 
     const reader = new FileReader();
-    const url64 = reader.readAsDataURL(file);
-
+    reader.readAsDataURL(file);
     reader.onloadend = () => {
+      this.IMAGE_PREVISUALIZA = reader.result as string;
       this.imgTemp = reader.result;
-    }
+    };
   }
 
   subirImagen() {
@@ -320,14 +316,13 @@ export class EditComponent {
       last_name: this.perfilForm.value.last_name,
       direccion: this.perfilForm.value.direccion || null,
       shortdescription: this.perfilForm.value.shortdescription || null, // Nombre correcto de tu esquema
-      pais: this.perfilForm.value.pais || null,
+      pais: this.perfilForm.value.pais ,
       ciudad: this.perfilForm.value.ciudad || null,
       telhome: this.perfilForm.value.telhome || null,
       telmovil: this.perfilForm.value.telmovil || null,             // Nombre correcto de tu esquema
       n_doc: this.perfilForm.value.n_doc || null,
       gender: this.perfilForm.value.gender || null,
-      especialidad: this.perfilForm.value.especialidad || null,   // Nombre correcto de tu esquema
-      lang: this.lang || null,
+      lang: this.activeLang,
 
       // Forzamos el envío de tus variables globales de arreglos
       redssociales: this.redssociales || [],
@@ -355,6 +350,7 @@ export class EditComponent {
   }
 
   public cambiarLenguaje(lang: any) {
+
     this.activeLang = lang;
     this.translate.use(lang);
     this.flag = !this.flag;

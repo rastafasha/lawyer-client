@@ -1,5 +1,4 @@
-
-.div-scroll{
+.div-scroll {
     height: calc(90vh - 100px);
     /* height: auto; */
     overflow: hidden;
@@ -10,16 +9,15 @@
 
 .product_list {
     display: grid;
-    /* grid-template-columns: repeat(3, 1fr); */
     grid-template-columns: 20% 40% 20%;
-
-    /* grid-template-rows: repeat(5, 1fr); */
-        grid-column-gap: 20px;
+    grid-column-gap: 20px;
     grid-row-gap: 0px;
     border: 1px solid #ccc;
     padding: 10px;
     border-radius: 8px;
     margin-bottom: 15px;
+    width: 88%;
+    margin: auto;
 }
 
 .div1 {
@@ -31,7 +29,7 @@
 }
 
 @media (min-width: 768px) {
-    .div-scroll{
+    .div-scroll {
         height: calc(80vh - 100px);
         overflow: hidden;
         overflow-y: scroll;

@@ -69,6 +69,7 @@
         "Male":"Masculino",
         "Female":"Femenino",
         "Speciality":"Especialidad",
+        "Idioma":"Idioma",
         "pleaseSelec":"Favor seleccione una Especialidad.",
         "Address":"Dirección",
         "Description":"Descripción",

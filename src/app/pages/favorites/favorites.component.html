@@ -10,14 +10,14 @@
   </div>
 
   <div class="container">
-      <div class="row">
-        <div class="col-xs-12 col-sm-9 col-md-9">
-          <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
+    <div class="row">
+      <div class="col-xs-12 col-sm-9 col-md-9">
+        <app-backButtn [pageTitle]="pageTitle"></app-backButtn>
 
 
-          <app-loading *ngIf="isLoading"></app-loading>
+        <app-loading *ngIf="isLoading"></app-loading>
 
-          <!-- <details class="shadowSearch cuadrosearch">
+        <!-- <details class="shadowSearch cuadrosearch">
             <summary class="">{{'Search'|translate}}</summary>
             <summary><h4>{{'Search'|translate}}</h4></summary>
             <form [formGroup]="searchForm" *ngIf="!isLoading" class="d-flex  col-xs-12 ">
@@ -109,48 +109,48 @@
 
 
 
-          <div class="animated fadeInUp" *ngIf="!isLoading">
-            <div class="post navTabs" *ngIf="specialists.length > 0 else message">
-              <div *ngFor="let item of specialists">
-                <div class="card border-0 shadow-sm mb-3 ">
-                  <div class="group itemFav ">
-                    <div class="div1pagocon ">
-                      <div class="d-flex  justify-content-between">
-                        <div class="inf">
-                          <p>{{item.usuario?.username}}</p>
-                          <small>{{item.usuario?.email}}</small>
-                        </div>
-                        <button class="btn btn-outline-primary" (click)="abrirDetalle(item.usuario?.uid)">
-                          <i class="fa fa-eye"></i>
-                        </button>
+        <div class="animated fadeInUp" *ngIf="!isLoading">
+          <div class="post navTabs" *ngIf="specialists.length > 0 else message">
+            <div *ngFor="let item of specialists">
+              <div class="card border-0 shadow-sm mb-3 ">
+                <div class="group itemFav ">
+                  <div class="div1pagocon ">
+                    <div class="d-flex  justify-content-between">
+                      <div class="inf">
+                        <p>{{item.usuario?.username}}</p>
+                        <small>{{item.usuario?.email}}</small>
                       </div>
+                      <button class="btn btn-outline-primary" (click)="abrirDetalle(item.usuario?.uid)">
+                        <i class="fa fa-eye"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
-            <ng-template #message>
-              <p>lista vacia</p>
-            </ng-template>
-            <ng-template *ngIf="isEdnOfList">
-              <p>{{loadingTitle}}</p>
-            </ng-template>
+
           </div>
-
+          <ng-template #message>
+            <p>lista vacia</p>
+          </ng-template>
+          <ng-template *ngIf="isEdnOfList">
+            <p>{{loadingTitle}}</p>
+          </ng-template>
         </div>
-        <!-- lateral -->
-        <div class="col-xs-12 col-sm-3 col-md-3">
-          <app-lateral></app-lateral>
 
-        </div>
+      </div>
+      <!-- lateral -->
+      <div class="col-xs-12 col-sm-3 col-md-3">
+        <app-lateral></app-lateral>
+
       </div>
     </div>
+  </div>
 </section>
 
 <!-- OFFCANVAS DETALLE -->
-<div class="offcanvas offcanvas-bottom rounded-top-5 h-75" tabindex="-1" id="offcanvasNotif"
-  style="height: auto; max-height: 60vh; border-radius: 25px 25px 0 0;">
+<div class="offcanvas offcanvas-bottom rounded-top-5 h-50" tabindex="-1" id="offcanvasFav"
+  style="height: auto; max-height: 50vh; border-radius: 25px 25px 0 0;">
   <div class="offcanvas-header border-bottom py-3">
     <h5 class="offcanvas-title fw-bold ">Detalle de Perfil</h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
@@ -166,27 +166,27 @@
         <div class="tc_info">
           <p>{{'Name'|translate}}: {{profile?.first_name}} {{profile?.last_name}}</p>
           <p>{{'Description'|translate}}: {{ profile?.shortdescription }}</p>
-          <app-redessociales [redessociales]="redessociales"></app-redessociales>
-         
+
           <!-- <app-ratingStar *ngIf="profile && user" [profile]="profile"></app-ratingStar> -->
         </div>
       </div>
     </div>
     <div class="tc_actions">
       <!-- si existe la relacion de cliente con el usuario usamos el id del cliente -->
-      <div class="btn-group" role="group">
-        <button type="button" (click)="deleteContact(usuario_selected)" class="btn btn-danger">
-          <i class="fa fa-trash"></i>
+
+      <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
+        <button type="button" (click)="deleteContact(usuario_selected)" class="btn btn-outline-danger btn-md">
+          <i class="fa fa-trash"></i>&nbsp;Eliminar
         </button>
 
-        <button type="button" (click)="irAespecialista(usuario_selected)" class="btn btn-primary">
-          <i class="fa fa-eye" aria-hidden="true"></i>
+        <button type="button" (click)="irAespecialista(usuario_selected)" class="btn btn-outline-primary btn-md">
+          <i class="fa fa-eye" aria-hidden="true"></i>&nbsp;Visitar
         </button>
-        <button type="button" [routerLink]="['/chat/', usuario_selected]" class="btn btn-success">
-          <i class="fa fa-comment" aria-hidden="true"></i>
+        <button type="button" [routerLink]="['/chat/', usuario_selected]" class="btn btn-outline-success btn-md">
+          <i class="fa fa-comment" aria-hidden="true"></i>&nbsp;Conversar
         </button>
-
       </div>
+
     </div>
 
 

@@ -1,5 +1,5 @@
 export class Pais {
-  id!: number;
+  _id!: string;
   pais!: string;
   code!: string;
 }
